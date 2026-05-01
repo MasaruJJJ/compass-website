@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="COMPASSのチームと想い。大手ファーム出身の上流コンサルタントと調達DX専門家が組む。AI活用支援の専門チームについて。">
+<meta property="og:title" content="About – COMPASS">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://compass-dx.jp/about.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>About – COMPASS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0A0A0A;--ink:#141414;--ink-soft:#1E1E1E;--text:#1A1A1A;--text-2:#444;--text-3:#888;--text-4:#AAA;--white:#FFF;--off:#F4F4F4;--border:#E8E8E8;--accent:#1D4ED8;--serif:'Noto Serif JP',serif;--sans:'Noto Sans JP',sans-serif;--label:'Inter',sans-serif;--mono:'ui-monospace','SF Mono',monospace;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--white);color:var(--text);font-family:var(--sans);line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+.inner{max-width:1080px;margin:0 auto;padding:0 48px;}
+@media(max-width:768px){.inner{padding:0 24px;}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:300;border-bottom:1px solid transparent;transition:border-color .3s,background .3s;}
+nav.scrolled{background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-color:var(--border);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px;max-width:1080px;margin:0 auto;padding:0 48px;}
+.nav-logo{font-family:var(--label);font-weight:700;font-size:17px;letter-spacing:.12em;color:var(--white);transition:color .3s;display:flex;align-items:center;gap:9px;}
+nav.scrolled .nav-logo{color:var(--ink);}
+.nav-logo-icon{width:26px;height:26px;flex-shrink:0;}
+.nav-links{display:flex;align-items:center;list-style:none;}
+.nav-links a{font-family:var(--sans);font-size:13px;font-weight:500;color:rgba(255,255,255,.7);padding:8px 16px;transition:color .2s;}
+nav.scrolled .nav-links a{color:var(--text-3);}
+.nav-links a:hover{color:var(--white);}
+nav.scrolled .nav-links a:hover{color:var(--ink);}
+.nav-links a.active{font-weight:700;}
+nav.scrolled .nav-links a.active{color:var(--ink);}
+.nav-contact{font-family:var(--label);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.9)!important;border:1px solid rgba(255,255,255,.3);padding:8px 20px!important;border-radius:2px;transition:background .2s,color .2s,border-color .2s!important;}
+nav.scrolled .nav-contact{color:var(--ink)!important;border-color:var(--border)!important;}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.hamburger span{display:block;width:22px;height:1.5px;background:rgba(255,255,255,.9);transition:all .25s;}
+nav.scrolled .hamburger span{background:var(--ink);}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+
+/* PAGE HERO */
+.page-hero{background:var(--black);padding:140px 48px 80px;position:relative;overflow:hidden;}
+.page-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:80px 80px;}
+.page-hero-compass{position:absolute;right:-60px;top:50%;transform:translateY(-50%);width:380px;height:380px;pointer-events:none;}
+.page-hero-inner{position:relative;z-index:2;max-width:720px;}
+.breadcrumb{font-family:var(--label);font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.2);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.breadcrumb a{color:rgba(255,255,255,.2);transition:color .15s;}.breadcrumb a:hover{color:rgba(255,255,255,.5);}
+.page-label{font-family:var(--label);font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:16px;}
+h1.page-title{font-family:var(--serif);font-weight:600;font-size:clamp(32px,5vw,56px);line-height:1.15;letter-spacing:-.02em;color:var(--white);margin-bottom:16px;}
+h1.page-title em{font-style:normal;font-weight:300;color:rgba(255,255,255,.5);}
+.page-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.9;max-width:520px;}
+
+/* SECTION */
+.section{border-top:1px solid var(--border);padding:96px 0;}
+.section.dark{background:var(--ink);border-color:transparent;}
+.s-label{font-family:var(--label);font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3);margin-bottom:20px;display:flex;align-items:center;gap:16px;}
+.s-label::after{content:'';flex:1;height:1px;background:var(--border);max-width:120px;}
+.section.dark .s-label{color:rgba(255,255,255,.25);}
+.section.dark .s-label::after{background:rgba(255,255,255,.1);}
+.section-title{font-family:var(--serif);font-size:clamp(24px,3.5vw,38px);font-weight:600;line-height:1.25;letter-spacing:-.01em;margin-bottom:14px;}
+.section-sub{font-size:14px;color:var(--text-2);line-height:2;font-weight:300;max-width:560px;margin-bottom:48px;}
+
+/* PHILOSOPHY */
+.philosophy-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:start;}
+.phi-heading{font-family:var(--serif);font-size:clamp(26px,4vw,42px);font-weight:600;line-height:1.3;letter-spacing:-.01em;margin-bottom:28px;}
+.phi-copy{font-size:15px;color:var(--text-2);line-height:2.1;font-weight:300;margin-bottom:24px;}
+.phi-quote{font-family:var(--serif);font-size:18px;font-weight:400;line-height:1.8;color:var(--text-2);border-left:2px solid var(--text-4);padding-left:20px;margin:32px 0;font-style:italic;}
+.phi-3col{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--border);margin-top:48px;}
+.phi-point{padding:32px 28px 32px 0;border-right:1px solid var(--border);}
+.phi-point:last-child{border-right:none;padding-right:0;}
+.phi-point:not(:first-child){padding-left:28px;}
+.phi-num{font-family:var(--label);font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--text-4);margin-bottom:12px;}
+.phi-ptitle{font-size:15px;font-weight:700;margin-bottom:8px;}
+.phi-pdesc{font-size:12px;color:var(--text-2);line-height:1.8;font-weight:300;}
+
+/* TEAM */
+.team-cards{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border);margin-top:48px;}
+.team-card{padding:56px 56px 56px 0;border-right:1px solid var(--border);}
+.team-card:last-child{border-right:none;padding-left:56px;padding-right:0;}
+.tc-name{font-family:var(--serif);font-size:28px;font-weight:600;letter-spacing:-.015em;margin-bottom:4px;}
+.tc-title{font-family:var(--label);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:28px;}
+.tc-bio{font-size:14px;color:var(--text-2);line-height:2;font-weight:300;margin-bottom:28px;}
+.tc-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;}
+.tc-stat{padding:16px;border:1px solid var(--border);}
+.tc-stat-val{font-family:var(--label);font-size:22px;font-weight:800;color:var(--text);line-height:1;margin-bottom:4px;}
+.tc-stat-label{font-size:11px;color:var(--text-4);}
+.tc-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.tc-tag{font-family:var(--label);font-size:10px;font-weight:600;letter-spacing:.05em;color:var(--text-3);background:var(--off);border:1px solid var(--border);padding:3px 10px;}
+
+/* PARTNERS */
+.partners-row{display:flex;align-items:center;gap:40px;flex-wrap:wrap;margin-top:40px;padding:32px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.partner-badge{display:inline-flex;align-items:center;gap:12px;padding:14px 24px;border:1px solid var(--border);}
+.partner-badge-label{font-family:var(--label);font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--text-3);}
+.partner-name{font-family:var(--label);font-size:14px;font-weight:700;color:var(--text);}
+
+/* VALUES */
+.values-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border:1px solid var(--border);margin-top:48px;}
+.value-item{padding:36px 32px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);}
+.value-item:nth-child(2n){border-right:none;}
+.value-item:nth-last-child(-n+2){border-bottom:none;}
+.vi-num{font-family:var(--label);font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text-4);margin-bottom:12px;}
+.vi-title{font-size:15px;font-weight:700;margin-bottom:8px;}
+.vi-desc{font-size:13px;color:var(--text-2);line-height:1.85;font-weight:300;}
+
+/* CTA STRIP */
+.cta-strip{background:var(--ink);padding:80px 48px;text-align:center;position:relative;overflow:hidden;}
+.cta-strip::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:80px 80px;}
+.cta-strip-inner{position:relative;z-index:1;}
+.cta-heading{font-family:var(--serif);font-size:clamp(28px,4vw,44px);font-weight:300;line-height:1.35;color:var(--white);letter-spacing:-.01em;margin-bottom:36px;}
+.cta-heading strong{font-weight:700;}
+.cta-btn-primary{display:inline-flex;align-items:center;gap:10px;padding:15px 28px;background:var(--white);color:var(--black);font-family:var(--label);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:none;cursor:pointer;transition:background .15s;}
+.cta-btn-primary:hover{background:rgba(255,255,255,.88);}
+
+/* FOOTER */
+footer{background:var(--ink-soft);border-top:1px solid rgba(255,255,255,.06);padding:56px 48px 36px;}
+.footer-top{display:flex;justify-content:space-between;align-items:flex-start;max-width:1080px;margin:0 auto 48px;gap:40px;flex-wrap:wrap;}
+.footer-logo{font-family:var(--label);font-weight:700;font-size:16px;letter-spacing:.14em;color:rgba(255,255,255,.7);display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.footer-logo-icon{width:20px;height:20px;opacity:.7;}
+.footer-tagline{font-size:12px;color:rgba(255,255,255,.25);line-height:1.7;max-width:200px;font-weight:300;}
+.footer-nav-groups{display:flex;gap:56px;flex-wrap:wrap;}
+.footer-nav-title{font-family:var(--label);font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-bottom:14px;}
+.footer-nav-links{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-nav-links a{font-size:13px;color:rgba(255,255,255,.45);transition:color .15s;}
+.footer-nav-links a:hover{color:rgba(255,255,255,.85);}
+.footer-bottom{max-width:1080px;margin:0 auto;border-top:1px solid rgba(255,255,255,.06);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-copy{font-family:var(--label);font-size:10px;color:rgba(255,255,255,.15);}
+.footer-legal-links{display:flex;gap:20px;}
+.footer-legal-links a{font-size:11px;color:rgba(255,255,255,.2);transition:color .15s;}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:800px){
+  .philosophy-layout{grid-template-columns:1fr;gap:40px;}
+  .phi-3col{grid-template-columns:1fr;}
+  .phi-point{padding:24px 0!important;border-right:none!important;border-top:1px solid var(--border);}
+  .team-cards{grid-template-columns:1fr;}
+  .team-card{padding:40px 0!important;border-right:none!important;}
+  .values-grid{grid-template-columns:1fr;}
+  .value-item{border-right:none!important;}
+  .value-item:nth-last-child(1){border-bottom:none;}
+  .section{padding:64px 0;}
+  .page-hero{padding:120px 24px 60px;}
+}
+@media(max-width:600px){
+  .hamburger{display:flex;}
+  .nav-inner{padding:0 24px;}
+  .nav-links{display:none;position:fixed;inset:64px 0 0;background:rgba(10,10,10,.98);flex-direction:column;align-items:stretch;padding:32px 24px;gap:0;z-index:299;}
+  nav.scrolled .nav-links{background:rgba(255,255,255,.98);}
+  .nav-links.open{display:flex;}
+  .nav-links a{font-size:20px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.7)!important;}
+  nav.scrolled .nav-links a{color:var(--text-2)!important;border-color:var(--border);}
+  .nav-links a:last-child{border-bottom:none;}
+  .nav-contact{border:none!important;font-size:20px!important;padding:18px 0!important;}
+  .cta-strip{padding:60px 24px;}
+  footer{padding:48px 24px 32px;}
+  .footer-nav-groups{gap:32px;}
+  .page-hero-compass{display:none;}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav" aria-label="メインナビゲーション">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-icon"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><line x1="2" y1="16" x2="30" y2="16" stroke="currentColor" stroke-width="0.5" opacity="0.3"/><line x1="16" y1="2" x2="16" y2="30" stroke="currentColor" stroke-width="0.5" opacity="0.3"/><polygon points="16,2 18.2,14.5 16,12.5 13.8,14.5" fill="currentColor"/><polygon points="16,30 18.2,17.5 16,19.5 13.8,17.5" fill="currentColor" opacity="0.25"/><polygon points="30,16 18,14.2 20,16 18,17.8" fill="currentColor" opacity="0.35"/><polygon points="2,16 14,14.2 12,16 14,17.8" fill="currentColor" opacity="0.35"/><circle cx="16" cy="16" r="2.2" fill="currentColor"/><circle cx="16" cy="16" r="1" fill="none" stroke="white" stroke-width="0.8" opacity="0.6"/></svg></span>
+      COMPASS
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html#services">サービス</a></li>
+      <li><a href="features.html">プロダクト</a></li>
+      <li><a href="index.html#track-record">実績</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="index.html#contact" class="nav-contact">1on1を予約</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="メニューを開く" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <svg class="page-hero-compass" viewBox="0 0 480 480" fill="none" aria-hidden="true"><g opacity="0.05"><circle cx="240" cy="240" r="226" stroke="white" stroke-width="0.6"/><circle cx="240" cy="240" r="160" stroke="white" stroke-width="0.4"/><circle cx="240" cy="240" r="88" stroke="white" stroke-width="0.4"/><line x1="240" y1="14" x2="240" y2="466" stroke="white" stroke-width="0.35" opacity="0.5"/><line x1="14" y1="240" x2="466" y2="240" stroke="white" stroke-width="0.35" opacity="0.5"/><polygon points="240,20 244.5,186 240,240 235.5,186" fill="white"/><polygon points="240,460 244.5,294 240,240 235.5,294" fill="white" opacity="0.32"/><polygon points="460,240 294,244.5 240,240 294,235.5" fill="white" opacity="0.48"/><polygon points="20,240 186,244.5 240,240 186,235.5" fill="white" opacity="0.48"/><circle cx="240" cy="240" r="12" stroke="white" stroke-width="1.2"/><circle cx="240" cy="240" r="4" fill="white"/></g></svg>
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span style="color:rgba(255,255,255,.1)">/</span><span style="color:rgba(255,255,255,.4)">About</span></div>
+    <div class="page-label">About COMPASS</div>
+    <h1 class="page-title">「現場で動く」まで、<br><em>離れない理由。</em></h1>
+    <p class="page-sub">コンサルティングは「設計書を渡して終わり」ではない。私たちはそう考えています。AIが実際に業務で動き、現場が自走できるようになるまで伴走することが、私たちの仕事の定義です。</p>
+  </div>
+</div>
+
+<!-- PHILOSOPHY -->
+<section class="section" id="philosophy">
+  <div class="inner">
+    <div class="s-label">Philosophy</div>
+    <div class="philosophy-layout reveal">
+      <div>
+        <h2 class="phi-heading">なぜ私たちは「伴走」にこだわるのか。</h2>
+        <p class="phi-copy">日本のDX推進の失敗パターンには共通点がある。ツールを導入し、研修を1回やり、「あとは現場でやってください」と言う。結果、現場は元の仕事のやり方に戻る。</p>
+        <p class="phi-copy">これは現場の問題ではなく、支援の設計の問題だ。AIが業務に定着するには、業務の再設計、小さな成功体験の積み重ね、そして継続的な改善が必要だ。それは「納品」で終わる性質のものではない。</p>
+        <blockquote class="phi-quote">「設計だけする人」と「現場で動かす人」の間に落ちていくプロジェクトを、私たちは何度も見てきた。だから、その両方をやる。</blockquote>
+        <p class="phi-copy">私たちのチームは、大手ファームで上流設計を経験し、かつ自分たちでシステムを設計・実装してきた人間で構成されています。「戦略は描けるが実装はわからない」でも「実装はできるが経営課題が見えない」でもない。その両方ができることが、COMPASSの最大の強みです。</p>
+      </div>
+      <div>
+        <div class="phi-3col">
+          <div class="phi-point">
+            <div class="phi-num">Principle 01</div>
+            <div class="phi-ptitle">ツールより先に業務を解く</div>
+            <p class="phi-pdesc">「このAIで解決できます」から始めない。まず業務の構造を理解し、AIが入れる場所を特定する。ツール選定はその後だ。</p>
+          </div>
+          <div class="phi-point">
+            <div class="phi-num">Principle 02</div>
+            <div class="phi-ptitle">実データで動かす</div>
+            <p class="phi-pdesc">デモ環境ではなく、貴社の実際の業務データで動くことを確認する。「うちでは使えない」を「これ、動く」に変える。</p>
+          </div>
+          <div class="phi-point">
+            <div class="phi-num">Principle 03</div>
+            <div class="phi-ptitle">自走まで離れない</div>
+            <p class="phi-pdesc">私たちへの依存ではなく、貴社チームの自律改善能力を育てることが最終ゴール。内製化まで伴走する。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="section dark" id="team">
+  <div class="inner">
+    <div class="s-label">Team</div>
+    <h2 class="section-title reveal" style="color:var(--white)">現場で動かし続けてきた、<br>専門家チーム。</h2>
+    <p class="section-sub reveal" style="color:rgba(255,255,255,.4)">上流設計と技術実装、その両方を担える人間が組んでいます。</p>
+    <div class="team-cards reveal">
+
+      <div class="team-card">
+        <div class="tc-name" style="color:var(--white)">橋本 勝</div>
+        <div class="tc-title">Founder / 上流コンサルティングリード</div>
+        <p class="tc-bio" style="color:rgba(255,255,255,.5)">製造業・医療機器・自動車メーカーの経営課題に向き合ってきた上流コンサルタント。BPR・PMI・新規組織立ち上げを複数プロジェクトでリードし、CxO・役員クラスへのステアリングコミッティ運営を数多く担ってきた。現在は自らAI×業務変革の専門家チームを率い、「現場で動くまで離れない」支援を実践している。</p>
+        <div class="tc-stats">
+          <div class="tc-stat" style="background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1)">
+            <div class="tc-stat-val" style="color:var(--white)">9年+</div>
+            <div class="tc-stat-label" style="color:rgba(255,255,255,.3)">コンサル実務</div>
+          </div>
+          <div class="tc-stat" style="background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1)">
+            <div class="tc-stat-val" style="color:var(--white)">905</div>
+            <div class="tc-stat-label" style="color:rgba(255,255,255,.3)">TOEIC（英語業務可）</div>
+          </div>
+        </div>
+        <div class="tc-tags">
+          <span class="tc-tag" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.55)">BPR / PMI</span>
+          <span class="tc-tag" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.55)">Claude AI導入</span>
+          <span class="tc-tag" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.55)">製造業・ASEAN</span>
+          <span class="tc-tag" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.55)">新規事業</span>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="tc-name" style="color:var(--white)">Supunsa Ngamyan</div>
+        <div class="tc-title">調達DX / SAP Ariba エキスパート</div>
+        <p class="tc-bio" style="color:rgba(255,255,255,.5)">調達・サプライチェーンの変革を13年以上にわたって実装し続けてきたスペシャリスト。石油・ガス、自動車、通信など複数産業でのeSourcing・eプロキュアメント・ERP実装を要件定義から本番稼働まで一気通貫で担当。現在はAIを活用した次世代の調達システム設計と、日本市場での調達DX推進に取り組んでいる。</p>
+        <div class="tc-stats">
+          <div class="tc-stat" style="background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1)">
+            <div class="tc-stat-val" style="color:var(--white)">13年+</div>
+            <div class="tc-stat-label" style="color:rgba(255,255,255,.3)">調達・SCM実務</div>
+          </div>
+          <div class="tc-stat" style="background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1)">
+            <div class="tc-stat-val" style="color:var(--white)">7+</div>
+            <div class="tc-stat-label" style="color:rgba(255,255,255,.3)">SAP Ariba認定資格</div>
+          </div>
+        </div>
+        <div class="tc-tags">
+          <span class="tc-tag" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.55)">SAP Ariba 認定</span>
+          <span class="tc-tag" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.55)">SAP S/4HANA 認定</span>
+          <span class="tc-tag" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.55)">調達BPR</span>
+          <span class="tc-tag" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.55)">Lean Six Sigma</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section class="section" id="partners">
+  <div class="inner">
+    <div class="s-label">Partners</div>
+    <h2 class="section-title reveal">信頼できるパートナーと組む。</h2>
+    <p class="section-sub reveal">業界をリードするテクノロジー企業との連携により、最先端のAIソリューションを提供します。</p>
+    <div class="partners-row reveal">
+      <div class="partner-badge">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="var(--text-2)" aria-label="Anthropic" title="Anthropic"><path d="M13.827 3.52h3.603L24 20h-3.603l-6.57-16.48zm-3.454 0H6.77L0 20h3.603l1.514-3.872h6.329l-1.567-3.924-2.102 5.392H6.032l3.341-8.564V3.52z"/></svg>
+        <div>
+          <div class="partner-badge-label">公認パートナー</div>
+          <div class="partner-name">Anthropic Claude</div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--text-3);max-width:400px;line-height:1.8;font-weight:300">COMPASSはAnthropicのClaude APIを活用したシステム構築を支援しています。最新のClaudeモデルを使ったRAG・エージェント設計の実装実績があります。</div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="section" id="values" style="background:var(--off)">
+  <div class="inner">
+    <div class="s-label">Values</div>
+    <h2 class="section-title reveal">私たちが大切にしていること</h2>
+    <div class="values-grid reveal">
+      <div class="value-item">
+        <div class="vi-num">01</div>
+        <div class="vi-title">正直さ</div>
+        <p class="vi-desc">できないことをできると言わない。成果が出るまでの時間を正直に伝える。期待値を正確に合わせることが、長期的な関係の基礎だ。</p>
+      </div>
+      <div class="value-item">
+        <div class="vi-num">02</div>
+        <div class="vi-title">現場主義</div>
+        <p class="vi-desc">スライドより、実際に動くシステムを。会議より、現場で使われている様子を。「机上」で終わらない支援を常に選ぶ。</p>
+      </div>
+      <div class="value-item">
+        <div class="vi-num">03</div>
+        <div class="vi-title">自律を育てる</div>
+        <p class="vi-desc">私たちへの依存が長く続くことは、支援の失敗だ。クライアントが自分たちで改善を続けられるようになることが、最高の成果だと考えている。</p>
+      </div>
+      <div class="value-item">
+        <div class="vi-num">04</div>
+        <div class="vi-title">週単位で進化する</div>
+        <p class="vi-desc">完璧な設計より、早い実行と検証。週次で改善を回し、学びを積み重ねることが、3年後の大きな差につながる。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-strip">
+  <div class="cta-strip-inner">
+    <h2 class="cta-heading">まず30分、<strong>1on1でお話しましょう。</strong></h2>
+    <a href="index.html#contact" class="cta-btn-primary">
+      無料1on1を予約する
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <span class="footer-logo"><svg class="footer-logo-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true"><line x1="2" y1="16" x2="30" y2="16" stroke="currentColor" stroke-width="0.5" opacity="0.3"/><line x1="16" y1="2" x2="16" y2="30" stroke="currentColor" stroke-width="0.5" opacity="0.3"/><polygon points="16,2 18.2,14.5 16,12.5 13.8,14.5" fill="currentColor"/><polygon points="16,30 18.2,17.5 16,19.5 13.8,17.5" fill="currentColor" opacity="0.25"/><polygon points="30,16 18,14.2 20,16 18,17.8" fill="currentColor" opacity="0.35"/><polygon points="2,16 14,14.2 12,16 14,17.8" fill="currentColor" opacity="0.35"/><circle cx="16" cy="16" r="2.2" fill="currentColor"/></svg>COMPASS</span>
+      <p class="footer-tagline">AI活用1on1から始めます。無料・30分・完全オンライン。</p>
+    </div>
+    <div class="footer-nav-groups">
+      <div>
+        <div class="footer-nav-title">サービス</div>
+        <ul class="footer-nav-links">
+          <li><a href="index.html#services">AI活用戦略設計</a></li>
+          <li><a href="index.html#contact">Claude / LLM 導入</a></li>
+          <li><a href="features.html">COMPASS（調達DX）</a></li>
+          <li><a href="features.html">BOM設計最適化</a></li>
+          <li><a href="bpr.html">BPR戦略設計</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-nav-title">プロダクト</div>
+        <ul class="footer-nav-links">
+          <li><a href="features.html">機能一覧</a></li>
+          <li><a href="ai-agent.html">AIエージェント</a></li>
+          <li><a href="bpr.html">BPR</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-nav-title">会社情報</div>
+        <ul class="footer-nav-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="about.html#team">チーム</a></li>
+          <li><a href="index.html#contact">お問い合わせ</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">©<span id="yr"></span> COMPASS Inc. All Rights Reserved.</span>
+    <div class="footer-legal-links">
+      <a href="privacy.html">プライバシーポリシー</a>
+      <a href="index.html#contact">利用規約</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 60), { passive: true });
+const io = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) x.target.classList.add('visible'); }), { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+const hbg = document.getElementById('hamburger'), nl = document.getElementById('nav-links');
+hbg.addEventListener('click', () => {
+  const o = nl.classList.toggle('open');
+  hbg.classList.toggle('open', o);
+  hbg.setAttribute('aria-expanded', String(o));
+  document.body.style.overflow = o ? 'hidden' : '';
+});
+nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  nl.classList.remove('open'); hbg.classList.remove('open');
+  hbg.setAttribute('aria-expanded', 'false'); document.body.style.overflow = '';
+}));
+</script>
+</body>
+</html>

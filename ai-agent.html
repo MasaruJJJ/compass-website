@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="COMPASSのAIエージェント。5つの専門エージェントが協調して調達業務を自律実行。Human-in-the-Loop設計で人間は例外処理だけに集中。">
+<title>AIエージェント – COMPASS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0A0A0A;--ink:#141414;--ink-soft:#1E1E1E;--text:#1A1A1A;--text-2:#444;--text-3:#888;--text-4:#AAA;--white:#FFF;--off:#F4F4F4;--border:#E8E8E8;--accent:#1D4ED8;--serif:'Noto Serif JP',serif;--sans:'Noto Sans JP',sans-serif;--label:'Inter',sans-serif;--mono:'ui-monospace','SF Mono',monospace;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--white);color:var(--text);font-family:var(--sans);line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+.inner{max-width:1080px;margin:0 auto;padding:0 48px;}
+nav{position:fixed;top:0;left:0;right:0;z-index:300;border-bottom:1px solid transparent;transition:border-color .3s,background .3s;}
+nav.scrolled{background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-color:var(--border);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px;max-width:1080px;margin:0 auto;padding:0 48px;}
+.nav-logo{font-family:var(--label);font-weight:700;font-size:17px;letter-spacing:.12em;color:var(--white);transition:color .3s;display:flex;align-items:center;gap:9px;}
+.nav-logo-icon{width:26px;height:26px;}
+nav.scrolled .nav-logo{color:var(--ink);}
+.nav-links{display:flex;align-items:center;list-style:none;}
+.nav-links a{font-family:var(--sans);font-size:13px;font-weight:500;color:rgba(255,255,255,.7);padding:8px 16px;transition:color .2s;}
+nav.scrolled .nav-links a{color:var(--text-3);}
+.nav-links a:hover{color:var(--white);}
+nav.scrolled .nav-links a:hover{color:var(--ink);}
+nav.scrolled .nav-links a.active{color:var(--ink);font-weight:700;}
+.nav-contact{font-family:var(--label);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.9)!important;border:1px solid rgba(255,255,255,.3);padding:8px 20px!important;border-radius:2px;}
+nav.scrolled .nav-contact{color:var(--ink)!important;border-color:var(--border)!important;}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.hamburger span{display:block;width:22px;height:1.5px;background:rgba(255,255,255,.9);transition:all .25s;}
+nav.scrolled .hamburger span{background:var(--ink);}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.page-hero{background:var(--black);padding:140px 48px 72px;position:relative;overflow:hidden;}
+.page-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:80px 80px;}
+.page-hero-inner{position:relative;z-index:2;max-width:720px;}
+.breadcrumb{font-family:var(--label);font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.2);margin-bottom:20px;display:flex;gap:8px;}
+.breadcrumb a{color:rgba(255,255,255,.2);}
+.page-label{font-family:var(--label);font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:16px;}
+h1.page-title{font-family:var(--serif);font-weight:600;font-size:clamp(32px,5vw,56px);line-height:1.15;letter-spacing:-.02em;color:var(--white);margin-bottom:16px;}
+h1.page-title em{font-style:normal;font-weight:300;color:rgba(255,255,255,.5);}
+.page-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.9;max-width:520px;}
+.section{border-top:1px solid var(--border);padding:80px 0;}
+.section.dark{background:var(--ink);border-color:transparent;}
+.section.off{background:var(--off);}
+.s-label{font-family:var(--label);font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3);margin-bottom:20px;display:flex;align-items:center;gap:16px;}
+.s-label::after{content:'';flex:1;height:1px;background:var(--border);max-width:120px;}
+.section.dark .s-label{color:rgba(255,255,255,.25);}
+.section.dark .s-label::after{background:rgba(255,255,255,.1);}
+.section-h{font-family:var(--serif);font-size:clamp(24px,3.5vw,36px);font-weight:600;line-height:1.25;letter-spacing:-.01em;margin-bottom:12px;}
+.section-sub{font-size:14px;color:var(--text-2);line-height:2;font-weight:300;max-width:560px;margin-bottom:40px;}
+/* AGENTS */
+.agents-list{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--border);margin-top:40px;}
+.agent-row{display:grid;grid-template-columns:200px 1fr;gap:48px;padding:40px 0;border-bottom:1px solid var(--border);align-items:start;}
+.ag-meta{}
+.ag-num{font-family:var(--label);font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text-4);margin-bottom:8px;}
+.ag-name{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:-.01em;margin-bottom:4px;}
+.ag-role{font-family:var(--label);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);}
+.ag-body{}
+.ag-desc{font-size:14px;color:var(--text-2);line-height:1.9;font-weight:300;margin-bottom:16px;}
+.ag-caps{list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:14px;}
+.ag-caps li{font-size:13px;color:var(--text-2);padding-left:14px;position:relative;line-height:1.6;}
+.ag-caps li::before{content:'—';position:absolute;left:0;color:var(--text-4);font-size:11px;}
+.ag-trigger{font-family:var(--label);font-size:11px;color:var(--text-4);padding:8px 12px;background:var(--off);line-height:1.5;display:flex;gap:6px;align-items:flex-start;}
+.ag-trigger strong{color:var(--text-3);font-weight:500;}
+/* FLOW */
+.flow-list{display:flex;flex-direction:column;gap:0;margin-top:40px;}
+.flow-step{display:grid;grid-template-columns:72px 1fr;gap:28px;padding:36px 0;border-top:1px solid rgba(255,255,255,.08);align-items:start;}
+.fs-num{font-family:var(--label);font-size:clamp(32px,4vw,48px);font-weight:800;color:rgba(255,255,255,.1);line-height:1;padding-top:4px;}
+.fs-tag{font-family:var(--label);font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px;}
+.fs-tag.ai{color:rgba(255,255,255,.3);}
+.fs-tag.human{color:rgba(255,255,255,.55);}
+.fs-title{font-family:var(--serif);font-size:clamp(16px,2.2vw,22px);font-weight:600;color:var(--white);margin-bottom:10px;}
+.fs-desc{font-size:14px;color:rgba(255,255,255,.4);line-height:1.9;font-weight:300;max-width:520px;}
+.fs-card{margin-top:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);padding:14px 18px;font-family:var(--mono);font-size:11px;max-width:380px;}
+.fsc-row{display:flex;justify-content:space-between;gap:16px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.4);}
+.fsc-row:last-child{border-bottom:none;}
+.fsc-val{color:rgba(255,255,255,.8);}
+.fsc-ok{color:#4ADE80;}
+.fsc-warn{color:#FBBF24;}
+/* HITL */
+.hitl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--border);margin-top:40px;}
+.hitl-card{padding:32px 28px;border-right:1px solid var(--border);}
+.hitl-card:last-child{border-right:none;}
+.hitl-num{font-family:var(--label);font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text-4);margin-bottom:14px;}
+.hitl-title{font-size:15px;font-weight:700;margin-bottom:8px;}
+.hitl-desc{font-size:13px;color:var(--text-2);line-height:1.8;font-weight:300;margin-bottom:14px;}
+.hitl-eg{font-size:11px;color:var(--text-3);background:var(--off);padding:9px 11px;line-height:1.6;}
+.cta-bar{background:var(--ink);padding:60px 48px;text-align:center;}
+.cta-bar h3{font-family:var(--serif);font-size:clamp(22px,3vw,36px);font-weight:300;color:var(--white);margin-bottom:28px;letter-spacing:-.01em;}
+.cta-bar h3 strong{font-weight:700;}
+.btn-w{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:var(--white);color:var(--black);font-family:var(--label);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:background .15s;}
+.btn-w:hover{background:rgba(255,255,255,.88);}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;font-family:var(--label);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:3px;margin-left:24px;}
+.btn-ghost:hover{color:var(--white);border-color:var(--white);}
+footer{background:var(--ink-soft);border-top:1px solid rgba(255,255,255,.06);padding:56px 48px 36px;}
+.footer-top{display:flex;justify-content:space-between;align-items:flex-start;max-width:1080px;margin:0 auto 48px;gap:40px;flex-wrap:wrap;}
+.footer-nav-title{font-family:var(--label);font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-bottom:14px;}
+.footer-nav-links{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-nav-links a{font-size:13px;color:rgba(255,255,255,.45);transition:color .15s;}
+.footer-nav-links a:hover{color:rgba(255,255,255,.85);}
+.footer-bottom{max-width:1080px;margin:0 auto;border-top:1px solid rgba(255,255,255,.06);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-copy{font-family:var(--label);font-size:10px;color:rgba(255,255,255,.15);}
+.footer-legal-links{display:flex;gap:20px;}
+.footer-legal-links a{font-size:11px;color:rgba(255,255,255,.2);}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+@media(max-width:800px){.agent-row{grid-template-columns:1fr;gap:20px;}.hitl-grid{grid-template-columns:1fr;}.hitl-card{border-right:none;border-bottom:1px solid var(--border);}.hitl-card:last-child{border-bottom:none;}.flow-step{grid-template-columns:48px 1fr;gap:16px;}.footer-top{flex-direction:column;}}
+@media(max-width:600px){.hamburger{display:flex;}.nav-inner{padding:0 24px;}.nav-links{display:none;position:fixed;inset:64px 0 0;background:rgba(10,10,10,.98);flex-direction:column;align-items:stretch;padding:32px 24px;z-index:299;}.nav-links.open{display:flex;}.nav-links a{font-size:20px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.7)!important;}.nav-contact{border:none!important;font-size:20px!important;padding:18px 0!important;}nav.scrolled .nav-links a{color:var(--text-2)!important;}.page-hero{padding:120px 24px 56px;}.inner{padding:0 24px;}.section{padding:56px 0;}.cta-bar{padding:48px 24px;}footer{padding:48px 24px 32px;}}
+</style>
+</head>
+<body>
+<nav id="nav" aria-label="メインナビゲーション">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><span class="nav-logo-icon"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><line x1="2" y1="16" x2="30" y2="16" stroke="currentColor" stroke-width="0.5" opacity="0.3"/><line x1="16" y1="2" x2="16" y2="30" stroke="currentColor" stroke-width="0.5" opacity="0.3"/><polygon points="16,2 18.2,14.5 16,12.5 13.8,14.5" fill="currentColor"/><polygon points="16,30 18.2,17.5 16,19.5 13.8,17.5" fill="currentColor" opacity="0.25"/><polygon points="30,16 18,14.2 20,16 18,17.8" fill="currentColor" opacity="0.35"/><polygon points="2,16 14,14.2 12,16 14,17.8" fill="currentColor" opacity="0.35"/><circle cx="16" cy="16" r="2.2" fill="currentColor"/><circle cx="16" cy="16" r="1" fill="none" stroke="white" stroke-width="0.8" opacity="0.6"/></svg></span>COMPASS</a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html#services">サービス</a></li>
+      <li><a href="features.html" class="active">プロダクト</a></li>
+      <li><a href="index.html#track-record">実績</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="index.html#contact" class="nav-contact">1on1を予約</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <svg style="position:absolute;right:-60px;top:50%;transform:translateY(-50%);width:360px;height:360px;pointer-events:none" viewBox="0 0 480 480" fill="none" aria-hidden="true"><g opacity="0.05"><circle cx="240" cy="240" r="226" stroke="white" stroke-width="0.6"/><circle cx="240" cy="240" r="160" stroke="white" stroke-width="0.4"/><line x1="240" y1="14" x2="240" y2="466" stroke="white" stroke-width="0.35" opacity="0.5"/><line x1="14" y1="240" x2="466" y2="240" stroke="white" stroke-width="0.35" opacity="0.5"/><polygon points="240,20 244.5,186 240,240 235.5,186" fill="white"/><polygon points="240,460 244.5,294 240,240 235.5,294" fill="white" opacity="0.32"/><polygon points="460,240 294,244.5 240,240 294,235.5" fill="white" opacity="0.48"/><polygon points="20,240 186,244.5 240,240 186,235.5" fill="white" opacity="0.48"/><circle cx="240" cy="240" r="12" stroke="white" stroke-width="1.2"/><circle cx="240" cy="240" r="4" fill="white"/></g></svg>
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span style="color:rgba(255,255,255,.1)">/</span><a href="features.html" style="color:rgba(255,255,255,.2)">プロダクト</a><span style="color:rgba(255,255,255,.1)">/</span><span style="color:rgba(255,255,255,.4)">AIエージェント</span></div>
+    <div class="page-label">COMPASS — AI Agent Architecture</div>
+    <h1 class="page-title">AIが自律して、<br><em>業務を実行する。</em></h1>
+    <p class="page-sub">単一のAIではなく、役割を分けた5つの専門エージェントが協調動作する。人間の介入は「判断が必要な例外」のみ。担当者は交渉・戦略・関係構築に集中できる。</p>
+  </div>
+</div>
+
+<!-- AGENTS -->
+<section class="section">
+  <div class="inner">
+    <div class="s-label reveal">Agents</div>
+    <h2 class="section-h reveal">5つのエージェント、それぞれの役割</h2>
+    <p class="section-sub reveal">各エージェントは専門領域に特化して動作し、処理が完了するとバトンを次のエージェントに渡す。全体をMonitor Agentが監視する。</p>
+    <div class="agents-list reveal">
+
+      <div class="agent-row">
+        <div class="ag-meta"><div class="ag-num">Agent 01</div><div class="ag-name">Intake Agent</div><div class="ag-role">データ収集・構造化</div></div>
+        <div class="ag-body">
+          <p class="ag-desc">あらゆる形式の入力データを受け取り、統一スキーマに変換する。調達業務の「入口」を守るエージェント。</p>
+          <ul class="ag-caps">
+            <li>PDF・Excel・画像からの見積情報抽出（OCR + LLM解析）</li>
+            <li>メール本文から品目・数量・単価・納期を自動パース</li>
+            <li>EDI・CSVの自動取込・正規化</li>
+          </ul>
+          <div class="ag-trigger"><strong>起動条件：</strong>メール受信 / ファイルアップロード / API呼び出し / スケジュール実行</div>
+        </div>
+      </div>
+
+      <div class="agent-row">
+        <div class="ag-meta"><div class="ag-num">Agent 02</div><div class="ag-name">Comparison Agent</div><div class="ag-role">見積比較・推奨</div></div>
+        <div class="ag-body">
+          <p class="ag-desc">複数サプライヤーの見積もりを、過去発注データ・サプライヤースコア・市場価格と照合し、最適選択肢を提示する。</p>
+          <ul class="ag-caps">
+            <li>多軸評価（価格・納期・品質・信頼性）の自動スコアリング</li>
+            <li>過去実績との価格乖離率算出・割高案件フラグ</li>
+            <li>推奨根拠を日本語で説明</li>
+          </ul>
+          <div class="ag-trigger"><strong>起動条件：</strong>Intake Agentが構造化完了 → 自動起動</div>
+        </div>
+      </div>
+
+      <div class="agent-row">
+        <div class="ag-meta"><div class="ag-num">Agent 03</div><div class="ag-name">Matching Agent</div><div class="ag-role">三点照合・差異検出</div></div>
+        <div class="ag-body">
+          <p class="ag-desc">発注書・納品書・請求書の三点照合を24時間自動実行。差異を種別・金額・優先度で分類し、適切な担当者にエスカレーションする。</p>
+          <ul class="ag-caps">
+            <li>品目・数量・単価・合計の自動突合</li>
+            <li>差異分類（金額差 / 数量差 / 品目不一致 / 税計算誤り）</li>
+            <li>許容誤差範囲の設定と自動承認</li>
+          </ul>
+          <div class="ag-trigger"><strong>起動条件：</strong>請求書受領 / 納品データ更新 / 毎日定時バッチ</div>
+        </div>
+      </div>
+
+      <div class="agent-row">
+        <div class="ag-meta"><div class="ag-num">Agent 04</div><div class="ag-name">Approval Agent</div><div class="ag-role">承認フロー制御</div></div>
+        <div class="ag-body">
+          <p class="ag-desc">金額・リスク・緊急度に基づいて承認ルートを動的に決定。不在時の代理設定・タイムアウト処理も自動。</p>
+          <ul class="ag-caps">
+            <li>金額閾値・カテゴリ別の承認者マッピングを動的適用</li>
+            <li>Slack / メールへのワンタップ承認通知</li>
+            <li>承認タイムアウト時の自動リマインド・代理エスカレーション</li>
+          </ul>
+          <div class="ag-trigger"><strong>起動条件：</strong>Comparison Agent推奨確定 / 担当者の発注起案</div>
+        </div>
+      </div>
+
+      <div class="agent-row">
+        <div class="ag-meta"><div class="ag-num">Agent 05</div><div class="ag-name">Monitor Agent</div><div class="ag-role">全体監視・品質管理</div></div>
+        <div class="ag-body">
+          <p class="ag-desc">他の全エージェントの稼働状況・処理精度・例外率をリアルタイム監視。システム全体の健全性を保つ。</p>
+          <ul class="ag-caps">
+            <li>各エージェントの処理ステータス・エラー率をダッシュボードで可視化</li>
+            <li>精度低下や処理遅延を検知し自動アラート</li>
+            <li>週次・月次のパフォーマンスレポート自動生成</li>
+          </ul>
+          <div class="ag-trigger"><strong>起動条件：</strong>常時稼働（全エージェントアクティビティを監視）</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXECUTION FLOW -->
+<section class="section dark">
+  <div class="inner">
+    <div class="s-label">Execution Flow</div>
+    <h2 class="section-h reveal" style="color:var(--white)">見積受領から発注完了まで。<br>担当者の操作は承認1タップだけ。</h2>
+    <div class="flow-list reveal">
+      <div class="flow-step"><div class="fs-num">01</div><div><div class="fs-tag ai">Intake Agent — 数分</div><h3 class="fs-title">見積書の自動受信・解析</h3><p class="fs-desc">メールに添付されたPDFを検知し、品目・単価・納期を自動抽出。標準化データとして保存。</p><div class="fs-card"><div class="fsc-row"><span>処理ファイル</span><span class="fsc-val">4件 / PDF×3, Excel×1</span></div><div class="fsc-row"><span>処理時間</span><span class="fsc-val fsc-ok">3分12秒</span></div></div></div></div>
+      <div class="flow-step"><div class="fs-num">02</div><div><div class="fs-tag ai">Comparison Agent — 秒</div><h3 class="fs-title">比較・推奨の自動生成</h3><p class="fs-desc">過去実績・スコアと照合し多軸評価。最適サプライヤーと推奨根拠を自動生成。</p><div class="fs-card"><div class="fsc-row"><span>A製作所</span><span class="fsc-val fsc-ok">推奨 / スコア 91</span></div><div class="fsc-row"><span>テクノマート</span><span class="fsc-val">標準 / スコア 78</span></div><div class="fsc-row"><span>東洋電子</span><span class="fsc-val" style="color:#F87171">割高 +26%</span></div></div></div></div>
+      <div class="flow-step"><div class="fs-num">03</div><div><div class="fs-tag human">担当者 — 約30秒</div><h3 class="fs-title">Slackでワンタップ承認</h3><p class="fs-desc">比較サマリーと推奨根拠を確認し、承認ボタンをタップ。それだけ。</p></div></div>
+      <div class="flow-step"><div class="fs-num">04</div><div><div class="fs-tag ai">Approval Agent — 数分</div><h3 class="fs-title">発注書の自動生成・送付</h3><p class="fs-desc">テンプレートから発注書を自動生成。電子署名後にサプライヤーへ自動送付。</p><div class="fs-card"><div class="fsc-row"><span>発注書番号</span><span class="fsc-val">PO-2025-0893</span></div><div class="fsc-row"><span>ステータス</span><span class="fsc-val fsc-ok">✓ 送付完了</span></div></div></div></div>
+      <div class="flow-step"><div class="fs-num">05</div><div><div class="fs-tag ai">Matching Agent — 24時間常時</div><h3 class="fs-title">三点照合を自動で完結</h3><p class="fs-desc">納品書・請求書が届いた時点でリアルタイム照合。完全一致は自動承認。差異のみ通知。</p><div class="fs-card"><div class="fsc-row"><span>今月処理</span><span class="fsc-val">127件</span></div><div class="fsc-row"><span>自動照合完了</span><span class="fsc-val fsc-ok">120件（94%）</span></div><div class="fsc-row"><span>要確認</span><span class="fsc-val fsc-warn">7件（6%）</span></div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HITL -->
+<section class="section">
+  <div class="inner">
+    <div class="s-label reveal">Design Principles</div>
+    <h2 class="section-h reveal">Human-in-the-Loop 設計の3原則</h2>
+    <p class="section-sub reveal">「AIがすべてを決める」ではない。人間の判断が真に必要な場面でのみ、適切な粒度で介入を求める。</p>
+    <div class="hitl-grid reveal">
+      <div class="hitl-card"><div class="hitl-num">Principle 01</div><div class="hitl-title">例外のみをエスカレーション</div><p class="hitl-desc">ルール内の案件（約90%以上）はAIが自律実行。担当者への通知は「判断が必要な例外」に限定。</p><div class="hitl-eg">例：金額が月次予算の15%超 → 上長承認をリクエスト。以下は自動実行。</div></div>
+      <div class="hitl-card"><div class="hitl-num">Principle 02</div><div class="hitl-title">根拠を完全に透明化する</div><p class="hitl-desc">AIが推奨・判断する際は、その根拠を常に確認できる形で提示する。「なぜそのサプライヤーか」が常に分かる。</p><div class="hitl-eg">例：「過去12ヶ月の納期遵守率96%、かつ今回単価が過去平均より−5%」</div></div>
+      <div class="hitl-card"><div class="hitl-num">Principle 03</div><div class="hitl-title">フィードバックで精度を上げる</div><p class="hitl-desc">担当者が推奨を覆した場合、その理由をAIが学習し次回の推奨精度に反映する。使うほど賢くなる。</p><div class="hitl-eg">例：「このサプライヤーは取引見直し中」→ 以降のスコアリングに自動反映</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-bar">
+  <h3>AIエージェントが実際に動く様子を、<strong>貴社データで確認する。</strong></h3>
+  <a href="index.html#contact" class="btn-w">無料PoCを申し込む <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <a href="features.html" class="btn-ghost">機能一覧に戻る →</a>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div><span style="display:flex;align-items:center;gap:8px;font-family:var(--label);font-weight:700;font-size:16px;letter-spacing:.14em;color:rgba(255,255,255,.7);margin-bottom:10px"><svg style="width:20px;height:20px;opacity:.7" viewBox="0 0 32 32" fill="none"><line x1="2" y1="16" x2="30" y2="16" stroke="currentColor" stroke-width="0.5" opacity="0.3"/><line x1="16" y1="2" x2="16" y2="30" stroke="currentColor" stroke-width="0.5" opacity="0.3"/><polygon points="16,2 18.2,14.5 16,12.5 13.8,14.5" fill="currentColor"/><polygon points="16,30 18.2,17.5 16,19.5 13.8,17.5" fill="currentColor" opacity="0.25"/><polygon points="30,16 18,14.2 20,16 18,17.8" fill="currentColor" opacity="0.35"/><polygon points="2,16 14,14.2 12,16 14,17.8" fill="currentColor" opacity="0.35"/><circle cx="16" cy="16" r="2.2" fill="currentColor"/></svg>COMPASS</span><p style="font-size:12px;color:rgba(255,255,255,.25);line-height:1.7;max-width:200px;font-weight:300">AI活用1on1から始めます。無料・30分・完全オンライン。</p></div>
+    <div style="display:flex;gap:48px;flex-wrap:wrap">
+      <div><div class="footer-nav-title">サービス</div><ul class="footer-nav-links"><li><a href="index.html#services">AI活用戦略設計</a></li><li><a href="index.html#contact">Claude / LLM 導入</a></li><li><a href="features.html">COMPASS（調達DX）</a></li><li><a href="features.html">BOM設計最適化</a></li><li><a href="bpr.html">BPR戦略設計</a></li></ul></div>
+      <div><div class="footer-nav-title">プロダクト</div><ul class="footer-nav-links"><li><a href="features.html">機能一覧</a></li><li><a href="ai-agent.html">AIエージェント</a></li><li><a href="bpr.html">BPR</a></li></ul></div>
+      <div><div class="footer-nav-title">会社情報</div><ul class="footer-nav-links"><li><a href="about.html">About</a></li><li><a href="index.html#contact">お問い合わせ</a></li></ul></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><span class="footer-copy">©<span id="yr"></span> COMPASS Inc. All Rights Reserved.</span><div class="footer-legal-links"><a href="privacy.html">プライバシーポリシー</a><a href="index.html#contact">利用規約</a></div></div>
+</footer>
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<script>
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60),{passive:true});
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:.07});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const hbg=document.getElementById('hamburger'),nl=document.getElementById('nav-links');
+hbg.addEventListener('click',()=>{const o=nl.classList.toggle('open');hbg.classList.toggle('open',o);hbg.setAttribute('aria-expanded',String(o));document.body.style.overflow=o?'hidden':'';});
+nl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nl.classList.remove('open');hbg.classList.remove('open');hbg.setAttribute('aria-expanded','false');document.body.style.overflow='';}));
+</script>
+</body>
+</html>

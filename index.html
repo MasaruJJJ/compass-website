@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AI活用支援の専門チーム。Claude導入・調達DX（COMPASS）・BOM設計・BPR戦略設計。業務診断から実装・内製化まで一気通貫で支援します。">
+<meta property="og:title" content="COMPASS – AIで、業務の構造を変える。">
+<meta property="og:description" content="Claude導入・調達DX・BOM設計・BPR戦略設計。設計だけでなく、現場で動くまで伴走する。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://compass-dx.jp/">
+<meta property="og:image" content="https://compass-dx.jp/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="COMPASS – AIで、業務の構造を変える。">
+<meta name="twitter:description" content="Claude導入・調達DX・BOM設計・BPR戦略設計。現場で動くまで伴走するAI支援チーム。">
+<link rel="canonical" href="https://compass-dx.jp/">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>COMPASS – AIで、業務の構造を変える。</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0A0A0A;--ink:#141414;--ink-soft:#1E1E1E;--text:#1A1A1A;--text-2:#444444;--text-3:#888888;--text-4:#AAAAAA;--white:#FFFFFF;--off:#F4F4F4;--border:#E8E8E8;--accent:#1D4ED8;--serif:'Noto Serif JP','Georgia',serif;--sans:'Noto Sans JP',sans-serif;--label:'Inter',sans-serif;--mono:'ui-monospace','SF Mono','Consolas',monospace;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--white);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+.inner{max-width:1080px;margin:0 auto;padding:0 48px;}
+@media(max-width:768px){.inner{padding:0 24px;}}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:300;border-bottom:1px solid transparent;transition:border-color .3s,background .3s;}
+nav.scrolled{background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-color:var(--border);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px;max-width:1080px;margin:0 auto;padding:0 48px;}
+.nav-logo{font-family:var(--label);font-weight:700;font-size:17px;letter-spacing:.12em;color:var(--white);transition:color .3s;}
+nav.scrolled .nav-logo{color:var(--ink);}
+.nav-links{display:flex;align-items:center;gap:0;list-style:none;}
+.nav-links a{font-family:var(--sans);font-size:13px;font-weight:500;color:rgba(255,255,255,0.7);padding:8px 16px;letter-spacing:.02em;transition:color .2s;}
+nav.scrolled .nav-links a{color:var(--text-3);}
+.nav-links a:hover{color:var(--white);}
+nav.scrolled .nav-links a:hover{color:var(--ink);}
+.nav-contact{font-family:var(--label);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.9)!important;border:1px solid rgba(255,255,255,0.3);padding:8px 20px!important;border-radius:2px;transition:background .2s,color .2s,border-color .2s!important;}
+.nav-contact:hover{background:rgba(255,255,255,0.1)!important;}
+nav.scrolled .nav-contact{color:var(--ink)!important;border-color:var(--border)!important;}
+nav.scrolled .nav-contact:hover{background:var(--off)!important;}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.hamburger span{display:block;width:22px;height:1.5px;background:rgba(255,255,255,0.9);transition:all .25s;}
+nav.scrolled .hamburger span{background:var(--ink);}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+
+.hero{background:var(--black);min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 80px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:80px 80px;}
+.hero-label{font-family:var(--label);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-4);margin-bottom:32px;position:relative;}
+.hero-title{font-family:var(--serif);font-weight:600;font-size:clamp(48px,7.5vw,100px);line-height:1.12;letter-spacing:-.02em;color:var(--white);max-width:900px;position:relative;}
+.hero-title em{font-style:normal;font-weight:300;color:rgba(255,255,255,0.5);}
+.hero-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,0.5);line-height:1.9;max-width:520px;margin-top:32px;position:relative;}
+.hero-bottom{display:flex;align-items:flex-end;justify-content:space-between;margin-top:56px;position:relative;flex-wrap:wrap;gap:24px;}
+.hero-cta{display:inline-flex;align-items:center;gap:12px;font-family:var(--label);font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--white);border-bottom:1px solid rgba(255,255,255,0.3);padding-bottom:6px;transition:border-color .2s;}
+.hero-cta:hover{border-color:rgba(255,255,255,0.9);}
+.hero-cta svg{transition:transform .2s;}
+.hero-cta:hover svg{transform:translateX(4px);}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.hero-tag{font-family:var(--label);font-size:11px;font-weight:500;letter-spacing:.04em;color:rgba(255,255,255,0.35);border:1px solid rgba(255,255,255,0.1);padding:4px 12px;border-radius:2px;}
+.scroll-indicator{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;font-family:var(--label);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-4);}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--text-4),transparent);animation:scrollline 2s ease-in-out infinite;}
+@keyframes scrollline{0%,100%{opacity:0;transform:scaleY(0);transform-origin:top;}30%{opacity:1;transform:scaleY(1);}70%{opacity:1;transform:scaleY(1);}}
+
+.section{border-top:1px solid var(--border);padding:96px 0;}
+.section.dark{background:var(--ink);border-color:transparent;}
+.section.off{background:var(--off);}
+.s-label{font-family:var(--label);font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3);margin-bottom:20px;display:flex;align-items:center;gap:16px;}
+.s-label::after{content:'';flex:1;height:1px;background:var(--border);max-width:120px;}
+.section.dark .s-label{color:rgba(255,255,255,0.25);}
+.section.dark .s-label::after{background:rgba(255,255,255,0.1);}
+.section.off .s-label::after{background:rgba(0,0,0,0.12);}
+
+.mission-layout{display:grid;grid-template-columns:1fr 1.6fr;gap:80px;align-items:start;}
+.mission-heading{font-family:var(--serif);font-size:clamp(26px,4vw,40px);font-weight:600;line-height:1.3;letter-spacing:-.01em;color:var(--text);margin-bottom:24px;}
+.mission-copy{font-size:14px;color:var(--text-2);line-height:2;font-weight:300;}
+.mission-points{display:flex;flex-direction:column;gap:0;}
+.mission-point{padding:32px 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:40px 1fr;gap:24px;align-items:start;}
+.mission-point:first-child{border-top:1px solid var(--border);}
+.mp-num{font-family:var(--label);font-size:12px;font-weight:600;color:var(--text-4);padding-top:3px;}
+.mp-title{font-weight:700;font-size:16px;color:var(--text);margin-bottom:8px;}
+.mp-desc{font-size:13px;color:var(--text-2);line-height:1.85;font-weight:300;}
+
+.statement-section{background:var(--ink);padding:120px 48px;text-align:center;}
+.statement-pre{font-family:var(--label);font-size:11px;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:32px;}
+.statement-text{font-family:var(--serif);font-size:clamp(22px,4vw,48px);font-weight:300;line-height:1.6;letter-spacing:-.01em;color:rgba(255,255,255,0.8);max-width:820px;margin:0 auto;}
+.statement-text strong{font-weight:700;color:var(--white);}
+.statement-source{font-family:var(--label);font-size:11px;font-weight:500;letter-spacing:.1em;color:rgba(255,255,255,0.35);margin-top:40px;}
+
+.services-header{display:grid;grid-template-columns:1fr 1.6fr;gap:80px;align-items:end;margin-bottom:56px;}
+.services-title{font-family:var(--serif);font-size:clamp(26px,3.5vw,38px);font-weight:600;line-height:1.3;letter-spacing:-.01em;}
+.services-copy{font-size:14px;color:var(--text-2);line-height:2;font-weight:300;}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border);}
+.service-item{padding:40px 36px 40px 0;border-right:1px solid var(--border);cursor:default;transition:background .2s;}
+.service-item:nth-child(3n){border-right:none;padding-right:0;}
+.service-item:not(:first-child):not(:nth-child(4)):not(:nth-child(7)){padding-left:36px;}
+.service-item:nth-child(4),.service-item:nth-child(5){border-top:1px solid var(--border);}
+.service-item:nth-child(4){padding-left:0;}
+.service-item:nth-child(5){padding-left:36px;}
+.service-item:hover{background:var(--off);}
+.si-index{font-family:var(--label);font-size:10px;font-weight:500;letter-spacing:.15em;color:var(--text-4);margin-bottom:20px;display:block;}
+.si-title{font-family:var(--serif);font-size:20px;font-weight:600;line-height:1.3;letter-spacing:-.01em;color:var(--text);margin-bottom:14px;}
+.si-desc{font-size:13px;color:var(--text-2);line-height:1.9;font-weight:300;margin-bottom:24px;}
+.si-features{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.si-features li{font-size:12px;color:var(--text-3);padding-left:12px;position:relative;line-height:1.6;}
+.si-features li::before{content:'—';position:absolute;left:0;color:var(--text-4);font-size:11px;}
+.si-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--label);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text);margin-top:24px;border-bottom:1px solid var(--text);padding-bottom:4px;transition:opacity .2s;}
+.si-link:hover{opacity:0.5;}
+
+.process-intro{display:grid;grid-template-columns:1fr 1.6fr;gap:80px;align-items:end;margin-bottom:64px;}
+.process-title{font-family:var(--serif);font-size:clamp(26px,3.5vw,38px);font-weight:600;line-height:1.3;letter-spacing:-.01em;}
+.process-copy{font-size:14px;color:var(--text-2);line-height:2;font-weight:300;}
+.process-steps{display:flex;flex-direction:column;gap:0;}
+.process-step{display:grid;grid-template-columns:80px 1fr;gap:40px;padding:40px 0;border-top:1px solid rgba(255,255,255,0.08);align-items:start;transition:background .15s;}
+.process-step:hover{background:rgba(255,255,255,0.015);}
+.ps-num{font-family:var(--label);font-size:clamp(36px,5vw,56px);font-weight:800;color:rgba(255,255,255,0.14);line-height:1;padding-top:4px;}
+.ps-tag{font-family:var(--label);font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:10px;}
+.ps-title{font-family:var(--serif);font-size:clamp(18px,2.5vw,24px);font-weight:600;line-height:1.3;color:var(--white);margin-bottom:14px;}
+.ps-desc{font-size:14px;color:rgba(255,255,255,0.45);line-height:1.9;font-weight:300;max-width:560px;}
+.ps-card{margin-top:20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:20px 24px;font-family:var(--mono);font-size:12px;max-width:400px;}
+.ps-card-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);gap:20px;}
+.ps-card-row:last-child{border-bottom:none;}
+.ps-card-val{color:rgba(255,255,255,0.85);text-align:right;}
+.ps-card-val.good{color:#4ADE80;}
+.ps-card-val.warn{color:#FBBF24;}
+
+.flywheel-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.flywheel-heading{font-family:var(--serif);font-size:clamp(26px,3.5vw,38px);font-weight:600;line-height:1.3;letter-spacing:-.01em;margin-bottom:24px;}
+.flywheel-copy{font-size:14px;color:var(--text-2);line-height:2;font-weight:300;margin-bottom:40px;}
+.flywheel-items{display:flex;flex-direction:column;gap:0;}
+.flywheel-item{padding:24px 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:20px 1fr;gap:16px;}
+.flywheel-item:first-child{border-top:1px solid var(--border);}
+.fi-mark{width:8px;height:8px;border-radius:50%;margin-top:8px;flex-shrink:0;}
+.fi-title{font-weight:700;font-size:14px;margin-bottom:6px;}
+.fi-desc{font-size:13px;color:var(--text-2);line-height:1.8;font-weight:300;}
+.fw-stat-large{border-top:1px solid var(--border);padding:36px 0;}
+.fw-stat-large:first-child{border-top:none;}
+.fw-before-after{display:flex;align-items:center;gap:16px;margin-bottom:6px;}
+.fw-big-num{font-family:var(--label);font-size:clamp(48px,7vw,80px);font-weight:800;line-height:1;letter-spacing:-.04em;}
+.fw-big-num.before{color:var(--text-4);text-decoration:line-through;font-size:clamp(28px,3.5vw,44px);}
+.fw-big-num.blue{color:var(--accent);}
+.fw-big-num.dark{color:var(--text);}
+.fw-arrow{font-size:28px;color:var(--text-4);line-height:1;}
+.fw-big-label{font-size:13px;color:var(--text-2);font-weight:300;line-height:1.6;}
+.fw-note{font-size:11px;color:var(--text-4);margin-top:8px;}
+
+.voices-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border);}
+.voice-item{padding:48px 36px 48px 0;border-right:1px solid var(--border);}
+.voice-item:last-child{border-right:none;padding-right:0;}
+.voice-item:not(:first-child){padding-left:36px;}
+.vi-quote{font-family:var(--serif);font-size:15px;font-weight:400;line-height:1.9;color:var(--text);margin-bottom:28px;}
+.vi-quote::before{content:'\201C';display:block;font-family:var(--serif);font-size:52px;font-weight:300;color:var(--border);line-height:.9;margin-bottom:6px;}
+.vi-meta{font-size:12px;color:var(--text-4);line-height:1.6;}
+.vi-meta strong{color:var(--text-3);font-weight:500;}
+
+.mid-cta-bar{padding:28px 0;background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.mid-cta-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--label);font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--text);border-bottom:1px solid var(--text);padding-bottom:3px;transition:color .15s,border-color .15s;white-space:nowrap;}
+.mid-cta-link:hover{color:var(--accent);border-color:var(--accent);}
+
+.cta-section{padding:120px 48px;background:var(--black);position:relative;overflow:hidden;text-align:center;}
+.cta-section::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:80px 80px;}
+.cta-inner{position:relative;z-index:1;}
+.cta-kicker{font-family:var(--label);font-size:11px;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:32px;}
+.cta-heading{font-family:var(--serif);font-size:clamp(32px,5vw,56px);font-weight:300;line-height:1.35;color:var(--white);letter-spacing:-.01em;margin-bottom:48px;}
+.cta-heading strong{font-weight:700;}
+.cta-form{display:flex;justify-content:center;gap:0;max-width:560px;margin:0 auto 20px;border:1px solid rgba(255,255,255,0.15);}
+.cta-input{flex:1;background:transparent;border:none;outline:none;padding:16px 20px;font-family:var(--sans);font-size:14px;color:var(--white);}
+.cta-input::placeholder{color:rgba(255,255,255,0.25);}
+.cta-btn{display:inline-flex;align-items:center;gap:10px;padding:16px 24px;background:var(--white);color:var(--black);font-family:var(--label);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:pointer;transition:background .15s;white-space:nowrap;min-height:54px;}
+.cta-btn:hover{background:rgba(255,255,255,0.88);}
+.cta-note{font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:.03em;}
+.cta-links{display:flex;gap:40px;justify-content:center;margin-top:40px;flex-wrap:wrap;}
+.cta-link{display:inline-flex;align-items:center;gap:10px;font-family:var(--label);font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:5px;transition:color .2s,border-color .2s;}
+.cta-link:hover{color:var(--white);border-color:var(--white);}
+
+footer{background:var(--ink-soft);border-top:1px solid rgba(255,255,255,0.06);padding:64px 48px 40px;}
+.footer-top{display:flex;justify-content:space-between;align-items:flex-start;max-width:1080px;margin:0 auto 56px;gap:40px;flex-wrap:wrap;}
+.footer-logo{font-family:var(--label);font-weight:700;font-size:16px;letter-spacing:.14em;color:rgba(255,255,255,0.7);display:block;margin-bottom:12px;}
+.footer-tagline{font-size:12px;color:rgba(255,255,255,0.25);line-height:1.7;max-width:200px;font-weight:300;}
+.footer-nav-groups{display:flex;gap:56px;flex-wrap:wrap;}
+.footer-nav-title{font-family:var(--label);font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:16px;}
+.footer-nav-links{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-nav-links a{font-size:13px;color:rgba(255,255,255,0.45);transition:color .15s;}
+.footer-nav-links a:hover{color:rgba(255,255,255,0.85);}
+.footer-bottom{max-width:1080px;margin:0 auto;border-top:1px solid rgba(255,255,255,0.06);padding-top:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-copy{font-family:var(--label);font-size:10px;color:rgba(255,255,255,0.15);letter-spacing:.05em;}
+.footer-legal-links{display:flex;gap:20px;}
+.footer-legal-links a{font-size:11px;color:rgba(255,255,255,0.2);transition:color .15s;}
+.footer-legal-links a:hover{color:rgba(255,255,255,0.5);}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:800px){
+  .hero{padding:35vh 24px 64px;}
+  .mission-layout,.services-header,.process-intro,.flywheel-layout{grid-template-columns:1fr;gap:40px;}
+  .services-grid{grid-template-columns:1fr;border-top:none;}
+  .service-item{padding:32px 0!important;border-right:none!important;border-top:1px solid var(--border);}
+  .voices-grid{grid-template-columns:1fr;}
+  .voice-item{padding:36px 0!important;border-right:none!important;border-top:1px solid var(--border);}
+  .section{padding:64px 0;}
+  .statement-section{padding:80px 24px;}
+  .cta-section{padding:80px 24px;}
+  .cta-form{flex-direction:column;border:none;gap:12px;}
+  .cta-input{border:1px solid rgba(255,255,255,0.15);}
+  .footer-top{flex-direction:column;}
+}
+@media(max-width:600px){
+  .hamburger{display:flex;}
+  .nav-inner{padding:0 24px;}
+  .nav-links{display:none;position:fixed;inset:64px 0 0;background:rgba(10,10,10,0.98);flex-direction:column;align-items:stretch;padding:32px 24px;gap:0;border-top:1px solid rgba(255,255,255,0.08);z-index:299;}
+  nav.scrolled .nav-links{background:rgba(255,255,255,0.98);}
+  .nav-links.open{display:flex;}
+  .nav-links a{font-size:20px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.7)!important;}
+  nav.scrolled .nav-links a{color:var(--text-2)!important;border-color:var(--border);}
+  .nav-links a:last-child{border-bottom:none;}
+  .nav-contact{border:none!important;font-size:20px!important;padding:18px 0!important;}
+  .process-step{grid-template-columns:48px 1fr;gap:20px;}
+  footer{padding:48px 24px 32px;}
+  .footer-nav-groups{gap:32px;}
+}
+
+/* ════════════════════════════
+   COMPASS LOGO ICON
+════════════════════════════ */
+.nav-logo {
+  display: flex; align-items: center; gap: 9px;
+}
+.nav-logo-icon { width: 26px; height: 26px; flex-shrink: 0; }
+.footer-logo {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 12px;
+}
+.footer-logo-icon { width: 22px; height: 22px; flex-shrink: 0; }
+
+/* ════════════════════════════
+   HERO COMPASS DECORATION
+════════════════════════════ */
+.hero-compass-bg {
+  position: absolute;
+  right: -60px; top: 50%;
+  transform: translateY(-50%);
+  width: 520px; height: 520px;
+  pointer-events: none;
+}
+@media (max-width: 900px) {
+  .hero-compass-bg { width: 320px; height: 320px; right: -80px; }
+}
+@media (max-width: 600px) { .hero-compass-bg { display: none; } }
+
+/* ════════════════════════════
+   SERVICE ICONS
+════════════════════════════ */
+.si-icon {
+  display: block;
+  width: 32px; height: 32px;
+  color: var(--text-3);
+  margin-bottom: 18px;
+  transition: color .2s;
+}
+.service-item:hover .si-icon { color: var(--accent); }
+
+/* ════ TRACK RECORD ════ */
+.track-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border);margin-top:48px;}
+.track-item{padding:36px 32px 36px 0;border-right:1px solid var(--border);cursor:default;transition:background .2s;}
+.track-item:hover{background:rgba(0,0,0,0.02);}
+.track-item:nth-child(3n){border-right:none;padding-right:0;}
+.track-item:not(:first-child):not(:nth-child(4)){padding-left:32px;}
+.track-item:nth-child(4),.track-item:nth-child(5),.track-item:nth-child(6){border-top:1px solid var(--border);}
+.track-item:nth-child(4){padding-left:0;}
+.track-item:nth-child(5),.track-item:nth-child(6){padding-left:32px;}
+.ti-meta{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.ti-industry{font-family:var(--label);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-4);}
+.ti-who{font-family:var(--label);font-size:10px;font-weight:500;color:var(--text-4);opacity:.6;}
+.ti-who::before{content:'·';margin-right:6px;}
+.ti-title{font-family:var(--serif);font-size:17px;font-weight:600;line-height:1.35;letter-spacing:-.01em;color:var(--text);margin-bottom:10px;}
+.ti-result{font-family:var(--label);font-size:12px;font-weight:700;color:var(--accent);margin-bottom:8px;display:flex;align-items:baseline;gap:6px;}
+.ti-result::before{content:'';width:16px;height:1px;background:var(--accent);display:inline-block;flex-shrink:0;margin-bottom:3px;}
+.ti-desc{font-size:12px;color:var(--text-3);line-height:1.75;font-weight:300;}
+
+/* ════ TEAM ════ */
+.team-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border);margin-top:48px;}
+.member-card{padding:48px 48px 48px 0;border-right:1px solid var(--border);}
+.member-card:last-child{border-right:none;padding-left:48px;padding-right:0;}
+.mc-name{font-family:var(--serif);font-size:26px;font-weight:600;letter-spacing:-.015em;margin-bottom:4px;}
+.mc-title{font-family:var(--label);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-4);margin-bottom:24px;}
+.mc-career{display:flex;flex-direction:column;gap:0;margin-bottom:24px;}
+.mc-career-item{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);align-items:flex-start;}
+.mc-career-item:first-child{border-top:1px solid var(--border);}
+.mc-co{font-family:var(--label);font-size:11px;font-weight:600;color:var(--text-3);min-width:120px;padding-top:1px;flex-shrink:0;}
+.mc-role{font-size:12px;color:var(--text-2);line-height:1.5;font-weight:300;}
+.mc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;}
+.mc-tag{font-family:var(--label);font-size:10px;font-weight:600;letter-spacing:.05em;color:var(--text-3);background:var(--off);border:1px solid var(--border);padding:3px 10px;border-radius:2px;}
+.mc-bio{font-size:14px;color:var(--text-2);line-height:1.95;font-weight:300;margin-bottom:24px;}
+.mc-note{font-size:11px;color:var(--text-4);line-height:1.7;font-weight:300;}
+
+@media(max-width:800px){
+  .track-grid{grid-template-columns:1fr;}
+  .track-item{padding:28px 0!important;border-right:none!important;border-top:1px solid var(--border);}
+  .team-grid{grid-template-columns:1fr;}
+  .member-card{padding:40px 0!important;border-right:none!important;border-top:1px solid var(--border);}
+  .member-card:first-child{border-top:none;}
+}
+
+/* ════ TRACK RECORD ════ */
+.track-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border);margin-top:48px;}
+.track-item{padding:36px 32px 36px 0;border-right:1px solid var(--border);cursor:default;transition:background .2s;}
+.track-item:hover{background:rgba(0,0,0,0.025);}
+.track-item:nth-child(3n){border-right:none;padding-right:0;}
+.track-item:not(:first-child):not(:nth-child(4)){padding-left:32px;}
+.track-item:nth-child(4),.track-item:nth-child(5),.track-item:nth-child(6){border-top:1px solid var(--border);}
+.track-item:nth-child(4){padding-left:0;}
+.track-item:nth-child(5),.track-item:nth-child(6){padding-left:32px;}
+.ti-meta{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.ti-industry{font-family:var(--label);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-4);}
+.ti-who{font-family:var(--label);font-size:10px;font-weight:500;color:var(--border);border-left:1px solid var(--border);padding-left:8px;color:var(--text-4);opacity:.7;}
+.ti-title{font-family:var(--serif);font-size:17px;font-weight:600;line-height:1.35;letter-spacing:-.01em;color:var(--text);margin-bottom:10px;}
+.ti-result{font-family:var(--label);font-size:12px;font-weight:700;color:var(--accent);margin-bottom:8px;}
+.ti-desc{font-size:12px;color:var(--text-3);line-height:1.75;font-weight:300;}
+.ti-source{font-size:10px;color:var(--text-4);margin-top:10px;font-family:var(--label);}
+
+/* ════ TEAM ════ */
+.team-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border);margin-top:48px;}
+.member-card{padding:48px 48px 48px 0;border-right:1px solid var(--border);}
+.member-card:last-child{border-right:none;padding-left:48px;padding-right:0;}
+.mc-name{font-family:var(--serif);font-size:26px;font-weight:600;letter-spacing:-.015em;margin-bottom:4px;}
+.mc-title{font-family:var(--label);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-4);margin-bottom:28px;}
+.mc-career{display:flex;flex-direction:column;gap:0;margin-bottom:24px;border-top:1px solid var(--border);}
+.mc-career-item{display:grid;grid-template-columns:100px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--border);align-items:start;}
+.mc-co{font-family:var(--label);font-size:11px;font-weight:600;color:var(--text-3);line-height:1.4;}
+.mc-co-sub{font-size:10px;font-weight:400;color:var(--text-4);display:block;margin-top:2px;}
+.mc-role{font-size:12px;color:var(--text-2);line-height:1.65;font-weight:300;}
+.mc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;}
+.mc-tag{font-family:var(--label);font-size:10px;font-weight:600;letter-spacing:.05em;color:var(--text-3);background:var(--off);border:1px solid var(--border);padding:3px 10px;border-radius:2px;}
+.mc-bio{font-size:14px;color:var(--text-2);line-height:1.95;font-weight:300;margin-bottom:24px;}
+.mc-note{font-size:11px;color:var(--text-4);line-height:1.7;font-weight:300;border-top:1px solid var(--border);padding-top:16px;}
+
+@media(max-width:800px){
+  .track-grid{grid-template-columns:1fr;}
+  .track-item{padding:28px 0!important;border-right:none!important;border-top:1px solid var(--border);}
+  .team-grid{grid-template-columns:1fr;}
+  .member-card{padding:40px 0!important;border-right:none!important;}
+  .member-card:last-child{padding-left:0;}
+  .mc-career-item{grid-template-columns:80px 1fr;gap:12px;}
+}
+
+/* ════ BEFORE / AFTER CARDS ════ */
+.ti-ba{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-top:14px;background:var(--border);}
+.ti-b,.ti-a{padding:12px 14px;font-size:12px;line-height:1.65;}
+.ti-b{background:#F8F8F8;color:var(--text-3);}
+.ti-a{background:rgba(29,78,216,0.04);color:var(--text-2);}
+.ti-ba-lbl{font-family:var(--label);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:5px;}
+.ti-b .ti-ba-lbl{color:var(--text-4);}
+.ti-a .ti-ba-lbl{color:var(--accent);}
+.ti-result-num{font-family:var(--label);font-weight:800;font-size:15px;color:var(--accent);}
+
+/* ════ CONTACT FORM ════ */
+.contact-form{max-width:600px;margin:0 auto;text-align:left;}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.cf-field{margin-bottom:20px;}
+.cf-label{display:block;font-family:var(--label);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,0.38);margin-bottom:8px;}
+.cf-req{color:rgba(29,78,216,0.9);margin-left:3px;}
+.cf-input,.cf-textarea{
+  width:100%;background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.12);
+  outline:none;padding:12px 16px;
+  font-family:var(--sans);font-size:14px;color:var(--white);
+  transition:border-color .15s,background .15s;
+  -webkit-appearance:none;
+}
+.cf-input::placeholder,.cf-textarea::placeholder{color:rgba(255,255,255,0.18);}
+.cf-input:focus,.cf-textarea:focus{border-color:rgba(255,255,255,0.38);background:rgba(255,255,255,0.07);}
+.cf-input.is-error,.cf-textarea.is-error{border-color:rgba(248,113,113,0.55);}
+.cf-textarea{resize:vertical;min-height:96px;line-height:1.7;}
+.cf-types{display:flex;flex-direction:column;gap:6px;}
+.cf-type{display:flex;align-items:center;gap:12px;font-size:13px;color:rgba(255,255,255,0.55);cursor:pointer;padding:10px 14px;border:1px solid rgba(255,255,255,0.08);transition:border-color .15s,background .15s,color .15s;}
+.cf-type:hover{border-color:rgba(255,255,255,0.2);background:rgba(255,255,255,0.03);}
+.cf-type input[type="radio"]{width:15px;height:15px;accent-color:var(--white);flex-shrink:0;cursor:pointer;}
+.cf-type.selected{border-color:rgba(255,255,255,0.35);background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.88);}
+.cf-divider{border:none;border-top:1px solid rgba(255,255,255,0.08);margin:4px 0 20px;}
+.cf-submit-btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;padding:16px;
+  background:var(--white);color:var(--black);
+  font-family:var(--label);font-size:12px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  border:none;cursor:pointer;
+  transition:background .15s;margin-top:8px;
+}
+.cf-submit-btn:hover{background:rgba(255,255,255,.88);}
+.cf-submit-btn:disabled{background:rgba(255,255,255,0.3);cursor:not-allowed;}
+.cf-form-note{font-size:11px;color:rgba(255,255,255,0.2);text-align:center;margin-top:12px;}
+.cf-success{display:none;text-align:center;padding:48px 24px;}
+.cf-success-mark{font-size:36px;margin-bottom:20px;}
+.cf-success-title{font-family:var(--serif);font-size:26px;font-weight:600;color:var(--white);margin-bottom:10px;}
+.cf-success-msg{font-size:14px;color:rgba(255,255,255,0.45);font-weight:300;line-height:1.8;}
+@media(max-width:600px){.cf-row{grid-template-columns:1fr;}}
+
+/* ════ ANTHROPIC BADGE ════ */
+.anthropic-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-top: 20px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255,255,255,0.15);
+  font-family: var(--label);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  position: relative;
+}
+.anthropic-badge::before {
+  content: '';
+  width: 16px; height: 16px;
+  background: currentColor;
+  opacity: .6;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+.anthropic-badge-label { color: rgba(255,255,255,0.55); }
+
+/* ════ CALENDAR PICKER ════ */
+.cf-calendar-hint{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 16px;margin-top:6px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  font-size:12px;color:rgba(255,255,255,0.45);
+  cursor:pointer;transition:background .15s,border-color .15s;
+}
+.cf-calendar-hint:hover{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.25);}
+.cf-calendar-hint svg{flex-shrink:0;opacity:.5;}
+.cf-slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:10px;}
+.cf-slot{
+  padding:8px 12px;text-align:center;
+  border:1px solid rgba(255,255,255,0.1);
+  font-family:var(--label);font-size:11px;font-weight:500;
+  color:rgba(255,255,255,0.45);cursor:pointer;
+  transition:all .15s;
+}
+.cf-slot:hover{border-color:rgba(255,255,255,0.35);color:rgba(255,255,255,0.8);background:rgba(255,255,255,0.05);}
+.cf-slot.selected{border-color:var(--white);color:var(--white);background:rgba(255,255,255,0.1);}
+
+/* ════ CHATBOT WIDGET ════ */
+#chat-bubble{
+  position:fixed;bottom:28px;right:28px;z-index:500;
+  opacity:0;transform:translateY(12px);
+  transition:opacity .4s ease,transform .4s ease;
+  pointer-events:none;
+}
+#chat-bubble.visible{opacity:1;transform:translateY(0);pointer-events:auto;}
+.chat-toggle{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--ink);border:1px solid rgba(255,255,255,0.15);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.35);
+  transition:transform .15s,background .15s;
+  margin-left:auto;
+}
+.chat-toggle:hover{transform:scale(1.05);background:#222;}
+.chat-toggle svg{color:var(--white);}
+.chat-badge{
+  position:absolute;top:-4px;right:-4px;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--accent);
+  border:2px solid var(--white);
+  font-family:var(--label);font-size:9px;font-weight:700;
+  color:var(--white);display:flex;align-items:center;justify-content:center;
+}
+.chat-panel{
+  width:300px;
+  background:var(--ink);
+  border:1px solid rgba(255,255,255,0.12);
+  box-shadow:0 8px 32px rgba(0,0,0,0.5);
+  margin-bottom:12px;
+  display:none;
+}
+.chat-panel.open{display:block;}
+.chat-header{
+  padding:16px 18px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.chat-header-title{
+  font-family:var(--label);font-size:13px;font-weight:700;
+  color:var(--white);letter-spacing:.02em;
+}
+.chat-header-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px;}
+.chat-close{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.3);font-size:18px;line-height:1;padding:2px;}
+.chat-close:hover{color:rgba(255,255,255,.7);}
+.chat-body{padding:16px 18px;}
+.chat-msg{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  padding:12px 14px;margin-bottom:12px;
+  font-size:13px;color:rgba(255,255,255,.7);line-height:1.7;
+}
+.chat-msg strong{color:var(--white);}
+.chat-actions{display:flex;flex-direction:column;gap:8px;}
+.chat-action{
+  display:block;padding:11px 14px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  font-family:var(--label);font-size:11px;font-weight:600;
+  letter-spacing:.06em;color:rgba(255,255,255,.75);
+  cursor:pointer;transition:all .15s;text-align:left;text-decoration:none;
+  display:flex;align-items:center;gap:10px;
+}
+.chat-action:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);color:var(--white);}
+.chat-action-primary{background:var(--white);color:var(--black);border-color:var(--white);}
+.chat-action-primary:hover{background:rgba(255,255,255,.88);color:var(--black);}
+@media(max-width:400px){
+  #chat-bubble{bottom:16px;right:16px;}
+  .chat-panel{width:calc(100vw - 40px);}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav" aria-label="メインナビゲーション">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><span class="nav-logo-icon"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <!-- EW 十字（細い水平・垂直線） -->
+  <line x1="2" y1="16" x2="30" y2="16" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+  <line x1="16" y1="2" x2="16" y2="30" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+  <!-- 北向き針（太・鋭角ダイヤモンド） -->
+  <polygon points="16,2 18.2,14.5 16,12.5 13.8,14.5" fill="currentColor"/>
+  <!-- 南向き針（同形・薄い） -->
+  <polygon points="16,30 18.2,17.5 16,19.5 13.8,17.5" fill="currentColor" opacity="0.25"/>
+  <!-- 東向き細針 -->
+  <polygon points="30,16 18,14.2 20,16 18,17.8" fill="currentColor" opacity="0.35"/>
+  <!-- 西向き細針 -->
+  <polygon points="2,16 14,14.2 12,16 14,17.8" fill="currentColor" opacity="0.35"/>
+  <!-- 中心 -->
+  <circle cx="16" cy="16" r="2.2" fill="currentColor"/>
+  <circle cx="16" cy="16" r="1" fill="none" stroke="var(--white,#fff)" stroke-width="0.8" opacity="0.6"/>
+</svg></span>COMPASS</a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#services">サービス</a></li>
+      <li><a href="features.html">プロダクト</a></li>
+      <li><a href="#track-record">実績</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="#contact" class="nav-contact">AI活用1on1</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="メニューを開く" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<section class="hero">
+<svg class="hero-compass-bg" viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g opacity="0.055">
+    <!-- 外円 -->
+    <circle cx="240" cy="240" r="226" stroke="white" stroke-width="0.6"/>
+    <!-- 中円 -->
+    <circle cx="240" cy="240" r="160" stroke="white" stroke-width="0.4"/>
+    <!-- 内円 -->
+    <circle cx="240" cy="240" r="88" stroke="white" stroke-width="0.4"/>
+    <!-- 最内円 -->
+    <circle cx="240" cy="240" r="34" stroke="white" stroke-width="0.8"/>
+    <!-- N/S/E/Wの長目盛り -->
+    <line x1="240" y1="14" x2="240" y2="32" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+    <line x1="240" y1="448" x2="240" y2="466" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+    <line x1="14" y1="240" x2="32" y2="240" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+    <line x1="448" y1="240" x2="466" y2="240" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+    <!-- NE/SE/SW/NWの中目盛り -->
+    <line x1="400" y1="80" x2="391" y2="89" stroke="white" stroke-width="1" stroke-linecap="round"/>
+    <line x1="400" y1="400" x2="391" y2="391" stroke="white" stroke-width="1" stroke-linecap="round"/>
+    <line x1="80" y1="400" x2="89" y2="391" stroke="white" stroke-width="1" stroke-linecap="round"/>
+    <line x1="80" y1="80" x2="89" y2="89" stroke="white" stroke-width="1" stroke-linecap="round"/>
+    <!-- 22.5°の小目盛り（16方位）-->
+    <line x1="327" y1="27" x2="323" y2="36" stroke="white" stroke-width="0.7" stroke-linecap="round"/>
+    <line x1="453" y1="153" x2="444" y2="157" stroke="white" stroke-width="0.7" stroke-linecap="round"/>
+    <line x1="453" y1="327" x2="444" y2="323" stroke="white" stroke-width="0.7" stroke-linecap="round"/>
+    <line x1="327" y1="453" x2="323" y2="444" stroke="white" stroke-width="0.7" stroke-linecap="round"/>
+    <line x1="153" y1="453" x2="157" y2="444" stroke="white" stroke-width="0.7" stroke-linecap="round"/>
+    <line x1="27" y1="327" x2="36" y2="323" stroke="white" stroke-width="0.7" stroke-linecap="round"/>
+    <line x1="27" y1="153" x2="36" y2="157" stroke="white" stroke-width="0.7" stroke-linecap="round"/>
+    <line x1="153" y1="27" x2="157" y2="36" stroke="white" stroke-width="0.7" stroke-linecap="round"/>
+    <!-- 内円から外円への細い十字線 -->
+    <line x1="240" y1="32" x2="240" y2="80" stroke="white" stroke-width="0.35" opacity="0.7"/>
+    <line x1="240" y1="400" x2="240" y2="448" stroke="white" stroke-width="0.35" opacity="0.7"/>
+    <line x1="32" y1="240" x2="80" y2="240" stroke="white" stroke-width="0.35" opacity="0.7"/>
+    <line x1="400" y1="240" x2="448" y2="240" stroke="white" stroke-width="0.35" opacity="0.7"/>
+    <!-- 斜め細線 -->
+    <line x1="89" y1="89" x2="123" y2="123" stroke="white" stroke-width="0.25" opacity="0.6"/>
+    <line x1="391" y1="89" x2="357" y2="123" stroke="white" stroke-width="0.25" opacity="0.6"/>
+    <line x1="391" y1="391" x2="357" y2="357" stroke="white" stroke-width="0.25" opacity="0.6"/>
+    <line x1="89" y1="391" x2="123" y2="357" stroke="white" stroke-width="0.25" opacity="0.6"/>
+    <!-- コンパスの4方位ダイヤモンド（針） -->
+    <!-- 北（明るい） -->
+    <polygon points="240,20 244.5,186 240,240 235.5,186" fill="white"/>
+    <!-- 南（暗い） -->
+    <polygon points="240,460 244.5,294 240,240 235.5,294" fill="white" opacity="0.32"/>
+    <!-- 東 -->
+    <polygon points="460,240 294,244.5 240,240 294,235.5" fill="white" opacity="0.48"/>
+    <!-- 西 -->
+    <polygon points="20,240 186,244.5 240,240 186,235.5" fill="white" opacity="0.48"/>
+    <!-- 斜め4方位（NE/SE/SW/NW、短め） -->
+    <polygon points="240,96 243,196 240,240 237,196" fill="white" opacity="0.18" transform="rotate(45 240 240)"/>
+    <polygon points="240,96 243,196 240,240 237,196" fill="white" opacity="0.18" transform="rotate(135 240 240)"/>
+    <polygon points="240,96 243,196 240,240 237,196" fill="white" opacity="0.18" transform="rotate(225 240 240)"/>
+    <polygon points="240,96 243,196 240,240 237,196" fill="white" opacity="0.18" transform="rotate(315 240 240)"/>
+    <!-- 中心 -->
+    <circle cx="240" cy="240" r="12" stroke="white" stroke-width="1.2"/>
+    <circle cx="240" cy="240" r="4" fill="white"/>
+    <!-- N ラベル -->
+    <text x="240" y="8" text-anchor="middle" fill="white" font-family="Inter,sans-serif" font-size="10" font-weight="600" letter-spacing="0.15em" dominant-baseline="auto">N</text>
+  </g>
+</svg>
+
+  <div class="hero-label">AI Implementation &amp; Business Transformation</div>
+  <h1 class="hero-title">
+    人でやる必要のない仕事が、<br>
+    <em>まだそこにある。</em>
+  </h1>
+  <p class="hero-sub">
+    Claude導入・調達DX・BOM設計・BPR戦略設計。<br>
+    AIを「入れるだけ」で終わらせない。現場で動くまで、チームで伴走します。
+  </p>
+  <div class="hero-bottom">
+    <a href="#contact" class="hero-cta">
+      AI活用の悩み、30分で整理します
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <div class="hero-tags">
+      <span class="hero-tag">Claude 導入</span>
+      <span class="hero-tag">調達 DX</span>
+      <span class="hero-tag">BOM 設計</span>
+      <span class="hero-tag">BPR 戦略</span>
+    </div>
+  </div>
+
+  <div style="position:relative;z-index:2;margin-top:16px;">
+    <div class="anthropic-badge">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" opacity="0.7" aria-hidden="true"><path d="M13.827 3.52h3.603L24 20h-3.603l-6.57-16.48zm-3.454 0H6.77L0 20h3.603l1.514-3.872h6.329l-1.567-3.924-2.102 5.392H6.032l3.341-8.564V3.52z"/></svg>
+      <span>Anthropic Claude パートナー</span>
+    </div>
+  </div>
+  <div class="scroll-indicator" aria-hidden="true">
+    <div class="scroll-line"></div>
+    scroll
+  </div>
+</section>
+
+<section class="section" id="mission">
+  <div class="inner">
+    <div class="s-label">Why COMPASS</div>
+    <div class="mission-layout reveal">
+      <div>
+        <h2 class="mission-heading">「AIを入れたのに、<br>何も変わらない」<br>その理由、わかりますか。</h2>
+      </div>
+      <div class="mission-points">
+        <div class="mission-point">
+          <span class="mp-num">01</span>
+          <div>
+            <div class="mp-title">ツールではなく、業務の問題から入る</div>
+            <p class="mp-desc">「このAIで解決する」から入らない。まず「なぜその業務に人が必要なのか」を問い直す。AIが実行できる業務とできない業務を分けることが、すべての起点だ。</p>
+          </div>
+        </div>
+        <div class="mission-point">
+          <span class="mp-num">02</span>
+          <div>
+            <div class="mp-title">デモでなく、貴社のデータで動かす</div>
+            <p class="mp-desc">「うちでは使えない」が口癖のAIを、「これ、本当に動くんだ」に変える。貴社の業務フロー・データ・慣行に合わせて構築し、実際の業務で稼働させる。</p>
+          </div>
+        </div>
+        <div class="mission-point">
+          <span class="mp-num">03</span>
+          <div>
+            <div class="mp-title">内製化まで離れない</div>
+            <p class="mp-desc">私たちがいなくなっても現場が改善を続けられる体制が最終ゴール。週次で改善サイクルを回しながら、チームが自走できるまで伴走する。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="services">
+  <div class="inner">
+    <div class="s-label">Services</div>
+    <div class="services-header reveal">
+      <h2 class="services-title">5つの支援領域</h2>
+      <p class="services-copy">AI戦略の立案から、Claude導入、調達DX、BOM設計、BPR戦略設計まで。課題の性質に合わせて、最適な切り口から始められます。</p>
+    </div>
+    <div class="services-grid reveal">
+      <div class="service-item">
+        <svg class="si-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="16" cy="6" r="3.5" stroke="currentColor" stroke-width="1.2"/><circle cx="5" cy="26" r="3.5" stroke="currentColor" stroke-width="1.2"/><circle cx="27" cy="26" r="3.5" stroke="currentColor" stroke-width="1.2"/><line x1="16" y1="9.5" x2="5" y2="22.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="16" y1="9.5" x2="27" y2="22.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="8.5" y1="26" x2="23.5" y2="26" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="16" cy="16" r="2" stroke="currentColor" stroke-width="1"/></svg>
+        <span class="si-index">01 — AI活用戦略設計</span>
+        <h3 class="si-title">何から始めるかを、一緒に決める。</h3>
+        <p class="si-desc">「AIを入れたい」だけでは動かない。どの業務を・どのAIで・どの順番で変えるかを業務診断で定量化し、実行可能なロードマップを設計する。</p>
+        <ul class="si-features">
+          <li>業務フロー全体の診断と「AI化可能域」の特定</li>
+          <li>工程別ROI試算・優先順位マトリクス</li>
+          <li>実行ロードマップと社内推進体制の設計</li>
+          <li>初回診断は無料で実施</li>
+        </ul>
+        <a href="#contact" class="si-link">無料診断を申し込む <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div class="service-item">
+        <svg class="si-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="4" y="5" width="17" height="21" rx="2" stroke="currentColor" stroke-width="1.2"/><line x1="8" y1="11" x2="17" y2="11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="8" y1="15" x2="17" y2="15" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="8" y1="19" x2="13" y2="19" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M23 4 L24.2 7.4 L27.6 8.6 L24.2 9.8 L23 13.2 L21.8 9.8 L18.4 8.6 L21.8 7.4 Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" fill="none"/></svg>
+        <span class="si-index">02 — Claude / LLM 導入支援</span>
+        <h3 class="si-title">社内ドキュメントを読める、自社専用AIを作る。</h3>
+        <p class="si-desc">汎用AIで検索しても、社内規定・仕様書・過去の交渉履歴は出てこない。自社ナレッジを学習した専用Claudeを構築し、実業務フローに組み込む。</p>
+        <ul class="si-features">
+          <li>RAGシステム設計・構築（社内ドキュメント連携）</li>
+          <li>業務フローへのLLM組み込み・API連携</li>
+          <li>精度改善サイクルの確立と社内内製化支援</li>
+          <li>Anthropic公式パートナー連携</li>
+        </ul>
+        <a href="#contact" class="si-link">詳細を聞く <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div class="service-item" id="compass">
+        <svg class="si-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><line x1="2" y1="16" x2="30" y2="16" stroke="currentColor" stroke-width="0.5" opacity="0.3"/><line x1="16" y1="2" x2="16" y2="30" stroke="currentColor" stroke-width="0.5" opacity="0.3"/><polygon points="16,2 18.2,14.5 16,12.5 13.8,14.5" fill="currentColor"/><polygon points="16,30 18.2,17.5 16,19.5 13.8,17.5" fill="currentColor" opacity="0.25"/><polygon points="30,16 18,14.2 20,16 18,17.8" fill="currentColor" opacity="0.35"/><polygon points="2,16 14,14.2 12,16 14,17.8" fill="currentColor" opacity="0.35"/><circle cx="16" cy="16" r="2.2" fill="currentColor"/></svg>
+        <span class="si-index">03 — COMPASS（調達DX）</span>
+        <h3 class="si-title">見積書の転記に、まだ人を使うのか。</h3>
+        <p class="si-desc">見積収集・比較・発注・三点照合の全工程をAIエージェントが自律実行する。月末の照合残業が消える。担当者は交渉と判断だけに集中できる。</p>
+        <ul class="si-features">
+          <li>見積書の自動解析・比較（PDF/Excel/画像対応）</li>
+          <li>三点照合の24時間自動実行</li>
+          <li>AIサプライヤー評価エンジン（5軸スコアリング）</li>
+          <li>ERP連携（SAP / Oracle / Dynamics365）</li>
+        </ul>
+        <a href="features.html" class="si-link">プロダクト詳細を見る <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div class="service-item">
+        <svg class="si-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="11" y="2" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/><line x1="16" y1="9" x2="16" y2="14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="7" y1="14" x2="25" y2="14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="7" y1="14" x2="7" y2="17" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="25" y1="14" x2="25" y2="17" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><rect x="2" y="17" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/><rect x="20" y="17" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/></svg>
+        <span class="si-index">04 — BOM設計最適化</span>
+        <h3 class="si-title">部品表の中に、削れるコストが眠っている。</h3>
+        <p class="si-desc">感覚で選んでいた部品・サプライヤーを、データで選べるようにする。AIがBOMを分析し、代替可能な割高部品と最適なベンダー構成を提示する。</p>
+        <ul class="si-features">
+          <li>BOMのコスト構造分析・可視化</li>
+          <li>代替部品・サプライヤー候補の自動提案</li>
+          <li>ベンダー集約シミュレーション・削減額試算</li>
+          <li>CFO向けコスト削減レポートの自動生成</li>
+        </ul>
+        <a href="features.html" class="si-link">詳細を見る <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div class="service-item">
+        <svg class="si-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22 5 C26 8 28 12 28 16 C28 23 22.6 28.5 16 28.5 C9.4 28.5 4 23 4 16 C4 9 9.4 3.5 16 3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><polyline points="13 3.5 16 3.5 16 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><line x1="16" y1="11" x2="16" y2="21" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="11" y1="16" x2="21" y2="16" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        <span class="si-index">05 — BPR戦略設計</span>
+        <h3 class="si-title">AIを入れる前に、業務を整理する。</h3>
+        <p class="si-desc">非効率なプロセスをそのまま自動化しても意味がない。AS-IS/TO-BE設計から始め、AIが判断できる業務と人が担う業務を分け、担当者の役割を再定義する。</p>
+        <ul class="si-features">
+          <li>AS-IS/TO-BE業務プロセスの可視化・設計</li>
+          <li>AIに任せる業務と人が判断する業務の分離</li>
+          <li>変革ロードマップの策定と推進支援</li>
+          <li>現場浸透まで週次で伴走</li>
+        </ul>
+        <a href="bpr.html" class="si-link">詳細を見る <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="mid-cta-bar">
+  <div class="inner" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+    <p style="font-size:15px;color:var(--text-2)">どのサービスから始めればいいかわからない場合も、まず診断から。現状を聞かせてください。</p>
+    <a href="#contact" class="mid-cta-link">無料1on1を予約する <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
+</div>
+
+<section class="section dark" id="process">
+  <div class="inner">
+    <div class="s-label">How We Work</div>
+    <div class="process-intro reveal">
+      <h2 class="process-title" style="color:var(--white)">最初の30分から、内製化まで。</h2>
+      <p class="process-copy" style="color:rgba(255,255,255,0.4)">初回ヒアリングで業務の構造を把握し、最優先の1業務に絞ってPoCを稼働させる。成果を確認してから次に進む。リスクのない始め方で、確実に変革を積み上げる。</p>
+    </div>
+    <div class="process-steps reveal">
+      <div class="process-step">
+        <div class="ps-num">01</div>
+        <div>
+          <div class="ps-tag">無料 · 1〜2日</div>
+          <h3 class="ps-title">業務を聞く。問題の根を探る。</h3>
+          <p class="ps-desc">AIが使えるかではなく、「何に困っているか」から聞く。業務フローを可視化し、AIが入れる場所と入れるべきでない場所を一緒に特定する。費用は発生しない。</p>
+          <div class="ps-card">
+            <div class="ps-card-row"><span>ヒアリング形式</span><span class="ps-card-val">オンライン / 訪問</span></div>
+            <div class="ps-card-row"><span>所要時間</span><span class="ps-card-val">60〜90分</span></div>
+            <div class="ps-card-row"><span>費用</span><span class="ps-card-val good">無料</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="ps-num">02</div>
+        <div>
+          <div class="ps-tag">2〜4週間</div>
+          <h3 class="ps-title">1業務に絞って、実際に動かす。</h3>
+          <p class="ps-desc">最も効果の高い1業務を選んでPoCを設計・構築する。理論ではなく、実際の業務データで動くことを確認してからROIを計測する。完璧を目指さず、早く動かす。</p>
+          <div class="ps-card">
+            <div class="ps-card-row"><span>対象業務</span><span class="ps-card-val">診断で優先度1位の業務</span></div>
+            <div class="ps-card-row"><span>稼働目標</span><span class="ps-card-val good">2週間以内</span></div>
+            <div class="ps-card-row"><span>ROI計測</span><span class="ps-card-val good">週次でトラッキング</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="ps-num">03</div>
+        <div>
+          <div class="ps-tag">1〜3ヶ月</div>
+          <h3 class="ps-title">成果が出るまで、週次で走り続ける。</h3>
+          <p class="ps-desc">PoC後に成果を確認し、他業務・他部門へ横展開する。週次で改善サイクルを回し、数値で効果を示し続ける。「入れて終わり」にしない。それがチームの誓いだ。</p>
+          <div class="ps-card">
+            <div class="ps-card-row"><span>週次ミーティング</span><span class="ps-card-val">担当者と30分</span></div>
+            <div class="ps-card-row"><span>KPI報告</span><span class="ps-card-val good">毎週</span></div>
+            <div class="ps-card-row"><span>横展開タイミング</span><span class="ps-card-val">ROI確認後に着手</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="ps-num">04</div>
+        <div>
+          <div class="ps-tag">内製化フェーズ</div>
+          <h3 class="ps-title">私たちがいなくても、現場が回る体制を作る。</h3>
+          <p class="ps-desc">最終ゴールは依存ではなく自走だ。社内チームがAIを自律改善できるよう、ドキュメント・トレーニング・仕組みを整えて離れる。その後は必要なときだけ呼んでほしい。</p>
+          <div class="ps-card">
+            <div class="ps-card-row"><span>運用マニュアル</span><span class="ps-card-val good">納品</span></div>
+            <div class="ps-card-row"><span>社内トレーニング</span><span class="ps-card-val good">実施</span></div>
+            <div class="ps-card-row"><span>その後のサポート</span><span class="ps-card-val">スポット対応可</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="mid-cta-bar">
+  <div class="inner" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+    <p style="font-size:15px;color:var(--text-2)">最初の1業務で成果を出し、それを積み重ねていく。AI活用の悩み、30分で整理します。</p>
+    <a href="#contact" class="mid-cta-link">AI活用1on1を予約する <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
+</div>
+
+<section class="section" id="flywheel">
+  <div class="inner">
+    <div class="s-label">Why It Compounds</div>
+    <div class="flywheel-layout reveal">
+      <div>
+        <h2 class="flywheel-heading">使うほど、貴社専用の資産になる。</h2>
+        <p class="flywheel-copy">一度の導入で終わりではない。業務データが蓄積するたびにAIの精度が上がり、組織のナレッジが残り、新しいメンバーでも同じ品質で動かせる仕組みが育つ。これが3年後に競合が追いつけない差になる。</p>
+        <div class="flywheel-items">
+          <div class="flywheel-item">
+            <div class="fi-mark" style="background:var(--accent)"></div>
+            <div>
+              <div class="fi-title">業務データが組織の資産になる</div>
+              <p class="fi-desc">発注・判断・交渉・品質データが蓄積するたびに、貴社専用のナレッジグラフが育つ。担当者が辞めても知識は残る。競合には複製できない固有の資産だ。</p>
+            </div>
+          </div>
+          <div class="flywheel-item">
+            <div class="fi-mark" style="background:var(--text-3)"></div>
+            <div>
+              <div class="fi-title">AIの進化が、そのまま精度向上になる</div>
+              <p class="fi-desc">半年ごとのモデルアップデートで、同じ業務フローの推奨精度が自動で上がる。追加費用なし。データ資産があるほど、モデル進化の恩恵を最大限に受けられる。</p>
+            </div>
+          </div>
+          <div class="flywheel-item">
+            <div class="fi-mark" style="background:var(--text)"></div>
+            <div>
+              <div class="fi-title">深い業務統合が、切り替えコストになる</div>
+              <p class="fi-desc">ERPとの深い連携・カスタムワークフローの積み重ねが「外せないインフラ」になる。これが長期的な関係継続の構造であり、私たちが目指す本当の価値提供だ。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="fw-stat-large">
+          <div class="fw-before-after">
+            <span class="fw-big-num before">属人</span>
+            <span class="fw-arrow">→</span>
+            <span class="fw-big-num dark">組織知</span>
+          </div>
+          <div class="fw-big-label">サプライヤー評価・業務ナレッジ</div>
+        </div>
+        <div class="fw-stat-large">
+          <div class="fw-before-after">
+            <span class="fw-big-num before">5日</span>
+            <span class="fw-arrow">→</span>
+            <span class="fw-big-num blue">当日</span>
+          </div>
+          <div class="fw-big-label">調達リードタイム（COMPASS導入後）</div>
+        </div>
+        <div class="fw-stat-large">
+          <div class="fw-before-after">
+            <span class="fw-big-num before">40h</span>
+            <span class="fw-arrow">→</span>
+            <span class="fw-big-num dark">2h</span>
+          </div>
+          <div class="fw-big-label">月次照合工数（三点照合自動化後）</div>
+        </div>
+        <div class="fw-note">※ 導入企業の平均実績（2023–2025）</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="inner">
+    <div class="s-label">Results</div>
+    <div class="reveal" style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border);margin-top:32px;">
+
+      <div style="padding:40px 36px 40px 0;border-right:1px solid var(--border);">
+        <div style="font-family:var(--label);font-size:clamp(48px,6vw,72px);font-weight:800;letter-spacing:-.04em;color:var(--text);line-height:1;margin-bottom:10px">28<span style="font-size:.45em;color:var(--text-3)">FTE</span></div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px">削減した工数</div>
+        <div style="font-size:12px;color:var(--text-3);line-height:1.7;font-weight:300">ASEAN 6現地法人の調達業務を集約・標準化。¥1,120万/月の効率化を実現。</div>
+      </div>
+
+      <div style="padding:40px 36px;border-right:1px solid var(--border);">
+        <div style="font-family:var(--label);font-size:clamp(48px,6vw,72px);font-weight:800;letter-spacing:-.04em;color:var(--accent);line-height:1;margin-bottom:10px">95<span style="font-size:.45em;color:var(--text-3)">%</span></div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px">照合工数を削減</div>
+        <div style="font-size:12px;color:var(--text-3);line-height:1.7;font-weight:300">月40hの三点照合作業が2h以下に。AIが24時間リアルタイムで自動実行。</div>
+      </div>
+
+      <div style="padding:40px 0 40px 36px;">
+        <div style="font-family:var(--label);font-size:clamp(48px,6vw,72px);font-weight:800;letter-spacing:-.04em;color:var(--text);line-height:1;margin-bottom:10px">2<span style="font-size:.45em;color:var(--text-3)">週間</span></div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px">PoC稼働まで</div>
+        <div style="font-size:12px;color:var(--text-3);line-height:1.7;font-weight:300">最初の1業務を選んで設計・構築。2週間で実業務データで動く状態にする。</div>
+      </div>
+
+    </div>
+    <div class="voices-grid reveal" style="margin-top:56px;">
+      <div class="voice-item">
+        <p class="vi-quote">「AIを入れようとしていたが、何から始めるべきかわからなかった。業務診断から入ってもらったことで、初めて優先順位が整理できた。」</p>
+        <div class="vi-meta"><strong>製造業 取締役</strong><br>従業員350名 / 愛知県</div>
+      </div>
+      <div class="voice-item">
+        <p class="vi-quote">「月末の照合残業がなくなりました。AIが24時間動いていて、差異があったときだけ通知が来る。担当者が本来の仕事に集中できています。」</p>
+        <div class="vi-meta"><strong>製造業 調達部長</strong><br>従業員500名 / 愛知県</div>
+      </div>
+      <div class="voice-item">
+        <p class="vi-quote">「Claude導入後、社内FAQ対応の工数が激減しました。自社の規定・製品知識を正確に返してくれる。現場から『こんなことまで？』という声が出ています。」</p>
+        <div class="vi-meta"><strong>ITサービス業 COO</strong><br>従業員300名 / 大阪府</div>
+      </div>
+    </div>
+    <p style="font-size:11px;color:var(--text-4);margin-top:20px">※ 実際の支援実績をもとに再構成しています。詳細は商談時にご紹介します（NDA締結後）。</p>
+  </div>
+</section>
+
+<!-- ══════ TRACK RECORD ══════ -->
+<section class="section" id="track-record" style="background:var(--white)">
+  <div class="inner">
+    <div class="s-label">Track Record</div>
+    <h2 class="reveal" style="font-family:var(--serif);font-size:clamp(24px,3.2vw,36px);font-weight:600;line-height:1.3;letter-spacing:-.01em;margin-bottom:48px">支援前と、支援後。</h2>
+    <div class="track-grid reveal">
+
+      <div class="track-item">
+        <div class="ti-meta"><span class="ti-industry">製造業・ASEAN</span><span class="ti-who">橋本</span></div>
+        <div class="ti-title">6拠点の調達業務を集約・標準化する</div>
+        <div class="ti-ba">
+          <div class="ti-b"><span class="ti-ba-lbl">Before</span>6現地法人でそれぞれ異なる調達フローが混在。担当者依存で基準がバラバラ。照合・発注に要する人員が過剰な状態。</div>
+          <div class="ti-a"><span class="ti-ba-lbl">After</span>業務を集約・標準化し、<span class="ti-result-num">28FTE相当</span>を削減。<span class="ti-result-num">¥1,120万/月</span>の効率化を実現。余剰人員をプロフィットセンターへ再配置。</div>
+        </div>
+      </div>
+
+      <div class="track-item">
+        <div class="ti-meta"><span class="ti-industry">医療機器・PMI</span><span class="ti-who">橋本</span></div>
+        <div class="ti-title">M&A後の上市戦略とPMI計画を策定する</div>
+        <div class="ti-ba">
+          <div class="ti-b"><span class="ti-ba-lbl">Before</span>海外買収先との統合計画が不在。規制・市場の課題が未整理で、上市スケジュールが不明確。開発・ビジネス両部門が別々に動いていた。</div>
+          <div class="ti-a"><span class="ti-ba-lbl">After</span>PMI計画のビジョン・ミッション策定完了。規制・市場課題を明確化し解決ロードマップを策定。開発・ビジネスが連携した推進体制を確立。</div>
+        </div>
+      </div>
+
+      <div class="track-item">
+        <div class="ti-meta"><span class="ti-industry">自動車・組織設計</span><span class="ti-who">橋本</span></div>
+        <div class="ti-title">ソフトウェア開発組織の立ち上げ構想を合意させる</div>
+        <div class="ti-ba">
+          <div class="ti-b"><span class="ti-ba-lbl">Before</span>新規開発組織の構想が不在。役員間で方向性の認識がバラバラ。現場の課題が整理されないまま議論が停滞していた。</div>
+          <div class="ti-a"><span class="ti-ba-lbl">After</span>執行役員<span class="ti-result-num">8名</span>へのヒアリングで課題を集約・仮説化。意思決定者を含む全関係者と新組織の方向性について合意形成を完了。</div>
+        </div>
+      </div>
+
+      <div class="track-item">
+        <div class="ti-meta"><span class="ti-industry">石油・ガス</span><span class="ti-who">Supunsa</span></div>
+        <div class="ti-title">調達シェアードサービスセンターのTo-Beを設計する</div>
+        <div class="ti-ba">
+          <div class="ti-b"><span class="ti-ba-lbl">Before</span>調達業務が各拠点・部門に分散。プロセスの標準化・一元管理の仕組みが未整備。システム要件も未定義の状態。</div>
+          <div class="ti-a"><span class="ti-ba-lbl">After</span>全調達工程のTo-Beプロセス設計完了。SAP S/4HANA要件定義・SLA設計まで一気通貫で策定。組織・機能要件も確定。</div>
+        </div>
+      </div>
+
+      <div class="track-item">
+        <div class="ti-meta"><span class="ti-industry">自動車・通信（SEA）</span><span class="ti-who">Supunsa</span></div>
+        <div class="ti-title">SAP Aribaの全モジュールを導入・稼働させる</div>
+        <div class="ti-ba">
+          <div class="ti-b"><span class="ti-ba-lbl">Before</span>アナログ・紙ベースの調達プロセス。eプロキュアメントの仕組みが未整備で、複数国・複数クライアントで課題が山積。</div>
+          <div class="ti-a"><span class="ti-ba-lbl">After</span>Sourcing・Contract・Supplier・Guided Buying・Commerce Automation 全モジュールを本番稼働。要件定義から稼働まで一気通貫で完遂。</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════ TEAM ══════ -->
+<section class="section">
+  <div class="inner">
+    <div class="s-label">Team</div>
+    <div class="reveal" style="display:grid;grid-template-columns:1fr 1.6fr;gap:80px;align-items:end;margin-bottom:8px">
+      <h2 style="font-family:var(--serif);font-size:clamp(24px,3.2vw,36px);font-weight:600;line-height:1.3;letter-spacing:-.01em">現場で動かし続けてきた、<br>専門家チーム。</h2>
+      <p style="font-size:14px;color:var(--text-2);line-height:2;font-weight:300">大手ファーム出身の上流コンサルタントと、調達DXの技術実装スペシャリストが組む。「設計だけ」でも「実装だけ」でもない、一貫した支援ができます。</p>
+    </div>
+    <div class="team-grid reveal">
+
+      <div class="member-card">
+        <div class="mc-name">橋本 勝</div>
+        <div class="mc-title">Founder / 上流コンサルティングリード</div>
+        <p class="mc-bio">製造業・医療機器・自動車メーカーの経営課題に向き合ってきた上流コンサルタント。BPR・PMI・新規組織立ち上げを複数プロジェクトでリードし、CxO・役員クラスへのステアリングコミッティ運営を数多く担ってきた。現在は自らAI × 業務変革の専門家チームを率い、「現場で動くまで離れない」支援を実践している。</p>
+        <div class="mc-tags">
+          <span class="mc-tag">BPR / PMI</span>
+          <span class="mc-tag">上流コンサル</span>
+          <span class="mc-tag">Claude AI導入</span>
+          <span class="mc-tag">製造業・ASEAN</span>
+          <span class="mc-tag">新規事業</span>
+        </div>
+        <div class="mc-note">英語 業務レベル（TOEIC 905）／ コンサル実務 9年超</div>
+      </div>
+
+      <div class="member-card">
+        <div class="mc-name">Supunsa Ngamyan</div>
+        <div class="mc-title">調達DX / SAP Ariba エキスパート</div>
+        <p class="mc-bio">調達・サプライチェーンの変革を13年以上にわたって実装し続けてきたスペシャリスト。石油・ガス、自動車、通信など複数産業でのeSourcing・eプロキュアメント・ERP実装を要件定義から本番稼働まで一気通貫で担当。現在はAIを活用した次世代の調達システム設計と、日本市場での調達DX推進に取り組んでいる。</p>
+        <div class="mc-tags">
+          <span class="mc-tag">SAP Ariba 認定</span>
+          <span class="mc-tag">SAP S/4HANA 認定</span>
+          <span class="mc-tag">調達 BPR</span>
+          <span class="mc-tag">SCM 13年+</span>
+          <span class="mc-tag">Lean Six Sigma</span>
+        </div>
+        <div class="mc-note">タイ語（母語）・英語（流暢）・日本語（初級）</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+<section class="cta-section" id="contact">
+  <div class="cta-inner">
+    <div class="cta-kicker">Contact</div>
+    <h2 class="cta-heading">まず30分、<br><strong>話を聞かせてください。</strong></h2>
+
+    <div id="cf-form-wrap">
+      <form class="contact-form" id="contact-form" novalidate>
+
+        <div class="cf-row">
+          <div class="cf-field">
+            <label class="cf-label" for="cf-name">お名前<span class="cf-req">*</span></label>
+            <input class="cf-input" type="text" id="cf-name" name="name" placeholder="山田 太郎" required>
+          </div>
+          <div class="cf-field">
+            <label class="cf-label" for="cf-company">会社名<span class="cf-req">*</span></label>
+            <input class="cf-input" type="text" id="cf-company" name="company" placeholder="株式会社〇〇" required>
+          </div>
+        </div>
+
+        <div class="cf-field">
+          <label class="cf-label" for="cf-email">メールアドレス<span class="cf-req">*</span></label>
+          <input class="cf-input" type="email" id="cf-email" name="email" placeholder="your@company.co.jp" required>
+        </div>
+
+        <hr class="cf-divider">
+
+        <div class="cf-field">
+          <label class="cf-label">お問い合わせ種別<span class="cf-req">*</span></label>
+          <div class="cf-types" id="cf-types">
+            <label class="cf-type"><input type="radio" name="type" value="AI活用戦略設計"> AI活用戦略設計について</label>
+            <label class="cf-type"><input type="radio" name="type" value="Claude・LLM導入"> Claude / LLM 導入支援について</label>
+            <label class="cf-type"><input type="radio" name="type" value="COMPASS（調達DX）"> COMPASS（調達DX）について</label>
+            <label class="cf-type"><input type="radio" name="type" value="BOM設計・BPR戦略"> BOM設計・BPR戦略設計について</label>
+            <label class="cf-type"><input type="radio" name="type" value="料金・見積もり"> 料金・見積もりについて</label>
+            <label class="cf-type"><input type="radio" name="type" value="その他"> その他</label>
+          </div>
+          <div id="cf-type-error" style="display:none;font-size:11px;color:rgba(248,113,113,0.8);margin-top:8px;font-family:var(--label);">種別を選択してください</div>
+        </div>
+
+
+        <div class="cf-field">
+          <label class="cf-label">ご希望の日時（任意）</label>
+          <div class="cf-calendar-hint" onclick="toggleSlots()">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.2"/><line x1="5" y1="1.5" x2="5" y2="4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="11" y1="1.5" x2="11" y2="4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="2" y1="7" x2="14" y2="7" stroke="currentColor" stroke-width="1.2"/></svg>
+            <span id="slot-hint-text">候補日時を選ぶ（クリックで開く）</span>
+          </div>
+          <div id="cf-slots-wrap" style="display:none;margin-top:8px;">
+            <div class="cf-slots" id="cf-slots"></div>
+            <p style="font-size:10px;color:rgba(255,255,255,0.2);margin-top:8px;font-family:var(--label);">※ 確定はメールでご案内します。複数選択可。</p>
+          </div>
+          <input type="hidden" id="cf-selected-slots" name="slots" value="">
+        </div>
+
+        <div class="cf-field">
+          <label class="cf-label" for="cf-message">相談内容・背景（任意）</label>
+          <textarea class="cf-textarea" id="cf-message" name="message" placeholder="現状の課題や背景など、自由にご記入ください。"></textarea>
+        </div>
+
+        <button type="submit" class="cf-submit-btn" id="cf-submit">
+          送信する
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <p class="cf-form-note">24時間以内にご連絡します。費用は発生しません。</p>
+
+      </form>
+    </div>
+
+    <div class="cf-success" id="cf-success">
+      <div class="cf-success-mark">✓</div>
+      <div class="cf-success-title">送信しました。</div>
+      <p class="cf-success-msg">内容を確認の上、24時間以内にご連絡します。<br>もし届かない場合は <span style="color:rgba(255,255,255,0.6)">hello@compass-dx.jp</span> までご連絡ください。</p>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <span class="footer-logo"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <line x1="2" y1="16" x2="30" y2="16" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+  <line x1="16" y1="2" x2="16" y2="30" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+  <polygon points="16,2 18.2,14.5 16,12.5 13.8,14.5" fill="currentColor"/>
+  <polygon points="16,30 18.2,17.5 16,19.5 13.8,17.5" fill="currentColor" opacity="0.25"/>
+  <polygon points="30,16 18,14.2 20,16 18,17.8" fill="currentColor" opacity="0.35"/>
+  <polygon points="2,16 14,14.2 12,16 14,17.8" fill="currentColor" opacity="0.35"/>
+  <circle cx="16" cy="16" r="2.2" fill="currentColor"/>
+</svg>COMPASS</span>
+      <p class="footer-tagline">AI活用1on1から始めます。無料・30分・完全オンライン。</p>
+    </div>
+    <div class="footer-nav-groups">
+      <div class="footer-nav-group">
+        <div class="footer-nav-title">サービス</div>
+        <ul class="footer-nav-links">
+          <li><a href="#services">AI活用戦略設計</a></li>
+          <li><a href="#contact">Claude / LLM 導入</a></li>
+          <li><a href="features.html">COMPASS（調達DX）</a></li>
+          <li><a href="features.html">BOM設計最適化</a></li>
+          <li><a href="bpr.html">BPR戦略設計</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav-group">
+        <div class="footer-nav-title">プロダクト</div>
+        <ul class="footer-nav-links">
+          <li><a href="features.html">機能一覧</a></li>
+          <li><a href="ai-agent.html">AIエージェント</a></li>
+          <li><a href="bpr.html">BPR</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav-group">
+        <div class="footer-nav-title">会社情報</div>
+        <ul class="footer-nav-links">
+          <li><a href="#contact">チーム紹介</a></li>
+          <li><a href="#contact">採用情報</a></li>
+          <li><a href="#contact">お問い合わせ</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">&copy;<span id="yr"></span> COMPASS Inc. All Rights Reserved.</span>
+    <div class="footer-legal-links">
+      <a href="privacy.html">プライバシーポリシー</a>
+      <a href="#contact">利用規約</a>
+      <a href="#contact">特定商取引法</a>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ══════ CHATBOT WIDGET ══════ -->
+<div id="chat-bubble" role="dialog" aria-label="AIサポートチャット" aria-modal="true">
+  <div class="chat-panel" id="chat-panel">
+    <div class="chat-header">
+      <div>
+        <div class="chat-header-title">COMPASS AI サポート</div>
+        <div class="chat-header-sub">通常30分以内に返信</div>
+      </div>
+      <button class="chat-close" onclick="toggleChat()" aria-label="閉じる">×</button>
+    </div>
+    <div class="chat-body">
+      <div class="chat-msg">
+        👋 こんにちは！<br>
+        <strong>AI活用について気になることはありますか？</strong><br>
+        まず30分、1on1でお話ししましょう。費用はかかりません。
+      </div>
+      <div class="chat-actions">
+        <a class="chat-action chat-action-primary" href="#contact" onclick="toggleChat()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="9" rx="1.2" stroke="currentColor" stroke-width="1.1"/><path d="M1 5l6 4 6-4" stroke="currentColor" stroke-width="1.1"/></svg>
+          1on1を予約する（無料）
+        </a>
+        <a class="chat-action" href="#services" onclick="toggleChat()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.1"/><line x1="7" y1="4.5" x2="7" y2="7.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><circle cx="7" cy="9.5" r=".6" fill="currentColor"/></svg>
+          サービスを見る
+        </a>
+        <a class="chat-action" href="#track-record" onclick="toggleChat()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="1,10 4,6 7,8 10,4 13,2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          支援実績を確認する
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="chat-toggle" onclick="toggleChat()" aria-label="チャットを開く" role="button" tabindex="0">
+    <svg id="chat-icon-open" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M2 5.5A2.5 2.5 0 014.5 3h13A2.5 2.5 0 0120 5.5v8A2.5 2.5 0 0117.5 16H12l-4 3v-3H4.5A2.5 2.5 0 012 13.5v-8z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><line x1="6" y1="8" x2="16" y2="8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="6" y1="11.5" x2="12" y2="11.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    <svg id="chat-icon-close" width="18" height="18" viewBox="0 0 18 18" fill="none" style="display:none"><line x1="3" y1="3" x2="15" y2="15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="15" y1="3" x2="3" y2="15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <div class="chat-badge" id="chat-badge">1</div>
+  </div>
+</div>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 80); }, { passive: true });
+const io = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.06 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+const hbg = document.getElementById('hamburger');
+const nl = document.getElementById('nav-links');
+hbg.addEventListener('click', () => {
+  const o = nl.classList.toggle('open');
+  hbg.classList.toggle('open', o);
+  hbg.setAttribute('aria-expanded', String(o));
+  document.body.style.overflow = o ? 'hidden' : '';
+});
+nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  nl.classList.remove('open'); hbg.classList.remove('open');
+  hbg.setAttribute('aria-expanded', 'false'); document.body.style.overflow = '';
+}));
+
+// ─── チャットボット ─────────────────────────────
+let chatShown = false;
+let chatOpen = false;
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  const panel = document.getElementById('chat-panel');
+  const iconOpen = document.getElementById('chat-icon-open');
+  const iconClose = document.getElementById('chat-icon-close');
+  const badge = document.getElementById('chat-badge');
+  panel.classList.toggle('open', chatOpen);
+  iconOpen.style.display = chatOpen ? 'none' : 'block';
+  iconClose.style.display = chatOpen ? 'block' : 'none';
+  badge.style.display = 'none';
+}
+
+// 40%スクロールで出現、一度だけ自動オープン
+window.addEventListener('scroll', () => {
+  if (chatShown) return;
+  const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+  if (scrolled > 0.38) {
+    chatShown = true;
+    const bubble = document.getElementById('chat-bubble');
+    bubble.classList.add('visible');
+    // 1.5秒後に自動でパネルを開く
+    setTimeout(() => {
+      if (!chatOpen) toggleChat();
+    }, 1500);
+  }
+}, { passive: true });
+
+// ─── 候補日時スロット ───────────────────────────
+function toggleSlots() {
+  const wrap = document.getElementById('cf-slots-wrap');
+  const hint = document.getElementById('slot-hint-text');
+  if (wrap.style.display === 'none') {
+    wrap.style.display = 'block';
+    hint.textContent = '候補日時を閉じる';
+    renderSlots();
+  } else {
+    wrap.style.display = 'none';
+    hint.textContent = '候補日時を選ぶ（クリックで開く）';
+  }
+}
+
+function renderSlots() {
+  const container = document.getElementById('cf-slots');
+  if (container.children.length > 0) return;
+  const times = ['10:00〜', '11:00〜', '14:00〜', '15:00〜', '16:00〜', '17:00〜'];
+  const days = [];
+  const today = new Date();
+  for (let i = 1; i <= 7; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    if (d.getDay() === 0 || d.getDay() === 6) continue;
+    const label = `${d.getMonth()+1}/${d.getDate()}（${'月火水木金'[d.getDay()-1]}）`;
+    times.forEach(t => days.push(`${label} ${t}`));
+    if (days.length >= 12) return;
+  }
+  const selected = new Set();
+  days.slice(0,12).forEach(slot => {
+    const el = document.createElement('div');
+    el.className = 'cf-slot';
+    el.textContent = slot;
+    el.addEventListener('click', () => {
+      if (selected.has(slot)) { selected.delete(slot); el.classList.remove('selected'); }
+      else { selected.add(slot); el.classList.add('selected'); }
+      document.getElementById('cf-selected-slots').value = [...selected].join('、');
+    });
+    container.appendChild(el);
+  });
+}
+
+</script>
+</body>
+</html>
