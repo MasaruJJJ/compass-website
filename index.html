@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COMPASS｜相見積もり・調達をAIで自動化「調達を、数日に。」</title>
+<meta name="description" content="相見積もり・仕入先探し・見積依頼・比較をAIが自動化。調達の3〜4週間を3〜4日に短縮する調達支援サービスCOMPASS。無料お試し受付中。ClaudeとGeminiを基盤に開発。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23061429%22/%3E%3Cpath d=%22M50 18 L56 50 L50 82 L44 50 Z%22 fill=%22%23d9a85e%22/%3E%3C/svg%3E">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="COMPASS">
+<meta property="og:title" content="COMPASS｜調達を自動化するAIサービス">
+<meta property="og:description" content="調達の3〜4週間を、3〜4日に。AIが調達の仕事を自動で進めます。">
+<meta property="og:url" content="https://example.com/index.html">
+<meta property="og:image" content="https://example.com/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDPGothic:wght@400;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0e1b2c; --navy:#0a1f3c; --mute:#51627a; --line:#e5e8ee;
+  --bg:#ffffff; --bg2:#f6f8fb; --brass:#b8862f; --brass-bg:#faf5ec;
+  --ok:#1e9e6a; --warn:#b45309; --radius:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'BIZ UDPGothic','Zen Kaku Gothic New',sans-serif;color:var(--ink);background:var(--bg);line-height:1.85;font-size:15.5px;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.en-num{font-family:'Outfit',sans-serif}
+/* lang toggle */
+[data-en]{display:none}
+body.lang-en [data-ja]{display:none}
+body.lang-en [data-en]{display:inline}
+body.lang-en span[data-en]{display:inline}
+/* ===== header ===== */
+header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:9px;font-family:'Outfit',sans-serif;font-weight:800;font-size:17px;letter-spacing:.08em;color:var(--navy)}
+.logo svg{width:26px;height:26px;color:var(--brass)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-menu{display:flex;align-items:center;gap:26px;margin-right:10px}
+.nav-link{font-size:14px;font-weight:600;color:var(--ink);position:relative;white-space:nowrap}
+.nav-link::after{content:"";position:absolute;left:0;bottom:-5px;width:0;height:2px;background:var(--brass);transition:.2s}
+.nav-link:hover::after,.nav-link.current::after{width:100%}
+.nav-link.current{color:var(--brass)}
+.lang-toggle{display:flex;border:1px solid var(--line);border-radius:30px;overflow:hidden}
+.lang-toggle button{border:0;background:#fff;font-family:inherit;font-size:12px;font-weight:600;padding:6px 12px;cursor:pointer;color:var(--mute)}
+.lang-toggle button.active{background:var(--navy);color:#fff}
+.nav-cta{font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;background:var(--navy);color:#fff;padding:10px 20px;border-radius:30px;transition:.2s;white-space:nowrap}
+.nav-cta:hover{background:var(--brass)}
+.hamb{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:6px}
+.hamb span{display:block;width:24px;height:2px;background:var(--navy);transition:.3s}
+body.menu-open .hamb span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+body.menu-open .hamb span:nth-child(2){opacity:0}
+body.menu-open .hamb span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-cta-mobile{display:none}
+/* ===== hero ===== */
+.hero{padding:130px 0 70px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--mute);border:1px solid var(--line);border-radius:30px;padding:6px 14px;margin-bottom:22px;background:#fff}
+.pill b{color:var(--brass)}
+h1{font-size:clamp(30px,4.6vw,46px);font-weight:700;line-height:1.35;letter-spacing:.005em;margin-bottom:18px}
+h1 .hl{color:var(--brass)}
+.hero .lead{color:var(--mute);font-size:16px;margin-bottom:30px;max-width:520px}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn-p{font-family:inherit;font-weight:700;font-size:15px;background:var(--navy);color:#fff;padding:14px 28px;border-radius:12px;transition:.2s;border:0;cursor:pointer;display:inline-block}
+.btn-p:hover{background:var(--brass);transform:translateY(-1px)}
+.btn-s{font-weight:600;font-size:15px;color:var(--navy);padding:14px 22px;border-radius:12px;border:1.5px solid var(--line);transition:.2s;display:inline-block;background:#fff}
+.btn-s:hover{border-color:var(--brass);color:var(--brass)}
+.trust{display:flex;gap:16px;flex-wrap:wrap;margin-top:18px;font-size:12.5px;color:var(--mute)}
+.trust span::before{content:"✓ ";color:var(--ok);font-weight:700}
+/* product mock */
+.mock{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 50px rgba(14,27,44,.08);overflow:hidden}
+.mock .bar{display:flex;align-items:center;gap:6px;background:var(--bg2);border-bottom:1px solid var(--line);padding:10px 14px}
+.mock .bar i{width:9px;height:9px;border-radius:50%;background:#d9dee6}
+.mock .bar .t{margin-left:8px;font-size:11.5px;color:var(--mute);font-weight:600}
+.mock .body{padding:16px 16px 14px}
+.mock .cap{font-size:12.5px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.mock .ai-tag{font-size:10px;font-weight:700;color:#fff;background:linear-gradient(135deg,#d97757,#c4612f);padding:2px 8px;border-radius:20px;letter-spacing:.05em}
+.mock table{width:100%;border-collapse:collapse;font-size:12.5px}
+.mock th{text-align:left;font-size:10.5px;color:var(--mute);font-weight:600;padding:6px 8px;border-bottom:1.5px solid var(--line)}
+.mock td{padding:9px 8px;border-bottom:1px solid #eef1f5;white-space:nowrap}
+.mock tr.win{background:var(--brass-bg)}
+.mock .rec{font-size:10px;font-weight:700;color:var(--brass);border:1px solid var(--brass);border-radius:20px;padding:1px 7px;margin-left:6px}
+.mock .sc{font-family:'Outfit',sans-serif;font-weight:800}
+.mock .foot{font-size:11px;color:var(--mute);padding:10px 8px 0;border-top:1px dashed var(--line);margin-top:4px}
+.mock .foot b{color:var(--brass)}
+/* ===== metric ===== */
+.metric{background:var(--navy);color:#fff;padding:44px 0}
+.metric .row{display:flex;align-items:center;justify-content:center;gap:34px;flex-wrap:wrap;text-align:center}
+.metric .m .l{font-size:12.5px;color:#9db0c7}
+.metric .m .v{font-family:'Outfit',sans-serif;font-size:44px;font-weight:800;line-height:1.2}
+.metric .m .v small{font-size:16px;font-weight:600}
+.metric .arrow{font-size:26px;color:#d9a85e}
+.metric .m.after .v{color:#d9a85e}
+/* ===== sections ===== */
+section{padding:88px 0}
+.sec-h{text-align:center;max-width:640px;margin:0 auto 54px}
+.sec-tag{font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--brass);display:block;margin-bottom:12px}
+h2{font-size:clamp(24px,3.4vw,34px);font-weight:700;line-height:1.4;margin-bottom:14px}
+.sec-h p{color:var(--mute);font-size:15.5px}
+.alt{background:var(--bg2)}
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.step{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;position:relative}
+.step .n{font-family:'Outfit',sans-serif;font-weight:800;font-size:13px;color:var(--brass);letter-spacing:.1em;margin-bottom:12px;display:block}
+.step h3{font-size:17.5px;font-weight:700;margin-bottom:8px}
+.step p{font-size:14px;color:var(--mute)}
+/* features */
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feat{border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;background:#fff;transition:.2s}
+.feat:hover{border-color:var(--brass);transform:translateY(-3px)}
+.feat .ic{width:44px;height:44px;border-radius:11px;background:var(--brass-bg);color:var(--brass);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:20px}
+.feat h3{font-size:17px;font-weight:700;margin-bottom:8px}
+.feat p{font-size:14px;color:var(--mute)}
+/* adoption */
+.adopt-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.adopt-grid h2{margin-bottom:14px}
+.adopt-grid .d{color:var(--mute);font-size:15px;margin-bottom:22px}
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:26px}
+.chips span{font-size:13px;font-weight:600;background:#fff;border:1px solid var(--line);border-radius:30px;padding:7px 15px}
+.mini-steps{display:flex;flex-direction:column;gap:14px}
+.mini-steps .ms{display:flex;gap:14px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;align-items:center}
+.mini-steps .ms b{font-family:'Outfit',sans-serif;color:var(--brass);font-size:13px;flex-shrink:0}
+.mini-steps .ms span{font-size:14px}
+/* status */
+.status{border:1.5px solid var(--line);border-radius:16px;padding:34px 34px;display:flex;gap:22px;align-items:flex-start;background:#fff}
+.status .dot{flex-shrink:0;width:12px;height:12px;border-radius:50%;background:var(--ok);margin-top:9px;box-shadow:0 0 0 5px rgba(30,158,106,.14)}
+.status h3{font-size:18px;font-weight:700;margin-bottom:6px}
+.status p{font-size:14.5px;color:var(--mute)}
+/* faq */
+.faq{max-width:760px;margin:0 auto}
+details{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;padding:20px 6px;font-weight:700;font-size:15.5px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:'Outfit',sans-serif;font-size:20px;color:var(--brass);transition:.2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{padding:0 6px 20px;color:var(--mute);font-size:14.5px}
+/* booking */
+.booking{background:var(--navy);color:#fff}
+.booking .sec-tag{color:#d9a85e}
+.booking .sec-h p{color:#b9c8dc}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.book-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:28px}
+.book-card h3{font-size:16.5px;font-weight:700;margin-bottom:6px;display:flex;gap:9px;align-items:center}
+.book-card .sub{font-size:13px;color:#b9c8dc;margin-bottom:20px}
+.cal-embed{border:1.5px dashed rgba(217,168,94,.5);border-radius:12px;min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px;gap:12px}
+.cal-embed .ph-t{font-size:13.5px;color:#b9c8dc;max-width:300px}
+.cal-embed .btn-p{background:#d9a85e;color:var(--navy)}
+.form-field{margin-bottom:14px}
+.form-field label{display:block;font-size:12.5px;font-weight:600;color:#b9c8dc;margin-bottom:6px}
+.form-field input,.form-field textarea{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:12px 14px;color:#fff;font-family:inherit;font-size:14px}
+.form-field input::placeholder,.form-field textarea::placeholder{color:#7d8fa6}
+.form-field input:focus,.form-field textarea:focus{outline:none;border-color:#d9a85e}
+.form-note{font-size:11.5px;color:#8fa2ba;margin-top:10px;text-align:center}
+.send-btn{width:100%;font-family:inherit;font-weight:700;font-size:15px;background:#d9a85e;color:var(--navy);border:0;border-radius:12px;padding:14px;cursor:pointer;transition:.2s}
+.send-btn:hover{filter:brightness(1.07)}
+/* ===== As-Is / To-Be ===== */
+.at{display:flex;flex-direction:column;gap:16px;margin-bottom:40px}
+.atrow{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:20px 22px}
+.atrow.tobe{border-color:rgba(184,134,47,.55);background:var(--brass-bg)}
+.at-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:13px}
+.at-head .tag2{font-family:'Outfit',sans-serif;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--mute);text-transform:uppercase}
+.atrow.tobe .tag2{color:var(--brass)}
+.at-head .ttl{font-size:14px;font-weight:700}
+.at-head .cnt{margin-left:auto;font-size:12.5px;color:var(--mute)}
+.at-head .cnt b{font-family:'Outfit',sans-serif;font-size:15px;color:var(--ink)}
+.atrow.tobe .cnt b{color:var(--brass)}
+.chain{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chain .c{font-size:12.5px;font-weight:600;background:var(--bg2);border:1px solid var(--line);border-radius:9px;padding:7px 13px;color:var(--mute)}
+.chain .ar{color:#b9c2cf;font-family:'Outfit',sans-serif;font-size:13px}
+.tobe .chain .c{background:#fff;color:var(--ink);font-size:13.5px;padding:11px 18px;border-radius:11px;border-color:rgba(184,134,47,.35)}
+.tobe .chain .c.ai{background:var(--navy);color:#fff;border-color:var(--navy);text-align:center}
+.tobe .chain .c.ai small{display:block;font-size:10.5px;color:#d9a85e;font-weight:700;letter-spacing:.05em;margin-top:2px}
+.tobe .chain .ar{color:var(--brass);font-weight:800;font-size:15px}
+.at-note{text-align:center;font-size:12.5px;color:var(--mute);margin-top:-24px;margin-bottom:40px}
+.at-note b{color:var(--brass)}
+/* ===== diagrams & tables ===== */
+.pipeline{display:flex;align-items:stretch;gap:10px;margin-bottom:48px}
+.pl-node{flex:1;border:1.5px solid var(--line);border-radius:14px;padding:20px 16px;background:#fff;text-align:center}
+.pl-node .who{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--mute);background:var(--bg2);border-radius:20px;padding:3px 11px;margin-bottom:10px}
+.pl-node b{display:block;font-size:15.5px;margin-bottom:5px}
+.pl-node small{color:var(--mute);font-size:12px;line-height:1.6;display:block}
+.pl-node.ai{border-color:rgba(184,134,47,.5);background:var(--brass-bg);flex:1.5}
+.pl-node.ai .who{background:#fff;color:var(--brass)}
+.ai-tasks{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:9px}
+.ai-tasks span{font-size:12px;font-weight:600;background:#fff;border:1px solid rgba(184,134,47,.3);border-radius:20px;padding:4px 11px}
+.pl-arrow{display:flex;align-items:center;font-size:20px;color:var(--brass);font-family:'Outfit',sans-serif;flex-shrink:0}
+.cmp-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.cmp{width:100%;min-width:560px;border-collapse:separate;border-spacing:0;font-size:14px;background:#fff;border:1.5px solid var(--line);border-radius:14px;overflow:hidden}
+.cmp th,.cmp td{padding:14px 18px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.cmp tr:last-child th,.cmp tr:last-child td{border-bottom:0}
+.cmp thead th{font-size:12.5px;color:var(--mute);background:var(--bg2);font-weight:700}
+.cmp thead th.hi{background:var(--navy);color:#fff}
+.cmp td.hi{background:var(--brass-bg);font-weight:600}
+.cmp td.hi::before{content:"✓ ";color:var(--ok);font-weight:800}
+.cmp td:first-child{font-weight:700;width:24%;white-space:nowrap}
+.cmp td.old{color:var(--mute)}
+.cmp tr.sum td{background:var(--bg2);font-weight:700}
+.cmp tr.sum td.hi{background:var(--brass-bg);color:var(--brass)}
+.cmp tr.sum td.hi::before{content:""}
+.cmp .en-num{font-size:15px}
+.loop{margin-top:36px;text-align:center}
+.loop .lt{font-family:'Outfit',sans-serif;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--mute);text-transform:uppercase;display:block;margin-bottom:14px}
+.loop-row{display:inline-flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;border:1.5px dashed rgba(184,134,47,.55);border-radius:40px;padding:13px 26px;background:#fff}
+.loop-row b{font-size:13.5px;font-weight:700}
+.loop-row i{font-style:normal;color:var(--brass);font-family:'Outfit',sans-serif}
+.loop-row .ret{color:var(--brass);font-size:18px;font-weight:800;font-family:'Outfit',sans-serif}
+/* ===== 相見積ツール ===== */
+.qt-flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.qt-flow .fstep{flex:1;min-width:120px;background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:12px 10px;text-align:center}
+.qt-flow .fstep b{display:block;font-size:13.5px}
+.qt-flow .fstep small{display:block;font-size:11px;color:var(--mute);margin-top:2px}
+.qt-flow i{font-style:normal;color:var(--brass);font-family:'Outfit',sans-serif;font-weight:700}
+
+.quote{background:var(--bg2)}
+.qt-wrap{max-width:720px;margin:0 auto}
+.qt-card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 40px rgba(14,27,44,.06);overflow:hidden}
+.qt-steps{display:flex;border-bottom:1px solid var(--line)}
+.qt-steps .st{flex:1;text-align:center;padding:14px 6px;font-size:12px;font-weight:700;color:var(--mute);position:relative}
+.qt-steps .st.on{color:var(--brass)}
+.qt-steps .st.on::after{content:"";position:absolute;left:0;bottom:-1px;width:100%;height:2px;background:var(--brass)}
+.qt-steps .st .no{font-family:'Outfit',sans-serif;display:block;font-size:16px}
+.qt-body{padding:26px 28px}
+.qt-body h3{font-size:16.5px;font-weight:700;margin-bottom:6px}
+.qt-body .qd{font-size:13px;color:var(--mute);margin-bottom:20px}
+.qt-field{margin-bottom:15px}
+.qt-field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px}
+.qt-field label .req{color:#c2453f;font-size:11px;margin-left:4px}
+.qt-field input,.qt-field select,.qt-field textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;font-family:inherit;font-size:14.5px;background:#fff;color:var(--ink)}
+.qt-field input:focus,.qt-field select:focus,.qt-field textarea:focus{outline:none;border-color:var(--brass)}
+.qt-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.qt-actions{display:flex;gap:10px;margin-top:22px}
+.qt-actions .btn-p,.qt-actions .btn-s{flex:1;text-align:center;cursor:pointer;border:0}
+.qt-actions .btn-s{border:1.5px solid var(--line)}
+/* loading */
+.qt-loading{text-align:center;padding:40px 20px}
+.qt-loading .spin{width:44px;height:44px;border:3px solid var(--line);border-top-color:var(--brass);border-radius:50%;margin:0 auto 18px;animation:qspin .8s linear infinite}
+@keyframes qspin{to{transform:rotate(360deg)}}
+.qt-loading .lstep{font-size:13.5px;color:var(--mute);min-height:20px}
+/* result */
+.qt-res-head{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.qt-res-head .ai-tag{font-size:10px;font-weight:700;color:#fff;background:linear-gradient(135deg,#d97757,#c4612f);padding:2px 9px;border-radius:20px}
+.qt-tblwrap{overflow-x:auto;margin:14px -4px 0}
+.qt-tbl{width:100%;min-width:520px;border-collapse:collapse;font-size:13px}
+.qt-tbl th{text-align:left;font-size:11px;color:var(--mute);font-weight:700;padding:9px 10px;border-bottom:1.5px solid var(--line);white-space:nowrap}
+.qt-tbl td{padding:12px 10px;border-bottom:1px solid #eef1f5;white-space:nowrap}
+.qt-tbl tr.best{background:var(--brass-bg)}
+.qt-tbl .sup{font-weight:700}
+.qt-tbl .rec{font-size:10px;font-weight:700;color:var(--brass);border:1px solid var(--brass);border-radius:20px;padding:1px 7px;margin-left:6px}
+.qt-tbl .sc{font-family:'Outfit',sans-serif;font-weight:800;color:var(--navy)}
+.qt-tbl .risk-low{color:var(--ok);font-weight:700;font-size:12px}
+.qt-tbl .risk-mid{color:var(--warn);font-weight:700;font-size:12px}
+.qt-note{font-size:11.5px;color:var(--mute);margin-top:12px;line-height:1.7}
+.qt-cta-box{background:var(--brass-bg);border:1px solid rgba(184,134,47,.3);border-radius:12px;padding:18px 20px;margin-top:20px;text-align:center}
+.qt-cta-box p{font-size:13.5px;margin-bottom:14px}
+.qt-cta-box p b{color:var(--brass)}
+.qt-demo-badge{display:inline-block;font-size:11px;font-weight:700;color:var(--warn);background:rgba(180,83,9,.1);border-radius:20px;padding:3px 12px;margin-bottom:14px}
+/* footer */
+footer{background:#0a1626;color:#8fa2ba;padding:44px 0 34px;font-size:13px}
+.foot-top{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;padding-bottom:22px;border-bottom:1px solid rgba(255,255,255,.09)}
+.foot-logo{display:flex;align-items:center;gap:8px;font-family:'Outfit',sans-serif;font-weight:800;letter-spacing:.08em;color:#fff}
+.foot-logo svg{width:22px;height:22px;color:#d9a85e}
+.foot-nav{display:flex;flex-wrap:wrap;gap:18px}
+.foot-nav a:hover{color:#d9a85e}
+.foot-bottom{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:20px}
+.foot-disclaimer{margin-top:12px;font-size:11.5px;color:#5d7089}
+/* sticky cta */
+#sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:150;background:rgba(10,22,38,.97);backdrop-filter:blur(8px);padding:10px 14px;display:none;gap:10px;align-items:center;transform:translateY(110%);transition:.3s}
+#sticky-cta.show{transform:translateY(0)}
+#sticky-cta .txt{font-size:11.5px;color:#b9c8dc;line-height:1.4;flex:1}
+#sticky-cta .txt b{color:#fff;font-size:13px;display:block}
+#sticky-cta a{flex-shrink:0;background:#d9a85e;color:var(--navy);font-weight:700;font-size:14px;padding:12px 22px;border-radius:30px}
+/* reveal */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+/* focus */
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:4px}
+input:focus-visible,textarea:focus-visible{outline:2px solid #d9a85e;outline-offset:1px}
+/* responsive */
+@media(max-width:900px){
+  .nav-menu{position:fixed;top:64px;left:0;right:0;flex-direction:column;gap:0;background:#fff;border-bottom:1px solid var(--line);padding:8px 0;margin:0;transform:translateY(-130%);opacity:0;pointer-events:none;transition:.3s}
+  body.menu-open .nav-menu{transform:translateY(0);opacity:1;pointer-events:auto}
+  .nav-menu .nav-link{width:100%;padding:15px 24px;font-size:16px}
+  .nav-menu .nav-link::after{display:none}
+  .nav-cta{display:none}
+  .hamb{display:flex}
+  .nav-cta-mobile{display:block;margin:10px 24px 8px;text-align:center;background:var(--navy);color:#fff;padding:14px;border-radius:30px;font-weight:700}
+  .hero{padding:100px 0 56px}
+  .hero-grid,.adopt-grid,.book-grid{grid-template-columns:1fr;gap:36px}
+  .steps,.feats{grid-template-columns:1fr}
+  .pipeline{flex-direction:column}
+  .pl-arrow{transform:rotate(90deg);justify-content:center;align-self:center}
+  section{padding:64px 0}
+  #sticky-cta{display:flex}
+  .qt-2col{grid-template-columns:1fr}
+  .qt-body{padding:22px 18px}
+  .qt-steps .st{font-size:10.5px}
+  .qt-steps .st .lbl{display:none}
+  .qt-actions{flex-direction:column}
+  .qt-flow{flex-direction:column;align-items:stretch}
+  .qt-flow i{transform:rotate(90deg);align-self:center}
+}
+
+/* ============================================================
+   DESIGN ENHANCEMENT LAYER — modern SaaS refinement
+   ============================================================ */
+:root{
+  --shadow-sm:0 2px 10px rgba(14,27,44,.05);
+  --shadow-md:0 14px 34px rgba(14,27,44,.08);
+  --shadow-lg:0 26px 60px rgba(14,27,44,.13);
+  --grad-navy:linear-gradient(135deg,#132f58,#0a1f3c);
+  --grad-brass:linear-gradient(120deg,#b8862f,#d9a85e);
+  --ease:cubic-bezier(.22,.68,.35,1);
+}
+/* --- typography & rhythm --- */
+body{line-height:1.9;letter-spacing:.012em}
+h1{letter-spacing:-.02em;line-height:1.26}
+h2{letter-spacing:-.015em}
+.hero .lead{font-size:17px;line-height:2.05;letter-spacing:.015em}
+section{padding:106px 0}
+.sec-h{margin-bottom:66px}
+.sec-h p{font-size:16px}
+.hero{padding:150px 0 92px}
+/* --- glass header --- */
+header{background:rgba(255,255,255,.68);backdrop-filter:blur(18px) saturate(180%);-webkit-backdrop-filter:blur(18px) saturate(180%);border-bottom:1px solid rgba(14,27,44,.07)}
+/* --- badges / tags --- */
+.pill{border:1px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(120deg,rgba(184,134,47,.55),rgba(14,27,44,.18)) border-box;box-shadow:var(--shadow-sm)}
+.sec-tag{background:var(--grad-brass);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.26em}
+.ai-tag{box-shadow:0 4px 12px rgba(217,119,87,.35);letter-spacing:.06em}
+.pill2{box-shadow:var(--shadow-sm)}
+/* --- buttons: gradient + shine sweep --- */
+.btn-p,.send-btn{position:relative;overflow:hidden;background:var(--grad-navy);box-shadow:0 10px 26px rgba(10,31,60,.28);transition:transform .3s var(--ease),box-shadow .3s var(--ease),filter .3s}
+.btn-p::after,.send-btn::after{content:"";position:absolute;top:0;left:-80%;width:55%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.38),transparent);transform:skewX(-20deg);transition:left .65s var(--ease);pointer-events:none}
+.btn-p:hover,.send-btn:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(10,31,60,.36);background:var(--grad-navy)}
+.btn-p:hover::after,.send-btn:hover::after{left:135%}
+.send-btn{background:var(--grad-brass);color:var(--navy);box-shadow:0 10px 26px rgba(184,134,47,.35)}
+.send-btn:hover{box-shadow:0 16px 36px rgba(184,134,47,.45)}
+.booking .btn-p,.big-cta .btn-p,#sticky-cta a{background:var(--grad-brass);color:var(--navy);box-shadow:0 10px 26px rgba(184,134,47,.35)}
+.btn-s{transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s,color .3s;background:#fff}
+.btn-s:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+/* --- cards: lift + soft borders --- */
+.step,.feat,.atrow,.status,.fstep,.mini-steps .ms{transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s;will-change:transform}
+.step,.feat{border-radius:16px;background:linear-gradient(180deg,#fff,#fbfcfe);box-shadow:var(--shadow-sm)}
+.step:hover,.feat:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:rgba(184,134,47,.45)}
+.feat .ic{box-shadow:inset 0 0 0 1px rgba(184,134,47,.18);border-radius:13px;transition:transform .35s var(--ease)}
+.feat:hover .ic{transform:scale(1.08) rotate(-3deg)}
+.atrow{box-shadow:var(--shadow-sm)}
+.atrow:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.status{box-shadow:var(--shadow-sm)}
+.status:hover{box-shadow:var(--shadow-md)}
+.mini-steps .ms:hover{transform:translateX(4px);border-color:rgba(184,134,47,.4)}
+.qt-card{box-shadow:var(--shadow-lg);border-radius:18px}
+.qt-steps .st.on::after{background:var(--grad-brass);height:2.5px}
+/* --- hero mock: dark SaaS dashboard --- */
+.mock{background:radial-gradient(120% 140% at 90% -10%,rgba(217,168,94,.14),transparent 45%),linear-gradient(160deg,#0d2140,#081832);border:1px solid rgba(217,168,94,.28);border-radius:18px;box-shadow:0 34px 80px rgba(6,20,41,.42),inset 0 1px 0 rgba(255,255,255,.06);transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
+.mock:hover{transform:translateY(-6px) perspective(900px) rotateX(1.2deg);box-shadow:0 44px 96px rgba(6,20,41,.5)}
+.mock .bar{background:rgba(255,255,255,.045);border-bottom:1px solid rgba(255,255,255,.08)}
+.mock .bar i{background:rgba(255,255,255,.16)}
+.mock .bar .t{color:#93a6bd}
+.mock .cap{color:#f2f6fb}
+.mock th{color:#8299b3;border-bottom:1.5px solid rgba(255,255,255,.12)}
+.mock td{color:#e6edf6;border-bottom:1px solid rgba(255,255,255,.06)}
+.mock tr.win{background:linear-gradient(90deg,rgba(217,168,94,.17),rgba(217,168,94,.02))}
+.mock tr.win td:first-child{box-shadow:inset 3px 0 0 var(--brass-b, #d9a85e)}
+.mock .rec{color:#e9c07c;border-color:rgba(233,192,124,.65);background:rgba(233,192,124,.1)}
+.mock .sc{color:#e9c07c}
+.mock .foot{color:#8fa2ba;border-top:1px dashed rgba(255,255,255,.12)}
+.mock .foot b{color:#e9c07c}
+/* --- metric & booking: rich navy surfaces --- */
+.metric{background:radial-gradient(70% 160% at 85% 0%,rgba(217,168,94,.18),transparent 52%),linear-gradient(150deg,#0d2547,#081831);padding:58px 0;position:relative}
+.metric::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+.metric .row{position:relative;z-index:1}
+.booking{background:radial-gradient(80% 120% at 15% 0%,rgba(217,168,94,.12),transparent 50%),linear-gradient(155deg,#0c2444,#081831)}
+.book-card{background:rgba(255,255,255,.055);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.14);box-shadow:0 24px 56px rgba(0,0,0,.28);border-radius:18px;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.book-card:hover{transform:translateY(-4px);box-shadow:0 32px 70px rgba(0,0,0,.34)}
+/* --- diagrams --- */
+.pl-node{transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.pl-node:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.pl-node.ai{border:1px solid transparent;background:linear-gradient(var(--brass-bg),var(--brass-bg)) padding-box,var(--grad-brass) border-box;box-shadow:0 14px 34px rgba(184,134,47,.16)}
+.cmp{box-shadow:var(--shadow-sm);border-radius:16px}
+.cmp thead th.hi{background:var(--grad-navy)}
+.loop-row{background:rgba(255,255,255,.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:var(--shadow-sm)}
+/* --- sticky cta: glass --- */
+#sticky-cta{background:rgba(8,22,41,.82);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border-top:1px solid rgba(217,168,94,.25)}
+/* --- footer hairline --- */
+footer{position:relative}
+footer::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(217,168,94,.55),transparent)}
+/* --- reveal: softer --- */
+.reveal{transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+/* --- fallbacks & motion safety --- */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  header{background:rgba(255,255,255,.96)}
+  #sticky-cta{background:rgba(8,22,41,.97)}
+  .book-card{background:rgba(255,255,255,.09)}
+}
+@media(prefers-reduced-motion:reduce){
+  .btn-p::after,.send-btn::after{display:none}
+  .step:hover,.feat:hover,.mock:hover,.atrow:hover,.pl-node:hover,.book-card:hover,.btn-p:hover,.send-btn:hover,.btn-s:hover{transform:none}
+}
+/* --- responsive rhythm --- */
+@media(max-width:900px){
+  section{padding:74px 0}
+  .hero{padding:112px 0 60px}
+  .sec-h{margin-bottom:46px}
+}
+
+
+/* --- fixes: nav crowding & trust check --- */
+.lang-toggle{flex-shrink:0}
+.lang-toggle button{white-space:nowrap}
+.nav-cta{flex-shrink:0}
+@media(min-width:901px) and (max-width:1240px){
+  .nav-menu{gap:16px}
+  .nav-link{font-size:13px}
+  .logo{font-size:15px}
+}
+.trust span::before{content:""}
+.trust > span::before{content:"✓ ";color:var(--ok);font-weight:800}
+
+
+/* --- audit fixes --- */
+html{scroll-padding-top:84px}
+h1{font-size:clamp(32px,4.8vw,50px)}
+.cmp thead th.hi{background:linear-gradient(135deg,#16385f,#0a1f3c);letter-spacing:.04em}
+.pill-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.pill-row .pill{margin-bottom:0}
+.pill-poc{border:1px solid transparent;background:linear-gradient(var(--brass-bg),var(--brass-bg)) padding-box,var(--grad-brass) border-box;color:#8a6420;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:7px;font-size:12.5px;border-radius:30px;padding:6px 14px;box-shadow:var(--shadow-sm);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.pill-poc:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.pill-poc .dot2{width:7px;height:7px;border-radius:50%;background:var(--brass);animation:pulse2 1.6s ease-in-out infinite}
+@keyframes pulse2{0%,100%{opacity:1}50%{opacity:.35}}
+.founder-line{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin:-40px 0 44px;font-size:13px;color:#b9c8dc}
+.founder-line span::before{content:"✓ ";color:#d9a85e;font-weight:800}
+.art{transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s}
+.art:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:rgba(184,134,47,.4)}
+@media(prefers-reduced-motion:reduce){.pill-poc .dot2{animation:none}.art:hover,.pill-poc:hover{transform:none}}
+
+
+/* --- dramatic before/after --- */
+.atrow{border-radius:16px}
+.atrow.asis{background:linear-gradient(180deg,#eef1f5,#e7ebf1);border-color:#dde3ea}
+.atrow.asis .chain .c{background:#fff;color:#7a8ba0;border-color:#dde3ea;font-size:12px;padding:6px 11px}
+.atrow.asis .chain .c.auto{position:relative;border-style:dashed;border-color:rgba(184,134,47,.5)}
+.atrow.asis .chain .c.auto::after{content:"AIへ";position:absolute;top:-9px;right:-6px;font-size:9px;font-weight:800;color:#fff;background:var(--grad-brass);border-radius:20px;padding:1px 7px;letter-spacing:.05em}
+.atrow.asis .at-head .ttl{color:#5d6f85}
+.at-num{font-family:'Outfit',sans-serif;font-weight:800;letter-spacing:-.02em}
+.atrow.asis .at-num{font-size:22px;color:#7a8ba0}
+.atrow.tobe{border:2px solid transparent;background:linear-gradient(var(--brass-bg),var(--brass-bg)) padding-box,var(--grad-brass) border-box;box-shadow:0 24px 60px rgba(184,134,47,.22);padding:28px 26px}
+.atrow.tobe .chain .c{font-size:15px;padding:14px 22px;font-weight:700}
+.atrow.tobe .chain .c.ai{box-shadow:0 14px 34px rgba(10,31,60,.35);font-size:15.5px}
+.atrow.tobe .at-num{font-size:34px;background:var(--grad-brass);-webkit-background-clip:text;background-clip:text;color:transparent}
+.at-transform{display:flex;align-items:center;justify-content:center;gap:14px;margin:2px 0}
+.at-transform .tf{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:104px;height:104px;border-radius:50%;background:var(--grad-navy);color:#fff;box-shadow:0 18px 44px rgba(10,31,60,.35);position:relative}
+.at-transform .tf b{font-family:'Outfit',sans-serif;font-size:25px;font-weight:800;color:#e9c07c;letter-spacing:-.02em;line-height:1.1}
+.at-transform .tf small{font-size:10.5px;color:#b9c8dc;font-weight:700;letter-spacing:.1em}
+.at-transform .tf::before{content:"";position:absolute;top:-13px;left:50%;transform:translateX(-50%);border:8px solid transparent;border-top-color:#dde3ea}
+.tobe-note{text-align:center;font-size:13px;color:#8a6420;font-weight:700;margin-top:14px}
+@media(max-width:700px){.atrow.tobe .chain .c{font-size:13.5px;padding:11px 14px}.atrow.tobe .at-num{font-size:28px}}
+
+
+/* --- global map --- */
+.globalp{position:relative;border-radius:20px;overflow:hidden;background:radial-gradient(90% 130% at 80% -10%,rgba(217,168,94,.16),transparent 50%),linear-gradient(155deg,#0d2547,#081831);box-shadow:0 30px 70px rgba(6,20,41,.35);padding:52px 40px 44px;color:#fff}
+.globalp::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+.globalp .g-head{position:relative;z-index:2;text-align:center;margin-bottom:8px}
+.globalp .g-head .sec-tag{display:block;margin-bottom:10px}
+.globalp h2{color:#fff}
+.globalp .g-sub{color:#b9c8dc;font-size:15px}
+.g-mapwrap{position:relative;z-index:1;max-width:860px;margin:6px auto 0}
+.g-mapwrap svg{width:100%;height:auto;display:block}
+.g-label{position:absolute;transform:translate(-50%,-140%);text-align:center;white-space:nowrap;z-index:2}
+.g-label b{display:block;font-size:13px;font-weight:700;color:#fff;letter-spacing:.02em}
+.g-label small{font-family:'Outfit',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:.16em;color:#8fa2ba}
+.g-label.hq b{color:#e9c07c}
+.g-label.hq small{color:#c9a35e}
+.gp-dot{transform-box:fill-box;transform-origin:center}
+.gp-pulse{transform-box:fill-box;transform-origin:center;animation:gpulse 2.4s ease-out infinite}
+@keyframes gpulse{0%{transform:scale(.4);opacity:.75}70%{transform:scale(2.6);opacity:0}100%{transform:scale(2.6);opacity:0}}
+.g-arc{stroke-dasharray:6 7;animation:gdash 30s linear infinite}
+@keyframes gdash{to{stroke-dashoffset:-520}}
+.g-note{position:relative;z-index:2;text-align:center;font-size:12px;color:#8fa2ba;margin-top:18px}
+@media(prefers-reduced-motion:reduce){.gp-pulse,.g-arc{animation:none}}
+@media(max-width:700px){.globalp{padding:38px 16px 32px}.g-label b{font-size:11px}.g-label small{font-size:8.5px}}
+
+
+/* --- kill fade-in: always visible (anchor-jump safe) --- */
+.reveal{opacity:1 !important;transform:none !important;transition:none !important}
+
+/* --- real world map labels --- */
+.g-label.right{transform:translate(12px,-50%);text-align:left}
+.g-label.below{transform:translate(-50%,22%)}
+.g-label{text-shadow:0 1px 6px rgba(6,20,41,.9)}
+@media(max-width:700px){.g-label.right{transform:translate(8px,-50%)}}
+.g-label{background:rgba(7,22,46,.78);border:1px solid rgba(255,255,255,.10);border-radius:9px;padding:4px 9px 3px;line-height:1.35}
+.g-label.hq{border-color:rgba(233,192,124,.45)}
+@media(max-width:700px){.g-label{padding:2px 6px;border-radius:7px}.g-label small{display:none}}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"費用はどのくらいかかりますか？","acceptedAnswer":{"@type":"Answer","text":"月額6万円からで、ご利用件数に応じて変動します（利用人数は無制限）。お試し期間は無料なので、効果を確かめてからご判断いただけます。"}},
+{"@type":"Question","name":"どの業界で使えますか？","acceptedAnswer":{"@type":"Answer","text":"複数社から見積を取って発注する調達業務があれば、業界を問わず導入できます。製造業を中心に、建設・卸売・小売なども対象です。"}},
+{"@type":"Question","name":"データの安全性は大丈夫ですか？","acceptedAnswer":{"@type":"Answer","text":"企業ごとにデータを完全に分けて管理します。詳しくはご相談の際にご説明します。"}},
+{"@type":"Question","name":"まず何をすればいいですか？","acceptedAnswer":{"@type":"Answer","text":"まず15分の無料相談で調達の流れを伺います。そのまま無料お試しの開始日を決めることもできます。"}}]}
+</script>
+</head>
+<body class="lang-ja">
+<svg style="display:none" aria-hidden="true"><symbol id="compass-icon" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="4" opacity=".35"/>
+  <path d="M50 14 L58 50 L50 86 L42 50 Z" fill="currentColor"/>
+  <circle cx="50" cy="50" r="4" fill="currentColor"/>
+</symbol></svg>
+
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="logo"><svg><use href="#compass-icon"/></svg>COMPASS</a>
+    <div class="nav-right">
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link current"><span data-ja>ホーム</span><span data-en>Home</span></a>
+        <a href="#pricing" class="nav-link"><span data-ja>料金</span><span data-en>Pricing</span></a>
+        <a href="#poc-cta" class="nav-link" style="color:var(--brass);font-weight:700"><span data-ja>無料お試し</span><span data-en>Free trial</span></a>
+        <a href="company.html" class="nav-link"><span data-ja>会社情報</span><span data-en>Company</span></a>
+        <a href="#faq" class="nav-link"><span data-ja>よくある質問</span><span data-en>FAQ</span></a>
+        <a href="#booking" class="nav-cta-mobile"><span data-ja>無料で相談する</span><span data-en>Book a call</span></a>
+      </nav>
+      <div class="lang-toggle">
+        <button id="btn-ja" class="active" onclick="setLang('ja')">日本語</button>
+        <button id="btn-en" onclick="setLang('en')">EN</button>
+      </div>
+      <a href="#booking" class="nav-cta"><span data-ja>無料で相談</span><span data-en>Book a call</span></a>
+      <button class="hamb" onclick="document.body.classList.toggle('menu-open')" aria-label="menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="pill-row">
+        <span class="pill" style="margin-bottom:0"><span data-ja><b>Anthropic Claude</b> ・ <b>Google Gemini</b> を基盤に開発</span><span data-en>Built on <b>Claude</b> &amp; <b>Gemini</b></span></span>
+        <a class="pill-poc" href="#poc-cta"><span class="dot2" aria-hidden="true"></span><span data-ja>無料お試し 受付中 →</span><span data-en>Free trial open →</span></a>
+      </div>
+      <h1><span data-ja>調達の3〜4週間を、<br><span class="hl">3〜4日に。</span></span><span data-en>Procurement in days,<br><span class="hl">not weeks.</span></span></h1>
+      <p class="lead"><span data-ja>仕入先探し・見積依頼・比較を、AIがまとめて自動化。<b>決めるのは、あなたです。</b></span><span data-en>Supplier search, RFQs and comparison — automated by AI. The decision stays with you.</span></p>
+      <div class="cta-row">
+        <a href="#booking" class="btn-p"><span data-ja>無料で相談する</span><span data-en>Book a free call</span></a>
+        <a href="#poc-cta" class="btn-s"><span data-ja>無料でお試しする →</span><span data-en>Start a free trial →</span></a>
+      </div>
+      <div class="trust">
+        <span><span data-ja>初回相談 無料</span><span data-en>Free first consult</span></span>
+        <span><span data-ja>15分・オンライン</span><span data-en>15 min, online</span></span>
+        <span><span data-ja>しつこい営業なし</span><span data-en>No pushy sales</span></span>
+      </div>
+    </div>
+    <!-- product mock -->
+    <div class="mock reveal" aria-label="COMPASS 画面イメージ">
+      <div class="bar"><i></i><i></i><i></i><span class="t">COMPASS — <span data-ja>見積比較</span><span data-en>Quote comparison</span></span></div>
+      <div class="body">
+        <div class="cap"><span data-ja>SUS304 ブラケット（100個）</span><span data-en>SUS304 bracket (100 pcs)</span> <span class="ai-tag"><span data-ja>AIが点数化</span><span data-en>AI scored</span></span></div>
+        <table>
+          <tr><th><span data-ja>仕入先</span><span data-en>Supplier</span></th><th><span data-ja>単価</span><span data-en>Price</span></th><th><span data-ja>納期</span><span data-en>Lead</span></th><th><span data-ja>点数</span><span data-en>Score</span></th></tr>
+          <tr class="win"><td><b><span data-ja>A精密</span><span data-en>A Seimitsu</span></b>&nbsp;<span class="rec"><span data-ja>AI推奨</span><span data-en>AI pick</span></span></td><td class="en-num">¥1,240</td><td><span data-ja>6日</span><span data-en>6d</span></td><td class="sc">92</td></tr>
+          <tr><td><span data-ja>B金属工業</span><span data-en>B Metal</span></td><td class="en-num">¥1,180</td><td><span data-ja>11日</span><span data-en>11d</span></td><td class="sc">78</td></tr>
+          <tr><td><span data-ja>C製作所</span><span data-en>C Works</span></td><td class="en-num">¥1,420</td><td><span data-ja>5日</span><span data-en>5d</span></td><td class="sc">74</td></tr>
+        </table>
+        <div class="foot"><span data-ja>あなたの採用・不採用の<b>理由</b>が記録され、使うほど提案が賢くなります。</span><span data-en>Your decisions — and <b>reasons</b> — make the AI smarter with every use.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== METRIC ===== -->
+<div class="metric">
+  <div class="wrap row">
+    <div class="m"><div class="l"><span data-ja>これまでの調達にかかる時間</span><span data-en>Traditional lead time</span></div><div class="v en-num">3–4<small><span data-ja>週間</span><span data-en>wks</span></small></div></div>
+    <div class="arrow">→</div>
+    <div class="m after"><div class="l"><span data-ja>導入後</span><span data-en>With COMPASS</span></div><div class="v en-num">3–4<small><span data-ja>日</span><span data-en>days</span></small></div></div>
+  </div>
+</div>
+
+
+<!-- ===== 2つの始め方 ===== -->
+<section id="start">
+  <div class="wrap">
+    <div class="sec-h reveal">
+      <span class="sec-tag"><span data-ja>2つの始め方</span><span data-en>Two ways to start</span></span>
+      <h2><span data-ja>貼るだけで、始まります</span><span data-en>Just paste — it starts</span></h2>
+    </div>
+    <div class="feats" style="grid-template-columns:1fr 1fr">
+      <div class="feat reveal">
+        <div class="ic">📄</div>
+        <h3><span data-ja>依頼文や仕様書がある方</span><span data-en>Have a spec or request?</span></h3>
+        <p><span data-ja>依頼文やPDFを貼るだけ。AIが要件を整理し、仕入先探しから見積依頼まで自動で進めます。</span><span data-en>Paste your request or PDF — AI structures it and runs sourcing to RFQ.</span></p>
+      </div>
+      <div class="feat reveal">
+        <div class="ic">🧾</div>
+        <h3><span data-ja>他社の見積を1通お持ちの方</span><span data-en>Have one quote already?</span></h3>
+        <p><span data-ja>その見積を貼るだけ。AIが仕様を読み取り、他の仕入先からも見積を集めて相見積もりにします。</span><span data-en>Paste that quote — AI reads the spec and gathers competing quotes.</span></p>
+      </div>
+    </div>
+      </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section id="how">
+  <div class="wrap">
+    <div class="sec-h reveal">
+      <span class="sec-tag"><span data-ja>サービスの流れ</span><span data-en>How it works</span></span>
+      <h2><span data-ja>入力は、依頼内容だけ。</span><span data-en>You type the request. That's it.</span></h2>
+      <p><span data-ja>品目・数量・納期を入れると、あとはAIが自動で進めます。</span><span data-en>Enter item, quantity and deadline — AI handles the rest.</span></p>
+    </div>
+    <div class="pipeline reveal" role="img" aria-label="COMPASSの役割分担フロー">
+      <div class="pl-node"><span class="who"><span data-ja>あなた</span><span data-en>You</span></span><b><span data-ja>依頼を入力</span><span data-en>Enter request</span></b><small><span data-ja>品目・数量・納期だけ</span><span data-en>Item, qty, deadline</span></small></div>
+      <div class="pl-arrow" aria-hidden="true">→</div>
+      <div class="pl-node ai"><span class="who">COMPASS AI</span>
+        <div class="ai-tasks"><span><span data-ja>見積依頼書を自動作成</span><span data-en>Auto RFQ</span></span><span><span data-ja>複数社へまとめて送付</span><span data-en>Bulk send</span></span><span><span data-ja>回答を自動で整理</span><span data-en>Auto-parse replies</span></span><span><span data-ja>点数化</span><span data-en>Scoring</span></span></div>
+        <small><span data-ja>ここは全部おまかせ</span><span data-en>All handled for you</span></small></div>
+      <div class="pl-arrow" aria-hidden="true">→</div>
+      <div class="pl-node"><span class="who"><span data-ja>あなた</span><span data-en>You</span></span><b><span data-ja>比べて、決める</span><span data-en>Compare &amp; decide</span></b><small><span data-ja>判断と理由が記録されます</span><span data-en>Reasons are recorded</span></small></div>
+    </div>
+    </div>
+</section>
+
+<!-- ===== COMPARISON ===== -->
+<section class="alt" id="compare">
+  <div class="wrap">
+    <div class="sec-h reveal">
+      <span class="sec-tag"><span data-ja>現状 → 導入後</span><span data-en>Before → After</span></span>
+      <h2><span data-ja>調達の仕事は、こう変わる</span><span data-en>How your work changes</span></h2>
+      <p><span data-ja>8つの手作業が、3つの手順に。</span><span data-en>Eight manual steps become three.</span></p>
+    </div>
+    <div class="at reveal">
+      <!-- As-Is -->
+      <div class="atrow asis">
+        <div class="at-head"><span class="tag2"><span data-ja>現状</span><span data-en>Before</span></span><span class="ttl"><span data-ja>すべて手作業</span><span data-en>All manual</span></span><span class="cnt"><span data-ja>8つの手順 ／ </span><span data-en>8 steps / </span><span class="at-num"><span data-ja>3〜4週間</span><span data-en>3–4 wks</span></span></span></div>
+        <div class="chain">
+          <span class="c"><span data-ja>① 仕様・要件の整理</span><span data-en>① Define specs</span></span><span class="ar">→</span>
+          <span class="c auto"><span data-ja>② 仕入先探し</span><span data-en>② Find suppliers</span></span><span class="ar">→</span>
+          <span class="c auto"><span data-ja>③ 見積依頼書の作成</span><span data-en>③ Draft RFQ</span></span><span class="ar">→</span>
+          <span class="c auto"><span data-ja>④ 1社ずつメール送付</span><span data-en>④ Email one by one</span></span><span class="ar">→</span>
+          <span class="c auto"><span data-ja>⑤ 督促・回収</span><span data-en>⑤ Chase replies</span></span><span class="ar">→</span>
+          <span class="c auto"><span data-ja>⑥ 手作業で表に転記</span><span data-en>⑥ Re-type into a sheet</span></span><span class="ar">→</span>
+          <span class="c auto"><span data-ja>⑦ 比較表づくり</span><span data-en>⑦ Build comparison</span></span><span class="ar">→</span>
+          <span class="c"><span data-ja>⑧ 社内確認・決定</span><span data-en>⑧ Review &amp; decide</span></span>
+        </div>
+      </div>
+      <div class="at-transform" aria-hidden="true"><span class="tf"><b style="font-size:17px;line-height:1.15">3〜4<span style="font-size:11px"><span data-ja>週間</span><span data-en>wks</span></span><br>↓<br>3〜4<span style="font-size:11px"><span data-ja>日</span><span data-en>days</span></span></b></span></div>
+      <!-- To-Be -->
+      <div class="atrow tobe">
+        <div class="at-head"><span class="tag2"><span data-ja>導入後</span><span data-en>After</span></span><span class="ttl"><span data-ja>COMPASSが間を自動で進める</span><span data-en>COMPASS handles the middle</span></span><span class="cnt"><span data-ja>3つの手順 ／ </span><span data-en>3 steps / </span><span class="at-num"><span data-ja>3〜4日</span><span data-en>3–4 days</span></span></span></div>
+        <div class="chain">
+          <span class="c"><span data-ja>① 依頼を入力</span><span data-en>① Enter request</span></span><span class="ar">→</span>
+          <span class="c ai"><span data-ja>② 仕入先探し・依頼・回収・整理・点数化</span><span data-en>② Search · RFQ · collect · parse · score</span><small><span data-ja>COMPASSのAIが自動で処理</span><span data-en>Handled by COMPASS AI</span></small></span><span class="ar">→</span>
+          <span class="c"><span data-ja>③ 比べて、決める</span><span data-en>③ Compare &amp; decide</span></span>
+        </div>
+      </div>
+        <p class="tobe-note"><span data-ja>あなたがするのは、入力と決定だけ。</span><span data-en>You only enter and decide.</span></p>
+      </div>
+    </div>
+    <p class="at-note"><span data-ja>現状の<b>②〜⑦（6つの作業）</b>を、COMPASSのAIが引き受けます。</span><span data-en>COMPASS AI takes over steps <b>②–⑦ (six tasks)</b>.</span></p>
+    
+  </div>
+</section>
+
+
+
+<!-- ===== FEATURES ===== -->
+<section>
+  <div class="wrap">
+    <div class="sec-h reveal">
+      <span class="sec-tag"><span data-ja>選ばれる理由</span><span data-en>Why COMPASS</span></span>
+      <h2><span data-ja>選ばれる3つの理由</span><span data-en>Three reasons teams choose us</span></h2>
+    </div>
+    <div class="feats">
+      <div class="feat reveal"><div class="ic">📈</div><h3><span data-ja>使うほど、賢くなる</span><span data-en>Smarter with every use</span></h3><p><span data-ja>採用・不採用の判断と理由が「判断の記録」として蓄積。あなたの基準をAIが学び、提案の精度が上がり続けます。</span><span data-en>Every decision and reason builds your decision log — the AI learns your criteria and keeps improving.</span></p></div>
+      <div class="feat reveal"><div class="ic">🏭</div><h3><span data-ja>調達がある業界すべてに</span><span data-en>Any industry that buys</span></h3><p><span data-ja>製造・建設・卸売・小売など、複数社から見積を取る業務があれば導入できます。</span><span data-en>Manufacturing, construction, wholesale, retail — if you source quotes, COMPASS fits.</span></p></div>
+      <div class="feat reveal"><div class="ic">🔒</div><h3><span data-ja>企業ごとに完全分離</span><span data-en>Fully isolated per company</span></h3><p><span data-ja>データは企業ごとに完全に分けて管理。最先端AI（Claude・Gemini）を安全な設計で活用します。</span><span data-en>Tenant-isolated data, with frontier AI (Claude &amp; Gemini) in a secure design.</span></p></div>
+    </div>
+    
+  </div>
+</section>
+
+
+<!-- ===== vs 汎用AIチャット ===== -->
+<section class="alt" id="value">
+  <div class="wrap">
+    <div class="sec-h reveal">
+      <span class="sec-tag"><span data-ja>よくある質問への答え</span><span data-en>The real question</span></span>
+      <h2><span data-ja>「それ、AIチャットでできるのでは？」</span><span data-en>"Can't a chatbot do this?"</span></h2>
+      <p><span data-ja>答えは「一部だけ」です。チャットは<b>答える</b>だけ。COMPASSは<b>仕事を最後まで進めます</b>。</span><span data-en>Only partly. Chatbots answer. COMPASS finishes the job.</span></p>
+    </div>
+    <div class="cmp-wrap reveal">
+      <table class="cmp">
+        <thead><tr><th></th><th><span data-ja>汎用AIチャット</span><span data-en>Generic AI chat</span></th><th class="hi">COMPASS</th></tr></thead>
+        <tbody>
+          <tr><td><span data-ja>見積依頼の送付・催促</span><span data-en>Sending &amp; chasing RFQs</span></td><td class="old"><span data-ja>文面を作るだけ。送るのも催促も人</span><span data-en>Drafts only — you send &amp; chase</span></td><td class="hi"><span data-ja>複数社へ送付し、期限前に自動で催促</span><span data-en>Sends to all, auto-reminds</span></td></tr>
+                    <tr><td><span data-ja>判断の記録</span><span data-en>Decision memory</span></td><td class="old"><span data-ja>会話が終われば忘れる</span><span data-en>Forgets after the chat</span></td><td class="hi"><span data-ja>採用・不採用の理由が蓄積し、提案が御社仕様に育つ</span><span data-en>Reasons accumulate; picks learn your standards</span></td></tr>
+                    <tr><td><span data-ja>会社で使う仕組み</span><span data-en>Built for companies</span></td><td class="old"><span data-ja>個人の道具。承認や証跡がない</span><span data-en>Personal tool, no approvals</span></td><td class="hi"><span data-ja>承認の流れ・権限管理・履歴の記録まで対応</span><span data-en>Approvals, roles, audit trail</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="text-align:center;margin-top:18px;font-size:13px;color:var(--mute)"><span data-ja>※ 一部は開発中の機能を含みます。お試し中のお客様の声を最優先で反映しています。</span><span data-en>* Some features are in development, prioritized by trial-customer feedback.</span></p>
+  </div>
+</section>
+
+<!-- ===== AI ADOPTION SUPPORT ===== -->
+<section id="ai" style="padding:64px 0">
+  <div class="wrap">
+    <div class="status reveal">
+      <span class="dot" aria-hidden="true"></span>
+      <div>
+        <h3><span data-ja>AI導入の支援も、まとめて。</span><span data-en>AI adoption support, too.</span></h3>
+        <p><span data-ja>部品表の管理・業務委託の立ち上げ・社内文書のAI検索・AI研修など、調達以外のAI活用も並走します。<a href="#booking" style="color:var(--brass);text-decoration:underline">まずはご相談ください →</a></span><span data-en>BOM, BPO, doc-search AI, training — we support beyond procurement. <a href="#booking" style="color:var(--brass);text-decoration:underline">Talk to us</a>.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATUS ===== -->
+
+
+<!-- ===== FAQ ===== -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-h reveal">
+      <span class="sec-tag"><span data-ja>よくある質問</span><span data-en>FAQ</span></span>
+      <h2><span data-ja>よくある質問</span><span data-en>Frequently asked</span></h2>
+    </div>
+    <div class="faq reveal">
+      <details><summary><span data-ja>費用はどのくらいかかりますか？</span><span data-en>How much does it cost?</span></summary><p><span data-ja>月額6万円からで、ご利用件数に応じて変動します（利用人数は無制限）。お試し期間は無料なので、効果を確かめてからご判断いただけます。</span><span data-en>From ¥60,000/month, varying with case volume (unlimited users). The trial is free, so you can confirm the results before deciding.</span></p></details>
+      <details><summary><span data-ja>どの業界で使えますか？</span><span data-en>Which industries can use it?</span></summary><p><span data-ja>複数社から見積を取って発注する調達業務があれば、業界を問わず導入できます。製造業を中心に、建設・卸売・小売なども対象です。</span><span data-en>Any industry that sources quotes from multiple suppliers — manufacturing, construction, wholesale, retail and more.</span></p></details>
+            <details><summary><span data-ja>データの安全性は大丈夫ですか？</span><span data-en>Is our data secure?</span></summary><p><span data-ja>企業ごとにデータを完全に分けて管理します。詳しくはご相談の際にご説明します。</span><span data-en>Data is fully separated per company. We will walk through the details on a call.</span></p></details>
+            <details><summary><span data-ja>まず何をすればいいですか？</span><span data-en>What's the first step?</span></summary><p><span data-ja>まず15分の無料相談で、御社の調達の流れを伺います。そのまま無料お試しの開始日を決めることもできます。導入前提でなくても歓迎です。</span><span data-en>Book a free 15-min call — you can even set your free-trial start date on the spot. No commitment needed.</span></p></details>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== PoC募集 ===== -->
+
+<!-- ===== GLOBAL ===== -->
+<section id="global">
+  <div class="wrap">
+    <div class="globalp">
+      <div class="g-head">
+        <span class="sec-tag"><span data-ja>海外展開</span><span data-en>Global</span></span>
+        <h2><span data-ja>日本発、世界へ。</span><span data-en>From Japan to the world.</span></h2>
+        <p class="g-sub"><span data-ja>アメリカ・中国・タイ・インドへも展開を進めています。海外の仕入先も、御社の選択肢に。</span><span data-en>Expanding to the US, China, Thailand and India — overseas suppliers become part of your options.</span></p>
+      </div>
+      <div class="g-mapwrap">
+        <svg viewBox="0 0 1000 560" role="img" aria-label="展開国の世界地図：日本・アメリカ・中国・タイ・インド">
+          <defs><linearGradient id="garc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b8862f"/><stop offset="1" stop-color="#e9c07c"/></linearGradient></defs>
+          <path d="M82.5 3.3h0M89.1 3.3h0M135.3 3.3h0M141.9 3.3h0M148.5 3.3h0M161.7 3.3h0M168.3 3.3h0M174.9 3.3h0M181.5 3.3h0M194.7 3.3h0M201.3 3.3h0M207.9 3.3h0M214.5 3.3h0M221.1 3.3h0M227.7 3.3h0M234.3 3.3h0M240.9 3.3h0M247.5 3.3h0M254.1 3.3h0M260.7 3.3h0M267.3 3.3h0M273.9 3.3h0M280.5 3.3h0M287.1 3.3h0M293.7 3.3h0M300.3 3.3h0M306.9 3.3h0M313.5 3.3h0M320.1 3.3h0M326.7 3.3h0M333.3 3.3h0M339.9 3.3h0M346.5 3.3h0M353.1 3.3h0M366.3 3.3h0M372.9 3.3h0M379.5 3.3h0M386.1 3.3h0M392.7 3.3h0M399.3 3.3h0M405.9 3.3h0M412.5 3.3h0M419.1 3.3h0M425.7 3.3h0M432.3 3.3h0M531.3 3.3h0M537.9 3.3h0M762.3 3.3h0M768.9 3.3h0M775.5 3.3h0M782.1 3.3h0M788.7 3.3h0M795.3 3.3h0M801.9 3.3h0M834.9 3.3h0M841.5 3.3h0M867.9 3.3h0M874.5 3.3h0M881.1 3.3h0M887.7 3.3h0M894.3 3.3h0M900.9 3.3h0M907.5 3.3h0M914.1 3.3h0M920.7 3.3h0M986.7 3.3h0M993.3 3.3h0M999.9 3.3h0M135.3 9.9h0M141.9 9.9h0M148.5 9.9h0M161.7 9.9h0M168.3 9.9h0M174.9 9.9h0M181.5 9.9h0M188.1 9.9h0M194.7 9.9h0M201.3 9.9h0M207.9 9.9h0M214.5 9.9h0M221.1 9.9h0M227.7 9.9h0M234.3 9.9h0M240.9 9.9h0M247.5 9.9h0M254.1 9.9h0M260.7 9.9h0M267.3 9.9h0M273.9 9.9h0M280.5 9.9h0M287.1 9.9h0M293.7 9.9h0M300.3 9.9h0M306.9 9.9h0M313.5 9.9h0M320.1 9.9h0M326.7 9.9h0M333.3 9.9h0M339.9 9.9h0M346.5 9.9h0M353.1 9.9h0M359.7 9.9h0M366.3 9.9h0M372.9 9.9h0M379.5 9.9h0M386.1 9.9h0M392.7 9.9h0M399.3 9.9h0M405.9 9.9h0M412.5 9.9h0M419.1 9.9h0M425.7 9.9h0M432.3 9.9h0M438.9 9.9h0M445.5 9.9h0M452.1 9.9h0M458.7 9.9h0M782.1 9.9h0M788.7 9.9h0M795.3 9.9h0M801.9 9.9h0M808.5 9.9h0M834.9 9.9h0M841.5 9.9h0M848.1 9.9h0M861.3 9.9h0M867.9 9.9h0M874.5 9.9h0M881.1 9.9h0M887.7 9.9h0M894.3 9.9h0M900.9 9.9h0M907.5 9.9h0M914.1 9.9h0M920.7 9.9h0M927.3 9.9h0M933.9 9.9h0M986.7 9.9h0M993.3 9.9h0M999.9 9.9h0M135.3 16.5h0M141.9 16.5h0M148.5 16.5h0M161.7 16.5h0M168.3 16.5h0M174.9 16.5h0M181.5 16.5h0M188.1 16.5h0M194.7 16.5h0M201.3 16.5h0M207.9 16.5h0M214.5 16.5h0M221.1 16.5h0M227.7 16.5h0M234.3 16.5h0M240.9 16.5h0M247.5 16.5h0M254.1 16.5h0M260.7 16.5h0M267.3 16.5h0M273.9 16.5h0M280.5 16.5h0M287.1 16.5h0M293.7 16.5h0M300.3 16.5h0M306.9 16.5h0M313.5 16.5h0M320.1 16.5h0M326.7 16.5h0M333.3 16.5h0M339.9 16.5h0M346.5 16.5h0M353.1 16.5h0M359.7 16.5h0M366.3 16.5h0M372.9 16.5h0M379.5 16.5h0M386.1 16.5h0M392.7 16.5h0M399.3 16.5h0M405.9 16.5h0M412.5 16.5h0M419.1 16.5h0M425.7 16.5h0M432.3 16.5h0M438.9 16.5h0M445.5 16.5h0M452.1 16.5h0M458.7 16.5h0M504.9 16.5h0M709.5 16.5h0M722.7 16.5h0M762.3 16.5h0M768.9 16.5h0M775.5 16.5h0M782.1 16.5h0M788.7 16.5h0M795.3 16.5h0M801.9 16.5h0M808.5 16.5h0M815.1 16.5h0M841.5 16.5h0M848.1 16.5h0M894.3 16.5h0M907.5 16.5h0M914.1 16.5h0M920.7 16.5h0M927.3 16.5h0M933.9 16.5h0M986.7 16.5h0M999.9 16.5h0M3.3 23.1h0M9.9 23.1h0M16.5 23.1h0M69.3 23.1h0M115.5 23.1h0M122.1 23.1h0M141.9 23.1h0M148.5 23.1h0M161.7 23.1h0M168.3 23.1h0M174.9 23.1h0M181.5 23.1h0M188.1 23.1h0M194.7 23.1h0M201.3 23.1h0M207.9 23.1h0M214.5 23.1h0M221.1 23.1h0M227.7 23.1h0M234.3 23.1h0M240.9 23.1h0M247.5 23.1h0M254.1 23.1h0M260.7 23.1h0M267.3 23.1h0M273.9 23.1h0M280.5 23.1h0M287.1 23.1h0M293.7 23.1h0M300.3 23.1h0M306.9 23.1h0M313.5 23.1h0M320.1 23.1h0M326.7 23.1h0M333.3 23.1h0M339.9 23.1h0M346.5 23.1h0M353.1 23.1h0M359.7 23.1h0M366.3 23.1h0M372.9 23.1h0M379.5 23.1h0M386.1 23.1h0M392.7 23.1h0M399.3 23.1h0M405.9 23.1h0M412.5 23.1h0M419.1 23.1h0M425.7 23.1h0M432.3 23.1h0M438.9 23.1h0M445.5 23.1h0M452.1 23.1h0M458.7 23.1h0M465.3 23.1h0M471.9 23.1h0M478.5 23.1h0M485.1 23.1h0M491.7 23.1h0M504.9 23.1h0M511.5 23.1h0M518.1 23.1h0M524.7 23.1h0M531.3 23.1h0M676.5 23.1h0M683.1 23.1h0M696.3 23.1h0M702.9 23.1h0M709.5 23.1h0M716.1 23.1h0M722.7 23.1h0M729.3 23.1h0M735.9 23.1h0M742.5 23.1h0M749.1 23.1h0M775.5 23.1h0M782.1 23.1h0M788.7 23.1h0M795.3 23.1h0M801.9 23.1h0M808.5 23.1h0M828.3 23.1h0M834.9 23.1h0M848.1 23.1h0M874.5 23.1h0M881.1 23.1h0M914.1 23.1h0M920.7 23.1h0M927.3 23.1h0M933.9 23.1h0M999.9 23.1h0M3.3 29.7h0M9.9 29.7h0M16.5 29.7h0M23.1 29.7h0M49.5 29.7h0M82.5 29.7h0M102.3 29.7h0M108.9 29.7h0M115.5 29.7h0M122.1 29.7h0M128.7 29.7h0M141.9 29.7h0M148.5 29.7h0M155.1 29.7h0M161.7 29.7h0M174.9 29.7h0M181.5 29.7h0M188.1 29.7h0M194.7 29.7h0M201.3 29.7h0M207.9 29.7h0M214.5 29.7h0M221.1 29.7h0M227.7 29.7h0M234.3 29.7h0M240.9 29.7h0M247.5 29.7h0M254.1 29.7h0M260.7 29.7h0M267.3 29.7h0M273.9 29.7h0M280.5 29.7h0M287.1 29.7h0M293.7 29.7h0M300.3 29.7h0M306.9 29.7h0M313.5 29.7h0M320.1 29.7h0M326.7 29.7h0M333.3 29.7h0M339.9 29.7h0M346.5 29.7h0M353.1 29.7h0M359.7 29.7h0M366.3 29.7h0M372.9 29.7h0M379.5 29.7h0M386.1 29.7h0M392.7 29.7h0M399.3 29.7h0M405.9 29.7h0M412.5 29.7h0M419.1 29.7h0M425.7 29.7h0M432.3 29.7h0M438.9 29.7h0M445.5 29.7h0M452.1 29.7h0M458.7 29.7h0M465.3 29.7h0M471.9 29.7h0M478.5 29.7h0M485.1 29.7h0M491.7 29.7h0M498.3 29.7h0M504.9 29.7h0M511.5 29.7h0M518.1 29.7h0M524.7 29.7h0M531.3 29.7h0M537.9 29.7h0M676.5 29.7h0M683.1 29.7h0M689.7 29.7h0M696.3 29.7h0M702.9 29.7h0M709.5 29.7h0M716.1 29.7h0M722.7 29.7h0M729.3 29.7h0M735.9 29.7h0M742.5 29.7h0M749.1 29.7h0M755.7 29.7h0M762.3 29.7h0M768.9 29.7h0M775.5 29.7h0M795.3 29.7h0M801.9 29.7h0M834.9 29.7h0M848.1 29.7h0M854.7 29.7h0M861.3 29.7h0M874.5 29.7h0M881.1 29.7h0M887.7 29.7h0M914.1 29.7h0M920.7 29.7h0M927.3 29.7h0M933.9 29.7h0M999.9 29.7h0M3.3 36.3h0M9.9 36.3h0M16.5 36.3h0M23.1 36.3h0M29.7 36.3h0M36.3 36.3h0M56.1 36.3h0M69.3 36.3h0M75.9 36.3h0M82.5 36.3h0M89.1 36.3h0M95.7 36.3h0M102.3 36.3h0M108.9 36.3h0M115.5 36.3h0M122.1 36.3h0M128.7 36.3h0M135.3 36.3h0M141.9 36.3h0M148.5 36.3h0M161.7 36.3h0M168.3 36.3h0M174.9 36.3h0M181.5 36.3h0M188.1 36.3h0M194.7 36.3h0M201.3 36.3h0M207.9 36.3h0M214.5 36.3h0M221.1 36.3h0M227.7 36.3h0M234.3 36.3h0M240.9 36.3h0M247.5 36.3h0M254.1 36.3h0M260.7 36.3h0M267.3 36.3h0M273.9 36.3h0M280.5 36.3h0M287.1 36.3h0M293.7 36.3h0M300.3 36.3h0M306.9 36.3h0M313.5 36.3h0M320.1 36.3h0M326.7 36.3h0M333.3 36.3h0M339.9 36.3h0M346.5 36.3h0M353.1 36.3h0M359.7 36.3h0M366.3 36.3h0M372.9 36.3h0M379.5 36.3h0M386.1 36.3h0M392.7 36.3h0M399.3 36.3h0M405.9 36.3h0M412.5 36.3h0M419.1 36.3h0M425.7 36.3h0M432.3 36.3h0M438.9 36.3h0M445.5 36.3h0M452.1 36.3h0M458.7 36.3h0M465.3 36.3h0M471.9 36.3h0M478.5 36.3h0M485.1 36.3h0M491.7 36.3h0M498.3 36.3h0M504.9 36.3h0M511.5 36.3h0M518.1 36.3h0M524.7 36.3h0M531.3 36.3h0M537.9 36.3h0M544.5 36.3h0M676.5 36.3h0M683.1 36.3h0M689.7 36.3h0M696.3 36.3h0M702.9 36.3h0M709.5 36.3h0M716.1 36.3h0M722.7 36.3h0M729.3 36.3h0M735.9 36.3h0M742.5 36.3h0M749.1 36.3h0M755.7 36.3h0M762.3 36.3h0M795.3 36.3h0M801.9 36.3h0M808.5 36.3h0M834.9 36.3h0M841.5 36.3h0M848.1 36.3h0M854.7 36.3h0M861.3 36.3h0M874.5 36.3h0M881.1 36.3h0M907.5 36.3h0M914.1 36.3h0M920.7 36.3h0M927.3 36.3h0M933.9 36.3h0M940.5 36.3h0M993.3 36.3h0M999.9 36.3h0M3.3 42.9h0M9.9 42.9h0M16.5 42.9h0M23.1 42.9h0M29.7 42.9h0M36.3 42.9h0M49.5 42.9h0M69.3 42.9h0M75.9 42.9h0M82.5 42.9h0M89.1 42.9h0M95.7 42.9h0M102.3 42.9h0M108.9 42.9h0M115.5 42.9h0M122.1 42.9h0M128.7 42.9h0M135.3 42.9h0M141.9 42.9h0M148.5 42.9h0M161.7 42.9h0M168.3 42.9h0M174.9 42.9h0M181.5 42.9h0M188.1 42.9h0M194.7 42.9h0M201.3 42.9h0M207.9 42.9h0M214.5 42.9h0M221.1 42.9h0M227.7 42.9h0M234.3 42.9h0M240.9 42.9h0M247.5 42.9h0M254.1 42.9h0M260.7 42.9h0M267.3 42.9h0M273.9 42.9h0M280.5 42.9h0M287.1 42.9h0M293.7 42.9h0M300.3 42.9h0M306.9 42.9h0M313.5 42.9h0M320.1 42.9h0M326.7 42.9h0M333.3 42.9h0M339.9 42.9h0M346.5 42.9h0M353.1 42.9h0M359.7 42.9h0M366.3 42.9h0M372.9 42.9h0M379.5 42.9h0M386.1 42.9h0M392.7 42.9h0M399.3 42.9h0M405.9 42.9h0M412.5 42.9h0M419.1 42.9h0M425.7 42.9h0M432.3 42.9h0M438.9 42.9h0M445.5 42.9h0M452.1 42.9h0M458.7 42.9h0M465.3 42.9h0M471.9 42.9h0M478.5 42.9h0M485.1 42.9h0M491.7 42.9h0M498.3 42.9h0M504.9 42.9h0M511.5 42.9h0M518.1 42.9h0M524.7 42.9h0M531.3 42.9h0M537.9 42.9h0M544.5 42.9h0M551.1 42.9h0M676.5 42.9h0M683.1 42.9h0M689.7 42.9h0M696.3 42.9h0M702.9 42.9h0M709.5 42.9h0M716.1 42.9h0M722.7 42.9h0M729.3 42.9h0M735.9 42.9h0M742.5 42.9h0M749.1 42.9h0M755.7 42.9h0M762.3 42.9h0M768.9 42.9h0M775.5 42.9h0M782.1 42.9h0M788.7 42.9h0M795.3 42.9h0M801.9 42.9h0M808.5 42.9h0M815.1 42.9h0M821.7 42.9h0M828.3 42.9h0M834.9 42.9h0M841.5 42.9h0M848.1 42.9h0M854.7 42.9h0M861.3 42.9h0M867.9 42.9h0M874.5 42.9h0M881.1 42.9h0M887.7 42.9h0M920.7 42.9h0M927.3 42.9h0M933.9 42.9h0M940.5 42.9h0M947.1 42.9h0M986.7 42.9h0M993.3 42.9h0M999.9 42.9h0M3.3 49.5h0M9.9 49.5h0M23.1 49.5h0M29.7 49.5h0M36.3 49.5h0M56.1 49.5h0M62.7 49.5h0M69.3 49.5h0M75.9 49.5h0M82.5 49.5h0M89.1 49.5h0M95.7 49.5h0M102.3 49.5h0M108.9 49.5h0M115.5 49.5h0M122.1 49.5h0M128.7 49.5h0M135.3 49.5h0M141.9 49.5h0M155.1 49.5h0M161.7 49.5h0M168.3 49.5h0M174.9 49.5h0M181.5 49.5h0M188.1 49.5h0M194.7 49.5h0M201.3 49.5h0M207.9 49.5h0M214.5 49.5h0M221.1 49.5h0M227.7 49.5h0M234.3 49.5h0M240.9 49.5h0M247.5 49.5h0M254.1 49.5h0M260.7 49.5h0M267.3 49.5h0M273.9 49.5h0M280.5 49.5h0M287.1 49.5h0M293.7 49.5h0M300.3 49.5h0M306.9 49.5h0M313.5 49.5h0M320.1 49.5h0M326.7 49.5h0M333.3 49.5h0M339.9 49.5h0M346.5 49.5h0M353.1 49.5h0M359.7 49.5h0M366.3 49.5h0M372.9 49.5h0M379.5 49.5h0M386.1 49.5h0M392.7 49.5h0M399.3 49.5h0M405.9 49.5h0M412.5 49.5h0M419.1 49.5h0M425.7 49.5h0M432.3 49.5h0M438.9 49.5h0M445.5 49.5h0M452.1 49.5h0M458.7 49.5h0M465.3 49.5h0M471.9 49.5h0M478.5 49.5h0M485.1 49.5h0M491.7 49.5h0M498.3 49.5h0M504.9 49.5h0M511.5 49.5h0M518.1 49.5h0M524.7 49.5h0M531.3 49.5h0M537.9 49.5h0M544.5 49.5h0M551.1 49.5h0M564.3 49.5h0M676.5 49.5h0M683.1 49.5h0M689.7 49.5h0M696.3 49.5h0M702.9 49.5h0M709.5 49.5h0M716.1 49.5h0M722.7 49.5h0M729.3 49.5h0M735.9 49.5h0M742.5 49.5h0M749.1 49.5h0M755.7 49.5h0M762.3 49.5h0M768.9 49.5h0M775.5 49.5h0M782.1 49.5h0M788.7 49.5h0M795.3 49.5h0M801.9 49.5h0M808.5 49.5h0M815.1 49.5h0M821.7 49.5h0M828.3 49.5h0M834.9 49.5h0M841.5 49.5h0M848.1 49.5h0M854.7 49.5h0M861.3 49.5h0M867.9 49.5h0M874.5 49.5h0M881.1 49.5h0M920.7 49.5h0M927.3 49.5h0M933.9 49.5h0M940.5 49.5h0M947.1 49.5h0M953.7 49.5h0M993.3 49.5h0M999.9 49.5h0M3.3 56.1h0M9.9 56.1h0M16.5 56.1h0M42.9 56.1h0M49.5 56.1h0M56.1 56.1h0M62.7 56.1h0M69.3 56.1h0M75.9 56.1h0M82.5 56.1h0M89.1 56.1h0M95.7 56.1h0M102.3 56.1h0M108.9 56.1h0M115.5 56.1h0M122.1 56.1h0M128.7 56.1h0M135.3 56.1h0M141.9 56.1h0M148.5 56.1h0M155.1 56.1h0M161.7 56.1h0M168.3 56.1h0M174.9 56.1h0M181.5 56.1h0M188.1 56.1h0M194.7 56.1h0M201.3 56.1h0M207.9 56.1h0M214.5 56.1h0M221.1 56.1h0M227.7 56.1h0M234.3 56.1h0M240.9 56.1h0M247.5 56.1h0M254.1 56.1h0M260.7 56.1h0M267.3 56.1h0M273.9 56.1h0M280.5 56.1h0M287.1 56.1h0M293.7 56.1h0M300.3 56.1h0M306.9 56.1h0M313.5 56.1h0M320.1 56.1h0M326.7 56.1h0M333.3 56.1h0M339.9 56.1h0M346.5 56.1h0M353.1 56.1h0M359.7 56.1h0M366.3 56.1h0M372.9 56.1h0M379.5 56.1h0M386.1 56.1h0M392.7 56.1h0M399.3 56.1h0M405.9 56.1h0M412.5 56.1h0M419.1 56.1h0M425.7 56.1h0M432.3 56.1h0M438.9 56.1h0M445.5 56.1h0M452.1 56.1h0M458.7 56.1h0M465.3 56.1h0M471.9 56.1h0M478.5 56.1h0M485.1 56.1h0M491.7 56.1h0M498.3 56.1h0M504.9 56.1h0M511.5 56.1h0M518.1 56.1h0M524.7 56.1h0M531.3 56.1h0M544.5 56.1h0M551.1 56.1h0M557.7 56.1h0M564.3 56.1h0M676.5 56.1h0M683.1 56.1h0M689.7 56.1h0M696.3 56.1h0M702.9 56.1h0M709.5 56.1h0M716.1 56.1h0M722.7 56.1h0M729.3 56.1h0M735.9 56.1h0M742.5 56.1h0M749.1 56.1h0M755.7 56.1h0M762.3 56.1h0M768.9 56.1h0M775.5 56.1h0M782.1 56.1h0M788.7 56.1h0M795.3 56.1h0M801.9 56.1h0M808.5 56.1h0M815.1 56.1h0M821.7 56.1h0M828.3 56.1h0M834.9 56.1h0M841.5 56.1h0M848.1 56.1h0M854.7 56.1h0M861.3 56.1h0M867.9 56.1h0M881.1 56.1h0M920.7 56.1h0M927.3 56.1h0M933.9 56.1h0M947.1 56.1h0M953.7 56.1h0M993.3 56.1h0M999.9 56.1h0M3.3 62.7h0M9.9 62.7h0M16.5 62.7h0M42.9 62.7h0M49.5 62.7h0M56.1 62.7h0M62.7 62.7h0M69.3 62.7h0M75.9 62.7h0M82.5 62.7h0M89.1 62.7h0M95.7 62.7h0M102.3 62.7h0M108.9 62.7h0M115.5 62.7h0M122.1 62.7h0M128.7 62.7h0M135.3 62.7h0M141.9 62.7h0M148.5 62.7h0M155.1 62.7h0M161.7 62.7h0M168.3 62.7h0M174.9 62.7h0M181.5 62.7h0M188.1 62.7h0M194.7 62.7h0M201.3 62.7h0M207.9 62.7h0M214.5 62.7h0M221.1 62.7h0M227.7 62.7h0M234.3 62.7h0M240.9 62.7h0M247.5 62.7h0M254.1 62.7h0M260.7 62.7h0M267.3 62.7h0M273.9 62.7h0M280.5 62.7h0M287.1 62.7h0M293.7 62.7h0M300.3 62.7h0M306.9 62.7h0M313.5 62.7h0M320.1 62.7h0M326.7 62.7h0M333.3 62.7h0M339.9 62.7h0M346.5 62.7h0M353.1 62.7h0M359.7 62.7h0M366.3 62.7h0M372.9 62.7h0M379.5 62.7h0M386.1 62.7h0M392.7 62.7h0M399.3 62.7h0M405.9 62.7h0M412.5 62.7h0M419.1 62.7h0M425.7 62.7h0M432.3 62.7h0M438.9 62.7h0M445.5 62.7h0M452.1 62.7h0M458.7 62.7h0M465.3 62.7h0M471.9 62.7h0M478.5 62.7h0M485.1 62.7h0M491.7 62.7h0M498.3 62.7h0M504.9 62.7h0M511.5 62.7h0M518.1 62.7h0M524.7 62.7h0M531.3 62.7h0M551.1 62.7h0M557.7 62.7h0M676.5 62.7h0M683.1 62.7h0M689.7 62.7h0M696.3 62.7h0M702.9 62.7h0M709.5 62.7h0M716.1 62.7h0M722.7 62.7h0M729.3 62.7h0M735.9 62.7h0M742.5 62.7h0M749.1 62.7h0M755.7 62.7h0M762.3 62.7h0M768.9 62.7h0M775.5 62.7h0M782.1 62.7h0M788.7 62.7h0M795.3 62.7h0M801.9 62.7h0M808.5 62.7h0M815.1 62.7h0M821.7 62.7h0M828.3 62.7h0M834.9 62.7h0M841.5 62.7h0M848.1 62.7h0M854.7 62.7h0M861.3 62.7h0M874.5 62.7h0M881.1 62.7h0M900.9 62.7h0M907.5 62.7h0M914.1 62.7h0M920.7 62.7h0M927.3 62.7h0M933.9 62.7h0M940.5 62.7h0M993.3 62.7h0M999.9 62.7h0M3.3 69.3h0M9.9 69.3h0M16.5 69.3h0M29.7 69.3h0M36.3 69.3h0M42.9 69.3h0M49.5 69.3h0M56.1 69.3h0M62.7 69.3h0M69.3 69.3h0M75.9 69.3h0M82.5 69.3h0M89.1 69.3h0M95.7 69.3h0M102.3 69.3h0M108.9 69.3h0M115.5 69.3h0M122.1 69.3h0M128.7 69.3h0M135.3 69.3h0M141.9 69.3h0M148.5 69.3h0M155.1 69.3h0M161.7 69.3h0M168.3 69.3h0M174.9 69.3h0M181.5 69.3h0M188.1 69.3h0M194.7 69.3h0M201.3 69.3h0M207.9 69.3h0M214.5 69.3h0M221.1 69.3h0M227.7 69.3h0M234.3 69.3h0M240.9 69.3h0M247.5 69.3h0M254.1 69.3h0M260.7 69.3h0M267.3 69.3h0M273.9 69.3h0M280.5 69.3h0M287.1 69.3h0M293.7 69.3h0M300.3 69.3h0M306.9 69.3h0M313.5 69.3h0M320.1 69.3h0M326.7 69.3h0M333.3 69.3h0M339.9 69.3h0M346.5 69.3h0M353.1 69.3h0M359.7 69.3h0M366.3 69.3h0M372.9 69.3h0M379.5 69.3h0M386.1 69.3h0M392.7 69.3h0M399.3 69.3h0M405.9 69.3h0M412.5 69.3h0M419.1 69.3h0M425.7 69.3h0M432.3 69.3h0M438.9 69.3h0M445.5 69.3h0M452.1 69.3h0M458.7 69.3h0M465.3 69.3h0M471.9 69.3h0M478.5 69.3h0M485.1 69.3h0M491.7 69.3h0M498.3 69.3h0M504.9 69.3h0M511.5 69.3h0M518.1 69.3h0M524.7 69.3h0M676.5 69.3h0M683.1 69.3h0M689.7 69.3h0M696.3 69.3h0M702.9 69.3h0M709.5 69.3h0M716.1 69.3h0M722.7 69.3h0M729.3 69.3h0M735.9 69.3h0M742.5 69.3h0M749.1 69.3h0M755.7 69.3h0M762.3 69.3h0M768.9 69.3h0M775.5 69.3h0M782.1 69.3h0M788.7 69.3h0M795.3 69.3h0M801.9 69.3h0M808.5 69.3h0M815.1 69.3h0M821.7 69.3h0M828.3 69.3h0M834.9 69.3h0M841.5 69.3h0M848.1 69.3h0M854.7 69.3h0M861.3 69.3h0M874.5 69.3h0M881.1 69.3h0M920.7 69.3h0M927.3 69.3h0M933.9 69.3h0M940.5 69.3h0M999.9 69.3h0M3.3 75.9h0M9.9 75.9h0M16.5 75.9h0M23.1 75.9h0M29.7 75.9h0M36.3 75.9h0M42.9 75.9h0M49.5 75.9h0M56.1 75.9h0M62.7 75.9h0M69.3 75.9h0M75.9 75.9h0M82.5 75.9h0M89.1 75.9h0M95.7 75.9h0M102.3 75.9h0M108.9 75.9h0M115.5 75.9h0M122.1 75.9h0M128.7 75.9h0M135.3 75.9h0M141.9 75.9h0M148.5 75.9h0M155.1 75.9h0M161.7 75.9h0M168.3 75.9h0M174.9 75.9h0M181.5 75.9h0M188.1 75.9h0M194.7 75.9h0M201.3 75.9h0M207.9 75.9h0M214.5 75.9h0M221.1 75.9h0M227.7 75.9h0M234.3 75.9h0M240.9 75.9h0M247.5 75.9h0M254.1 75.9h0M260.7 75.9h0M267.3 75.9h0M273.9 75.9h0M280.5 75.9h0M287.1 75.9h0M293.7 75.9h0M300.3 75.9h0M306.9 75.9h0M313.5 75.9h0M320.1 75.9h0M326.7 75.9h0M333.3 75.9h0M339.9 75.9h0M346.5 75.9h0M353.1 75.9h0M359.7 75.9h0M366.3 75.9h0M372.9 75.9h0M379.5 75.9h0M386.1 75.9h0M392.7 75.9h0M399.3 75.9h0M405.9 75.9h0M412.5 75.9h0M419.1 75.9h0M425.7 75.9h0M432.3 75.9h0M438.9 75.9h0M445.5 75.9h0M452.1 75.9h0M458.7 75.9h0M465.3 75.9h0M471.9 75.9h0M478.5 75.9h0M485.1 75.9h0M491.7 75.9h0M498.3 75.9h0M504.9 75.9h0M511.5 75.9h0M518.1 75.9h0M524.7 75.9h0M531.3 75.9h0M676.5 75.9h0M683.1 75.9h0M689.7 75.9h0M696.3 75.9h0M702.9 75.9h0M709.5 75.9h0M716.1 75.9h0M722.7 75.9h0M729.3 75.9h0M735.9 75.9h0M742.5 75.9h0M749.1 75.9h0M755.7 75.9h0M762.3 75.9h0M768.9 75.9h0M775.5 75.9h0M782.1 75.9h0M788.7 75.9h0M795.3 75.9h0M801.9 75.9h0M808.5 75.9h0M815.1 75.9h0M821.7 75.9h0M828.3 75.9h0M834.9 75.9h0M841.5 75.9h0M848.1 75.9h0M874.5 75.9h0M900.9 75.9h0M927.3 75.9h0M933.9 75.9h0M940.5 75.9h0M999.9 75.9h0M3.3 82.5h0M9.9 82.5h0M16.5 82.5h0M23.1 82.5h0M29.7 82.5h0M36.3 82.5h0M42.9 82.5h0M49.5 82.5h0M56.1 82.5h0M62.7 82.5h0M69.3 82.5h0M75.9 82.5h0M82.5 82.5h0M89.1 82.5h0M95.7 82.5h0M102.3 82.5h0M108.9 82.5h0M115.5 82.5h0M122.1 82.5h0M128.7 82.5h0M135.3 82.5h0M141.9 82.5h0M148.5 82.5h0M155.1 82.5h0M161.7 82.5h0M168.3 82.5h0M174.9 82.5h0M181.5 82.5h0M188.1 82.5h0M194.7 82.5h0M201.3 82.5h0M207.9 82.5h0M214.5 82.5h0M221.1 82.5h0M227.7 82.5h0M234.3 82.5h0M240.9 82.5h0M247.5 82.5h0M254.1 82.5h0M260.7 82.5h0M267.3 82.5h0M273.9 82.5h0M280.5 82.5h0M287.1 82.5h0M293.7 82.5h0M300.3 82.5h0M306.9 82.5h0M313.5 82.5h0M320.1 82.5h0M326.7 82.5h0M333.3 82.5h0M339.9 82.5h0M346.5 82.5h0M353.1 82.5h0M359.7 82.5h0M366.3 82.5h0M372.9 82.5h0M379.5 82.5h0M386.1 82.5h0M392.7 82.5h0M399.3 82.5h0M405.9 82.5h0M412.5 82.5h0M419.1 82.5h0M425.7 82.5h0M432.3 82.5h0M438.9 82.5h0M445.5 82.5h0M452.1 82.5h0M458.7 82.5h0M465.3 82.5h0M471.9 82.5h0M485.1 82.5h0M491.7 82.5h0M498.3 82.5h0M504.9 82.5h0M511.5 82.5h0M518.1 82.5h0M531.3 82.5h0M676.5 82.5h0M683.1 82.5h0M689.7 82.5h0M696.3 82.5h0M702.9 82.5h0M709.5 82.5h0M716.1 82.5h0M722.7 82.5h0M729.3 82.5h0M735.9 82.5h0M742.5 82.5h0M749.1 82.5h0M755.7 82.5h0M762.3 82.5h0M768.9 82.5h0M775.5 82.5h0M782.1 82.5h0M788.7 82.5h0M795.3 82.5h0M801.9 82.5h0M808.5 82.5h0M815.1 82.5h0M821.7 82.5h0M828.3 82.5h0M834.9 82.5h0M841.5 82.5h0M881.1 82.5h0M933.9 82.5h0M940.5 82.5h0M947.1 82.5h0M999.9 82.5h0M3.3 89.1h0M9.9 89.1h0M16.5 89.1h0M23.1 89.1h0M29.7 89.1h0M36.3 89.1h0M42.9 89.1h0M49.5 89.1h0M56.1 89.1h0M62.7 89.1h0M69.3 89.1h0M75.9 89.1h0M82.5 89.1h0M89.1 89.1h0M95.7 89.1h0M102.3 89.1h0M108.9 89.1h0M115.5 89.1h0M122.1 89.1h0M128.7 89.1h0M135.3 89.1h0M141.9 89.1h0M148.5 89.1h0M155.1 89.1h0M161.7 89.1h0M168.3 89.1h0M174.9 89.1h0M181.5 89.1h0M188.1 89.1h0M194.7 89.1h0M201.3 89.1h0M207.9 89.1h0M214.5 89.1h0M221.1 89.1h0M227.7 89.1h0M234.3 89.1h0M240.9 89.1h0M247.5 89.1h0M254.1 89.1h0M260.7 89.1h0M267.3 89.1h0M273.9 89.1h0M280.5 89.1h0M287.1 89.1h0M293.7 89.1h0M300.3 89.1h0M306.9 89.1h0M313.5 89.1h0M320.1 89.1h0M326.7 89.1h0M333.3 89.1h0M339.9 89.1h0M346.5 89.1h0M353.1 89.1h0M359.7 89.1h0M366.3 89.1h0M372.9 89.1h0M379.5 89.1h0M386.1 89.1h0M392.7 89.1h0M399.3 89.1h0M405.9 89.1h0M412.5 89.1h0M419.1 89.1h0M425.7 89.1h0M432.3 89.1h0M438.9 89.1h0M445.5 89.1h0M452.1 89.1h0M465.3 89.1h0M471.9 89.1h0M478.5 89.1h0M485.1 89.1h0M491.7 89.1h0M498.3 89.1h0M504.9 89.1h0M511.5 89.1h0M676.5 89.1h0M683.1 89.1h0M689.7 89.1h0M696.3 89.1h0M702.9 89.1h0M709.5 89.1h0M716.1 89.1h0M722.7 89.1h0M729.3 89.1h0M735.9 89.1h0M742.5 89.1h0M749.1 89.1h0M755.7 89.1h0M762.3 89.1h0M768.9 89.1h0M775.5 89.1h0M782.1 89.1h0M788.7 89.1h0M795.3 89.1h0M801.9 89.1h0M808.5 89.1h0M815.1 89.1h0M821.7 89.1h0M828.3 89.1h0M834.9 89.1h0M841.5 89.1h0M907.5 89.1h0M914.1 89.1h0M920.7 89.1h0M947.1 89.1h0M3.3 95.7h0M9.9 95.7h0M16.5 95.7h0M23.1 95.7h0M29.7 95.7h0M36.3 95.7h0M42.9 95.7h0M49.5 95.7h0M56.1 95.7h0M62.7 95.7h0M69.3 95.7h0M75.9 95.7h0M82.5 95.7h0M89.1 95.7h0M95.7 95.7h0M102.3 95.7h0M108.9 95.7h0M115.5 95.7h0M122.1 95.7h0M128.7 95.7h0M135.3 95.7h0M141.9 95.7h0M148.5 95.7h0M155.1 95.7h0M161.7 95.7h0M168.3 95.7h0M174.9 95.7h0M181.5 95.7h0M188.1 95.7h0M194.7 95.7h0M201.3 95.7h0M207.9 95.7h0M214.5 95.7h0M221.1 95.7h0M227.7 95.7h0M234.3 95.7h0M240.9 95.7h0M247.5 95.7h0M254.1 95.7h0M260.7 95.7h0M267.3 95.7h0M273.9 95.7h0M280.5 95.7h0M287.1 95.7h0M293.7 95.7h0M300.3 95.7h0M306.9 95.7h0M313.5 95.7h0M320.1 95.7h0M326.7 95.7h0M333.3 95.7h0M339.9 95.7h0M346.5 95.7h0M353.1 95.7h0M359.7 95.7h0M366.3 95.7h0M372.9 95.7h0M379.5 95.7h0M386.1 95.7h0M392.7 95.7h0M399.3 95.7h0M405.9 95.7h0M412.5 95.7h0M419.1 95.7h0M425.7 95.7h0M432.3 95.7h0M438.9 95.7h0M445.5 95.7h0M465.3 95.7h0M478.5 95.7h0M485.1 95.7h0M491.7 95.7h0M498.3 95.7h0M504.9 95.7h0M676.5 95.7h0M683.1 95.7h0M689.7 95.7h0M696.3 95.7h0M702.9 95.7h0M709.5 95.7h0M716.1 95.7h0M722.7 95.7h0M729.3 95.7h0M735.9 95.7h0M742.5 95.7h0M749.1 95.7h0M755.7 95.7h0M762.3 95.7h0M768.9 95.7h0M775.5 95.7h0M782.1 95.7h0M788.7 95.7h0M795.3 95.7h0M801.9 95.7h0M808.5 95.7h0M815.1 95.7h0M821.7 95.7h0M828.3 95.7h0M834.9 95.7h0M907.5 95.7h0M914.1 95.7h0M920.7 95.7h0M927.3 95.7h0M3.3 102.3h0M9.9 102.3h0M16.5 102.3h0M23.1 102.3h0M29.7 102.3h0M36.3 102.3h0M42.9 102.3h0M49.5 102.3h0M56.1 102.3h0M62.7 102.3h0M69.3 102.3h0M75.9 102.3h0M82.5 102.3h0M89.1 102.3h0M95.7 102.3h0M102.3 102.3h0M108.9 102.3h0M115.5 102.3h0M122.1 102.3h0M128.7 102.3h0M135.3 102.3h0M141.9 102.3h0M148.5 102.3h0M155.1 102.3h0M161.7 102.3h0M168.3 102.3h0M174.9 102.3h0M181.5 102.3h0M188.1 102.3h0M194.7 102.3h0M201.3 102.3h0M207.9 102.3h0M214.5 102.3h0M221.1 102.3h0M227.7 102.3h0M234.3 102.3h0M240.9 102.3h0M247.5 102.3h0M254.1 102.3h0M260.7 102.3h0M267.3 102.3h0M273.9 102.3h0M280.5 102.3h0M287.1 102.3h0M293.7 102.3h0M300.3 102.3h0M306.9 102.3h0M313.5 102.3h0M320.1 102.3h0M326.7 102.3h0M333.3 102.3h0M339.9 102.3h0M346.5 102.3h0M353.1 102.3h0M359.7 102.3h0M366.3 102.3h0M372.9 102.3h0M379.5 102.3h0M386.1 102.3h0M392.7 102.3h0M399.3 102.3h0M405.9 102.3h0M412.5 102.3h0M419.1 102.3h0M425.7 102.3h0M432.3 102.3h0M438.9 102.3h0M471.9 102.3h0M689.7 102.3h0M696.3 102.3h0M702.9 102.3h0M709.5 102.3h0M716.1 102.3h0M722.7 102.3h0M729.3 102.3h0M735.9 102.3h0M742.5 102.3h0M749.1 102.3h0M755.7 102.3h0M762.3 102.3h0M768.9 102.3h0M775.5 102.3h0M782.1 102.3h0M788.7 102.3h0M795.3 102.3h0M801.9 102.3h0M808.5 102.3h0M815.1 102.3h0M821.7 102.3h0M828.3 102.3h0M834.9 102.3h0M907.5 102.3h0M914.1 102.3h0M920.7 102.3h0M927.3 102.3h0M947.1 102.3h0M3.3 108.9h0M9.9 108.9h0M16.5 108.9h0M23.1 108.9h0M29.7 108.9h0M36.3 108.9h0M42.9 108.9h0M49.5 108.9h0M56.1 108.9h0M62.7 108.9h0M69.3 108.9h0M75.9 108.9h0M82.5 108.9h0M89.1 108.9h0M95.7 108.9h0M102.3 108.9h0M108.9 108.9h0M115.5 108.9h0M122.1 108.9h0M128.7 108.9h0M135.3 108.9h0M141.9 108.9h0M148.5 108.9h0M155.1 108.9h0M161.7 108.9h0M168.3 108.9h0M174.9 108.9h0M181.5 108.9h0M188.1 108.9h0M194.7 108.9h0M201.3 108.9h0M207.9 108.9h0M214.5 108.9h0M221.1 108.9h0M227.7 108.9h0M234.3 108.9h0M240.9 108.9h0M247.5 108.9h0M254.1 108.9h0M260.7 108.9h0M267.3 108.9h0M273.9 108.9h0M280.5 108.9h0M287.1 108.9h0M293.7 108.9h0M300.3 108.9h0M306.9 108.9h0M313.5 108.9h0M320.1 108.9h0M326.7 108.9h0M333.3 108.9h0M339.9 108.9h0M346.5 108.9h0M353.1 108.9h0M359.7 108.9h0M366.3 108.9h0M372.9 108.9h0M379.5 108.9h0M386.1 108.9h0M392.7 108.9h0M399.3 108.9h0M465.3 108.9h0M471.9 108.9h0M478.5 108.9h0M702.9 108.9h0M709.5 108.9h0M716.1 108.9h0M722.7 108.9h0M729.3 108.9h0M735.9 108.9h0M742.5 108.9h0M749.1 108.9h0M755.7 108.9h0M762.3 108.9h0M768.9 108.9h0M775.5 108.9h0M782.1 108.9h0M788.7 108.9h0M795.3 108.9h0M801.9 108.9h0M808.5 108.9h0M815.1 108.9h0M821.7 108.9h0M828.3 108.9h0M834.9 108.9h0M900.9 108.9h0M907.5 108.9h0M914.1 108.9h0M920.7 108.9h0M927.3 108.9h0M947.1 108.9h0M3.3 115.5h0M9.9 115.5h0M16.5 115.5h0M23.1 115.5h0M29.7 115.5h0M36.3 115.5h0M42.9 115.5h0M49.5 115.5h0M56.1 115.5h0M62.7 115.5h0M69.3 115.5h0M75.9 115.5h0M82.5 115.5h0M89.1 115.5h0M95.7 115.5h0M102.3 115.5h0M108.9 115.5h0M115.5 115.5h0M122.1 115.5h0M128.7 115.5h0M135.3 115.5h0M141.9 115.5h0M148.5 115.5h0M155.1 115.5h0M161.7 115.5h0M168.3 115.5h0M174.9 115.5h0M181.5 115.5h0M188.1 115.5h0M194.7 115.5h0M201.3 115.5h0M207.9 115.5h0M214.5 115.5h0M221.1 115.5h0M227.7 115.5h0M234.3 115.5h0M240.9 115.5h0M247.5 115.5h0M254.1 115.5h0M260.7 115.5h0M267.3 115.5h0M273.9 115.5h0M280.5 115.5h0M287.1 115.5h0M293.7 115.5h0M300.3 115.5h0M306.9 115.5h0M313.5 115.5h0M320.1 115.5h0M326.7 115.5h0M333.3 115.5h0M339.9 115.5h0M346.5 115.5h0M353.1 115.5h0M359.7 115.5h0M366.3 115.5h0M372.9 115.5h0M379.5 115.5h0M386.1 115.5h0M392.7 115.5h0M458.7 115.5h0M465.3 115.5h0M709.5 115.5h0M716.1 115.5h0M722.7 115.5h0M729.3 115.5h0M735.9 115.5h0M742.5 115.5h0M749.1 115.5h0M755.7 115.5h0M762.3 115.5h0M768.9 115.5h0M775.5 115.5h0M782.1 115.5h0M788.7 115.5h0M795.3 115.5h0M801.9 115.5h0M808.5 115.5h0M815.1 115.5h0M821.7 115.5h0M828.3 115.5h0M834.9 115.5h0M841.5 115.5h0M907.5 115.5h0M914.1 115.5h0M920.7 115.5h0M927.3 115.5h0M933.9 115.5h0M940.5 115.5h0M947.1 115.5h0M953.7 115.5h0M3.3 122.1h0M9.9 122.1h0M16.5 122.1h0M23.1 122.1h0M29.7 122.1h0M36.3 122.1h0M42.9 122.1h0M49.5 122.1h0M56.1 122.1h0M62.7 122.1h0M69.3 122.1h0M75.9 122.1h0M82.5 122.1h0M89.1 122.1h0M95.7 122.1h0M102.3 122.1h0M108.9 122.1h0M115.5 122.1h0M122.1 122.1h0M128.7 122.1h0M135.3 122.1h0M141.9 122.1h0M148.5 122.1h0M155.1 122.1h0M161.7 122.1h0M168.3 122.1h0M174.9 122.1h0M181.5 122.1h0M188.1 122.1h0M194.7 122.1h0M201.3 122.1h0M207.9 122.1h0M214.5 122.1h0M221.1 122.1h0M227.7 122.1h0M234.3 122.1h0M240.9 122.1h0M247.5 122.1h0M254.1 122.1h0M260.7 122.1h0M267.3 122.1h0M273.9 122.1h0M280.5 122.1h0M287.1 122.1h0M293.7 122.1h0M300.3 122.1h0M306.9 122.1h0M313.5 122.1h0M320.1 122.1h0M326.7 122.1h0M333.3 122.1h0M339.9 122.1h0M346.5 122.1h0M353.1 122.1h0M359.7 122.1h0M366.3 122.1h0M372.9 122.1h0M379.5 122.1h0M386.1 122.1h0M452.1 122.1h0M458.7 122.1h0M465.3 122.1h0M471.9 122.1h0M709.5 122.1h0M716.1 122.1h0M722.7 122.1h0M729.3 122.1h0M735.9 122.1h0M742.5 122.1h0M749.1 122.1h0M755.7 122.1h0M762.3 122.1h0M768.9 122.1h0M775.5 122.1h0M782.1 122.1h0M788.7 122.1h0M795.3 122.1h0M801.9 122.1h0M808.5 122.1h0M815.1 122.1h0M821.7 122.1h0M828.3 122.1h0M834.9 122.1h0M841.5 122.1h0M848.1 122.1h0M854.7 122.1h0M907.5 122.1h0M914.1 122.1h0M920.7 122.1h0M927.3 122.1h0M933.9 122.1h0M940.5 122.1h0M947.1 122.1h0M953.7 122.1h0M3.3 128.7h0M9.9 128.7h0M16.5 128.7h0M23.1 128.7h0M29.7 128.7h0M36.3 128.7h0M42.9 128.7h0M49.5 128.7h0M56.1 128.7h0M62.7 128.7h0M69.3 128.7h0M75.9 128.7h0M82.5 128.7h0M89.1 128.7h0M95.7 128.7h0M102.3 128.7h0M108.9 128.7h0M115.5 128.7h0M122.1 128.7h0M128.7 128.7h0M135.3 128.7h0M141.9 128.7h0M148.5 128.7h0M155.1 128.7h0M161.7 128.7h0M168.3 128.7h0M174.9 128.7h0M181.5 128.7h0M188.1 128.7h0M194.7 128.7h0M201.3 128.7h0M207.9 128.7h0M214.5 128.7h0M221.1 128.7h0M227.7 128.7h0M234.3 128.7h0M240.9 128.7h0M247.5 128.7h0M254.1 128.7h0M260.7 128.7h0M267.3 128.7h0M273.9 128.7h0M280.5 128.7h0M287.1 128.7h0M293.7 128.7h0M300.3 128.7h0M306.9 128.7h0M313.5 128.7h0M320.1 128.7h0M326.7 128.7h0M333.3 128.7h0M339.9 128.7h0M346.5 128.7h0M353.1 128.7h0M359.7 128.7h0M366.3 128.7h0M372.9 128.7h0M379.5 128.7h0M452.1 128.7h0M458.7 128.7h0M465.3 128.7h0M716.1 128.7h0M722.7 128.7h0M729.3 128.7h0M735.9 128.7h0M742.5 128.7h0M749.1 128.7h0M755.7 128.7h0M762.3 128.7h0M768.9 128.7h0M775.5 128.7h0M782.1 128.7h0M788.7 128.7h0M795.3 128.7h0M801.9 128.7h0M808.5 128.7h0M815.1 128.7h0M821.7 128.7h0M828.3 128.7h0M834.9 128.7h0M841.5 128.7h0M848.1 128.7h0M854.7 128.7h0M861.3 128.7h0M867.9 128.7h0M894.3 128.7h0M907.5 128.7h0M914.1 128.7h0M920.7 128.7h0M927.3 128.7h0M933.9 128.7h0M940.5 128.7h0M947.1 128.7h0M953.7 128.7h0M3.3 135.3h0M9.9 135.3h0M16.5 135.3h0M23.1 135.3h0M29.7 135.3h0M36.3 135.3h0M42.9 135.3h0M49.5 135.3h0M56.1 135.3h0M62.7 135.3h0M69.3 135.3h0M75.9 135.3h0M82.5 135.3h0M89.1 135.3h0M95.7 135.3h0M102.3 135.3h0M108.9 135.3h0M115.5 135.3h0M122.1 135.3h0M128.7 135.3h0M135.3 135.3h0M141.9 135.3h0M148.5 135.3h0M155.1 135.3h0M161.7 135.3h0M168.3 135.3h0M174.9 135.3h0M181.5 135.3h0M188.1 135.3h0M194.7 135.3h0M201.3 135.3h0M207.9 135.3h0M214.5 135.3h0M221.1 135.3h0M227.7 135.3h0M234.3 135.3h0M240.9 135.3h0M247.5 135.3h0M254.1 135.3h0M260.7 135.3h0M267.3 135.3h0M273.9 135.3h0M280.5 135.3h0M287.1 135.3h0M293.7 135.3h0M300.3 135.3h0M306.9 135.3h0M313.5 135.3h0M320.1 135.3h0M326.7 135.3h0M333.3 135.3h0M339.9 135.3h0M346.5 135.3h0M353.1 135.3h0M359.7 135.3h0M366.3 135.3h0M372.9 135.3h0M452.1 135.3h0M458.7 135.3h0M465.3 135.3h0M716.1 135.3h0M722.7 135.3h0M729.3 135.3h0M735.9 135.3h0M742.5 135.3h0M749.1 135.3h0M755.7 135.3h0M762.3 135.3h0M768.9 135.3h0M775.5 135.3h0M782.1 135.3h0M788.7 135.3h0M795.3 135.3h0M801.9 135.3h0M808.5 135.3h0M815.1 135.3h0M821.7 135.3h0M828.3 135.3h0M834.9 135.3h0M841.5 135.3h0M848.1 135.3h0M854.7 135.3h0M861.3 135.3h0M867.9 135.3h0M874.5 135.3h0M881.1 135.3h0M900.9 135.3h0M907.5 135.3h0M914.1 135.3h0M920.7 135.3h0M927.3 135.3h0M933.9 135.3h0M940.5 135.3h0M947.1 135.3h0M953.7 135.3h0M960.3 135.3h0M966.9 135.3h0M3.3 141.9h0M9.9 141.9h0M16.5 141.9h0M23.1 141.9h0M29.7 141.9h0M36.3 141.9h0M42.9 141.9h0M49.5 141.9h0M56.1 141.9h0M62.7 141.9h0M69.3 141.9h0M75.9 141.9h0M82.5 141.9h0M89.1 141.9h0M95.7 141.9h0M102.3 141.9h0M108.9 141.9h0M115.5 141.9h0M122.1 141.9h0M128.7 141.9h0M135.3 141.9h0M141.9 141.9h0M148.5 141.9h0M155.1 141.9h0M161.7 141.9h0M168.3 141.9h0M174.9 141.9h0M181.5 141.9h0M188.1 141.9h0M194.7 141.9h0M201.3 141.9h0M207.9 141.9h0M214.5 141.9h0M221.1 141.9h0M227.7 141.9h0M234.3 141.9h0M240.9 141.9h0M247.5 141.9h0M254.1 141.9h0M260.7 141.9h0M267.3 141.9h0M273.9 141.9h0M280.5 141.9h0M287.1 141.9h0M293.7 141.9h0M300.3 141.9h0M306.9 141.9h0M313.5 141.9h0M320.1 141.9h0M326.7 141.9h0M333.3 141.9h0M339.9 141.9h0M346.5 141.9h0M353.1 141.9h0M359.7 141.9h0M366.3 141.9h0M372.9 141.9h0M379.5 141.9h0M392.7 141.9h0M452.1 141.9h0M458.7 141.9h0M716.1 141.9h0M722.7 141.9h0M729.3 141.9h0M735.9 141.9h0M742.5 141.9h0M749.1 141.9h0M755.7 141.9h0M762.3 141.9h0M768.9 141.9h0M775.5 141.9h0M782.1 141.9h0M788.7 141.9h0M795.3 141.9h0M801.9 141.9h0M808.5 141.9h0M815.1 141.9h0M821.7 141.9h0M828.3 141.9h0M834.9 141.9h0M841.5 141.9h0M848.1 141.9h0M854.7 141.9h0M861.3 141.9h0M867.9 141.9h0M874.5 141.9h0M881.1 141.9h0M900.9 141.9h0M907.5 141.9h0M914.1 141.9h0M920.7 141.9h0M927.3 141.9h0M933.9 141.9h0M940.5 141.9h0M947.1 141.9h0M953.7 141.9h0M960.3 141.9h0M973.5 141.9h0M3.3 148.5h0M9.9 148.5h0M16.5 148.5h0M23.1 148.5h0M29.7 148.5h0M36.3 148.5h0M42.9 148.5h0M49.5 148.5h0M56.1 148.5h0M62.7 148.5h0M69.3 148.5h0M75.9 148.5h0M82.5 148.5h0M89.1 148.5h0M95.7 148.5h0M102.3 148.5h0M108.9 148.5h0M115.5 148.5h0M122.1 148.5h0M128.7 148.5h0M135.3 148.5h0M141.9 148.5h0M148.5 148.5h0M155.1 148.5h0M161.7 148.5h0M168.3 148.5h0M174.9 148.5h0M181.5 148.5h0M188.1 148.5h0M194.7 148.5h0M201.3 148.5h0M207.9 148.5h0M214.5 148.5h0M221.1 148.5h0M227.7 148.5h0M234.3 148.5h0M240.9 148.5h0M247.5 148.5h0M254.1 148.5h0M260.7 148.5h0M267.3 148.5h0M273.9 148.5h0M280.5 148.5h0M287.1 148.5h0M293.7 148.5h0M300.3 148.5h0M306.9 148.5h0M313.5 148.5h0M320.1 148.5h0M346.5 148.5h0M353.1 148.5h0M359.7 148.5h0M366.3 148.5h0M372.9 148.5h0M379.5 148.5h0M386.1 148.5h0M392.7 148.5h0M452.1 148.5h0M458.7 148.5h0M722.7 148.5h0M729.3 148.5h0M735.9 148.5h0M742.5 148.5h0M749.1 148.5h0M755.7 148.5h0M762.3 148.5h0M768.9 148.5h0M775.5 148.5h0M782.1 148.5h0M788.7 148.5h0M795.3 148.5h0M801.9 148.5h0M808.5 148.5h0M815.1 148.5h0M821.7 148.5h0M828.3 148.5h0M834.9 148.5h0M841.5 148.5h0M848.1 148.5h0M854.7 148.5h0M861.3 148.5h0M867.9 148.5h0M874.5 148.5h0M881.1 148.5h0M900.9 148.5h0M907.5 148.5h0M914.1 148.5h0M920.7 148.5h0M927.3 148.5h0M933.9 148.5h0M940.5 148.5h0M947.1 148.5h0M953.7 148.5h0M960.3 148.5h0M966.9 148.5h0M973.5 148.5h0M3.3 155.1h0M9.9 155.1h0M16.5 155.1h0M23.1 155.1h0M29.7 155.1h0M36.3 155.1h0M42.9 155.1h0M49.5 155.1h0M56.1 155.1h0M62.7 155.1h0M69.3 155.1h0M75.9 155.1h0M82.5 155.1h0M89.1 155.1h0M95.7 155.1h0M102.3 155.1h0M108.9 155.1h0M115.5 155.1h0M122.1 155.1h0M128.7 155.1h0M135.3 155.1h0M141.9 155.1h0M148.5 155.1h0M155.1 155.1h0M161.7 155.1h0M168.3 155.1h0M174.9 155.1h0M181.5 155.1h0M188.1 155.1h0M194.7 155.1h0M201.3 155.1h0M207.9 155.1h0M214.5 155.1h0M221.1 155.1h0M227.7 155.1h0M234.3 155.1h0M240.9 155.1h0M247.5 155.1h0M254.1 155.1h0M260.7 155.1h0M267.3 155.1h0M273.9 155.1h0M280.5 155.1h0M287.1 155.1h0M293.7 155.1h0M300.3 155.1h0M306.9 155.1h0M313.5 155.1h0M320.1 155.1h0M346.5 155.1h0M353.1 155.1h0M359.7 155.1h0M366.3 155.1h0M372.9 155.1h0M379.5 155.1h0M386.1 155.1h0M392.7 155.1h0M452.1 155.1h0M722.7 155.1h0M729.3 155.1h0M735.9 155.1h0M742.5 155.1h0M749.1 155.1h0M755.7 155.1h0M762.3 155.1h0M768.9 155.1h0M775.5 155.1h0M782.1 155.1h0M788.7 155.1h0M795.3 155.1h0M801.9 155.1h0M808.5 155.1h0M815.1 155.1h0M821.7 155.1h0M828.3 155.1h0M834.9 155.1h0M841.5 155.1h0M848.1 155.1h0M854.7 155.1h0M861.3 155.1h0M867.9 155.1h0M874.5 155.1h0M881.1 155.1h0M887.7 155.1h0M900.9 155.1h0M907.5 155.1h0M914.1 155.1h0M920.7 155.1h0M927.3 155.1h0M933.9 155.1h0M940.5 155.1h0M947.1 155.1h0M953.7 155.1h0M960.3 155.1h0M966.9 155.1h0M973.5 155.1h0M980.1 155.1h0M3.3 161.7h0M9.9 161.7h0M16.5 161.7h0M23.1 161.7h0M29.7 161.7h0M36.3 161.7h0M42.9 161.7h0M49.5 161.7h0M56.1 161.7h0M62.7 161.7h0M69.3 161.7h0M75.9 161.7h0M82.5 161.7h0M89.1 161.7h0M95.7 161.7h0M102.3 161.7h0M108.9 161.7h0M115.5 161.7h0M122.1 161.7h0M128.7 161.7h0M135.3 161.7h0M141.9 161.7h0M148.5 161.7h0M155.1 161.7h0M161.7 161.7h0M168.3 161.7h0M174.9 161.7h0M181.5 161.7h0M188.1 161.7h0M194.7 161.7h0M201.3 161.7h0M207.9 161.7h0M214.5 161.7h0M221.1 161.7h0M227.7 161.7h0M234.3 161.7h0M240.9 161.7h0M247.5 161.7h0M254.1 161.7h0M260.7 161.7h0M267.3 161.7h0M273.9 161.7h0M280.5 161.7h0M287.1 161.7h0M293.7 161.7h0M300.3 161.7h0M306.9 161.7h0M313.5 161.7h0M353.1 161.7h0M359.7 161.7h0M366.3 161.7h0M372.9 161.7h0M379.5 161.7h0M386.1 161.7h0M392.7 161.7h0M405.9 161.7h0M722.7 161.7h0M729.3 161.7h0M735.9 161.7h0M742.5 161.7h0M749.1 161.7h0M755.7 161.7h0M762.3 161.7h0M768.9 161.7h0M775.5 161.7h0M782.1 161.7h0M788.7 161.7h0M795.3 161.7h0M801.9 161.7h0M808.5 161.7h0M815.1 161.7h0M821.7 161.7h0M828.3 161.7h0M834.9 161.7h0M841.5 161.7h0M848.1 161.7h0M854.7 161.7h0M861.3 161.7h0M867.9 161.7h0M874.5 161.7h0M881.1 161.7h0M887.7 161.7h0M894.3 161.7h0M900.9 161.7h0M907.5 161.7h0M914.1 161.7h0M920.7 161.7h0M927.3 161.7h0M933.9 161.7h0M940.5 161.7h0M947.1 161.7h0M953.7 161.7h0M960.3 161.7h0M973.5 161.7h0M3.3 168.3h0M9.9 168.3h0M16.5 168.3h0M23.1 168.3h0M29.7 168.3h0M36.3 168.3h0M42.9 168.3h0M49.5 168.3h0M56.1 168.3h0M62.7 168.3h0M69.3 168.3h0M75.9 168.3h0M82.5 168.3h0M89.1 168.3h0M95.7 168.3h0M102.3 168.3h0M108.9 168.3h0M115.5 168.3h0M122.1 168.3h0M128.7 168.3h0M135.3 168.3h0M141.9 168.3h0M148.5 168.3h0M155.1 168.3h0M161.7 168.3h0M168.3 168.3h0M174.9 168.3h0M181.5 168.3h0M188.1 168.3h0M194.7 168.3h0M201.3 168.3h0M207.9 168.3h0M214.5 168.3h0M221.1 168.3h0M227.7 168.3h0M234.3 168.3h0M240.9 168.3h0M247.5 168.3h0M254.1 168.3h0M260.7 168.3h0M267.3 168.3h0M273.9 168.3h0M280.5 168.3h0M287.1 168.3h0M293.7 168.3h0M300.3 168.3h0M306.9 168.3h0M359.7 168.3h0M366.3 168.3h0M372.9 168.3h0M379.5 168.3h0M386.1 168.3h0M392.7 168.3h0M735.9 168.3h0M742.5 168.3h0M749.1 168.3h0M755.7 168.3h0M762.3 168.3h0M768.9 168.3h0M775.5 168.3h0M782.1 168.3h0M788.7 168.3h0M795.3 168.3h0M801.9 168.3h0M808.5 168.3h0M815.1 168.3h0M821.7 168.3h0M828.3 168.3h0M834.9 168.3h0M841.5 168.3h0M848.1 168.3h0M854.7 168.3h0M861.3 168.3h0M867.9 168.3h0M874.5 168.3h0M881.1 168.3h0M887.7 168.3h0M894.3 168.3h0M900.9 168.3h0M907.5 168.3h0M914.1 168.3h0M920.7 168.3h0M927.3 168.3h0M933.9 168.3h0M947.1 168.3h0M973.5 168.3h0M980.1 168.3h0M986.7 168.3h0M3.3 174.9h0M9.9 174.9h0M16.5 174.9h0M23.1 174.9h0M29.7 174.9h0M36.3 174.9h0M42.9 174.9h0M49.5 174.9h0M56.1 174.9h0M62.7 174.9h0M69.3 174.9h0M75.9 174.9h0M82.5 174.9h0M89.1 174.9h0M95.7 174.9h0M102.3 174.9h0M108.9 174.9h0M115.5 174.9h0M122.1 174.9h0M128.7 174.9h0M135.3 174.9h0M141.9 174.9h0M148.5 174.9h0M155.1 174.9h0M161.7 174.9h0M168.3 174.9h0M174.9 174.9h0M181.5 174.9h0M188.1 174.9h0M194.7 174.9h0M214.5 174.9h0M221.1 174.9h0M227.7 174.9h0M234.3 174.9h0M240.9 174.9h0M247.5 174.9h0M254.1 174.9h0M260.7 174.9h0M267.3 174.9h0M273.9 174.9h0M280.5 174.9h0M287.1 174.9h0M293.7 174.9h0M300.3 174.9h0M313.5 174.9h0M366.3 174.9h0M379.5 174.9h0M386.1 174.9h0M867.9 174.9h0M874.5 174.9h0M881.1 174.9h0M887.7 174.9h0M894.3 174.9h0M900.9 174.9h0M907.5 174.9h0M914.1 174.9h0M920.7 174.9h0M927.3 174.9h0M933.9 174.9h0M940.5 174.9h0M966.9 174.9h0M973.5 174.9h0M980.1 174.9h0M986.7 174.9h0M3.3 181.5h0M9.9 181.5h0M16.5 181.5h0M36.3 181.5h0M42.9 181.5h0M49.5 181.5h0M56.1 181.5h0M62.7 181.5h0M69.3 181.5h0M89.1 181.5h0M95.7 181.5h0M102.3 181.5h0M108.9 181.5h0M115.5 181.5h0M122.1 181.5h0M128.7 181.5h0M135.3 181.5h0M141.9 181.5h0M148.5 181.5h0M155.1 181.5h0M161.7 181.5h0M168.3 181.5h0M174.9 181.5h0M181.5 181.5h0M188.1 181.5h0M221.1 181.5h0M227.7 181.5h0M234.3 181.5h0M240.9 181.5h0M247.5 181.5h0M254.1 181.5h0M260.7 181.5h0M267.3 181.5h0M273.9 181.5h0M280.5 181.5h0M287.1 181.5h0M293.7 181.5h0M300.3 181.5h0M306.9 181.5h0M313.5 181.5h0M320.1 181.5h0M372.9 181.5h0M379.5 181.5h0M386.1 181.5h0M881.1 181.5h0M887.7 181.5h0M894.3 181.5h0M900.9 181.5h0M907.5 181.5h0M914.1 181.5h0M920.7 181.5h0M927.3 181.5h0M940.5 181.5h0M9.9 188.1h0M16.5 188.1h0M23.1 188.1h0M29.7 188.1h0M36.3 188.1h0M42.9 188.1h0M49.5 188.1h0M56.1 188.1h0M82.5 188.1h0M89.1 188.1h0M95.7 188.1h0M102.3 188.1h0M108.9 188.1h0M115.5 188.1h0M122.1 188.1h0M128.7 188.1h0M135.3 188.1h0M141.9 188.1h0M148.5 188.1h0M155.1 188.1h0M161.7 188.1h0M168.3 188.1h0M174.9 188.1h0M181.5 188.1h0M221.1 188.1h0M227.7 188.1h0M234.3 188.1h0M240.9 188.1h0M247.5 188.1h0M254.1 188.1h0M260.7 188.1h0M267.3 188.1h0M273.9 188.1h0M280.5 188.1h0M287.1 188.1h0M293.7 188.1h0M300.3 188.1h0M372.9 188.1h0M379.5 188.1h0M887.7 188.1h0M894.3 188.1h0M900.9 188.1h0M907.5 188.1h0M914.1 188.1h0M920.7 188.1h0M940.5 188.1h0M947.1 188.1h0M953.7 188.1h0M36.3 194.7h0M42.9 194.7h0M49.5 194.7h0M56.1 194.7h0M75.9 194.7h0M82.5 194.7h0M89.1 194.7h0M95.7 194.7h0M102.3 194.7h0M108.9 194.7h0M115.5 194.7h0M122.1 194.7h0M128.7 194.7h0M135.3 194.7h0M141.9 194.7h0M148.5 194.7h0M155.1 194.7h0M161.7 194.7h0M168.3 194.7h0M174.9 194.7h0M234.3 194.7h0M240.9 194.7h0M247.5 194.7h0M254.1 194.7h0M260.7 194.7h0M267.3 194.7h0M273.9 194.7h0M280.5 194.7h0M287.1 194.7h0M366.3 194.7h0M372.9 194.7h0M887.7 194.7h0M894.3 194.7h0M900.9 194.7h0M947.1 194.7h0M42.9 201.3h0M49.5 201.3h0M56.1 201.3h0M62.7 201.3h0M82.5 201.3h0M89.1 201.3h0M95.7 201.3h0M102.3 201.3h0M108.9 201.3h0M115.5 201.3h0M122.1 201.3h0M128.7 201.3h0M135.3 201.3h0M141.9 201.3h0M148.5 201.3h0M155.1 201.3h0M161.7 201.3h0M168.3 201.3h0M174.9 201.3h0M240.9 201.3h0M247.5 201.3h0M254.1 201.3h0M260.7 201.3h0M267.3 201.3h0M273.9 201.3h0M280.5 201.3h0M359.7 201.3h0M887.7 201.3h0M894.3 201.3h0M9.9 207.9h0M16.5 207.9h0M42.9 207.9h0M49.5 207.9h0M56.1 207.9h0M62.7 207.9h0M89.1 207.9h0M95.7 207.9h0M102.3 207.9h0M108.9 207.9h0M115.5 207.9h0M122.1 207.9h0M128.7 207.9h0M135.3 207.9h0M141.9 207.9h0M148.5 207.9h0M155.1 207.9h0M161.7 207.9h0M168.3 207.9h0M346.5 207.9h0M353.1 207.9h0M3.3 214.5h0M9.9 214.5h0M16.5 214.5h0M23.1 214.5h0M29.7 214.5h0M36.3 214.5h0M42.9 214.5h0M49.5 214.5h0M56.1 214.5h0M62.7 214.5h0M69.3 214.5h0M82.5 214.5h0M89.1 214.5h0M95.7 214.5h0M102.3 214.5h0M108.9 214.5h0M115.5 214.5h0M122.1 214.5h0M128.7 214.5h0M135.3 214.5h0M141.9 214.5h0M148.5 214.5h0M155.1 214.5h0M339.9 214.5h0M346.5 214.5h0M3.3 221.1h0M9.9 221.1h0M16.5 221.1h0M23.1 221.1h0M29.7 221.1h0M36.3 221.1h0M42.9 221.1h0M49.5 221.1h0M56.1 221.1h0M62.7 221.1h0M89.1 221.1h0M95.7 221.1h0M102.3 221.1h0M108.9 221.1h0M115.5 221.1h0M122.1 221.1h0M128.7 221.1h0M135.3 221.1h0M141.9 221.1h0M148.5 221.1h0M155.1 221.1h0M339.9 221.1h0M346.5 221.1h0M3.3 227.7h0M9.9 227.7h0M16.5 227.7h0M23.1 227.7h0M29.7 227.7h0M36.3 227.7h0M42.9 227.7h0M49.5 227.7h0M56.1 227.7h0M62.7 227.7h0M69.3 227.7h0M89.1 227.7h0M95.7 227.7h0M102.3 227.7h0M108.9 227.7h0M115.5 227.7h0M122.1 227.7h0M128.7 227.7h0M135.3 227.7h0M141.9 227.7h0M148.5 227.7h0M155.1 227.7h0M346.5 227.7h0M353.1 227.7h0M23.1 234.3h0M29.7 234.3h0M36.3 234.3h0M42.9 234.3h0M49.5 234.3h0M56.1 234.3h0M62.7 234.3h0M69.3 234.3h0M75.9 234.3h0M82.5 234.3h0M89.1 234.3h0M95.7 234.3h0M102.3 234.3h0M108.9 234.3h0M115.5 234.3h0M122.1 234.3h0M128.7 234.3h0M135.3 234.3h0M141.9 234.3h0M148.5 234.3h0M155.1 234.3h0M161.7 234.3h0M346.5 234.3h0M353.1 234.3h0M23.1 240.9h0M29.7 240.9h0M36.3 240.9h0M42.9 240.9h0M49.5 240.9h0M56.1 240.9h0M62.7 240.9h0M69.3 240.9h0M75.9 240.9h0M82.5 240.9h0M89.1 240.9h0M95.7 240.9h0M102.3 240.9h0M108.9 240.9h0M115.5 240.9h0M122.1 240.9h0M128.7 240.9h0M135.3 240.9h0M141.9 240.9h0M148.5 240.9h0M155.1 240.9h0M23.1 247.5h0M29.7 247.5h0M36.3 247.5h0M42.9 247.5h0M49.5 247.5h0M56.1 247.5h0M62.7 247.5h0M69.3 247.5h0M75.9 247.5h0M82.5 247.5h0M89.1 247.5h0M95.7 247.5h0M102.3 247.5h0M108.9 247.5h0M115.5 247.5h0M122.1 247.5h0M128.7 247.5h0M135.3 247.5h0M141.9 247.5h0M148.5 247.5h0M155.1 247.5h0M762.3 247.5h0M3.3 254.1h0M9.9 254.1h0M16.5 254.1h0M23.1 254.1h0M29.7 254.1h0M36.3 254.1h0M42.9 254.1h0M49.5 254.1h0M56.1 254.1h0M62.7 254.1h0M69.3 254.1h0M75.9 254.1h0M82.5 254.1h0M89.1 254.1h0M95.7 254.1h0M102.3 254.1h0M108.9 254.1h0M115.5 254.1h0M122.1 254.1h0M128.7 254.1h0M135.3 254.1h0M141.9 254.1h0M148.5 254.1h0M155.1 254.1h0M775.5 254.1h0M782.1 254.1h0M788.7 254.1h0M795.3 254.1h0M3.3 260.7h0M16.5 260.7h0M23.1 260.7h0M29.7 260.7h0M36.3 260.7h0M42.9 260.7h0M49.5 260.7h0M56.1 260.7h0M62.7 260.7h0M75.9 260.7h0M82.5 260.7h0M89.1 260.7h0M95.7 260.7h0M102.3 260.7h0M108.9 260.7h0M115.5 260.7h0M122.1 260.7h0M128.7 260.7h0M135.3 260.7h0M141.9 260.7h0M148.5 260.7h0M181.5 260.7h0M188.1 260.7h0M768.9 260.7h0M782.1 260.7h0M788.7 260.7h0M795.3 260.7h0M801.9 260.7h0M815.1 260.7h0M3.3 267.3h0M9.9 267.3h0M23.1 267.3h0M29.7 267.3h0M36.3 267.3h0M42.9 267.3h0M49.5 267.3h0M56.1 267.3h0M62.7 267.3h0M82.5 267.3h0M89.1 267.3h0M95.7 267.3h0M102.3 267.3h0M108.9 267.3h0M115.5 267.3h0M122.1 267.3h0M128.7 267.3h0M135.3 267.3h0M141.9 267.3h0M188.1 267.3h0M194.7 267.3h0M201.3 267.3h0M214.5 267.3h0M240.9 267.3h0M768.9 267.3h0M775.5 267.3h0M788.7 267.3h0M795.3 267.3h0M801.9 267.3h0M808.5 267.3h0M815.1 267.3h0M821.7 267.3h0M3.3 273.9h0M9.9 273.9h0M29.7 273.9h0M36.3 273.9h0M42.9 273.9h0M49.5 273.9h0M56.1 273.9h0M62.7 273.9h0M69.3 273.9h0M75.9 273.9h0M102.3 273.9h0M108.9 273.9h0M115.5 273.9h0M122.1 273.9h0M128.7 273.9h0M135.3 273.9h0M141.9 273.9h0M207.9 273.9h0M234.3 273.9h0M240.9 273.9h0M788.7 273.9h0M795.3 273.9h0M801.9 273.9h0M808.5 273.9h0M815.1 273.9h0M821.7 273.9h0M3.3 280.5h0M9.9 280.5h0M16.5 280.5h0M29.7 280.5h0M36.3 280.5h0M42.9 280.5h0M49.5 280.5h0M56.1 280.5h0M62.7 280.5h0M69.3 280.5h0M75.9 280.5h0M89.1 280.5h0M135.3 280.5h0M141.9 280.5h0M214.5 280.5h0M221.1 280.5h0M234.3 280.5h0M240.9 280.5h0M326.7 280.5h0M782.1 280.5h0M795.3 280.5h0M801.9 280.5h0M808.5 280.5h0M815.1 280.5h0M821.7 280.5h0M828.3 280.5h0M3.3 287.1h0M9.9 287.1h0M16.5 287.1h0M36.3 287.1h0M42.9 287.1h0M49.5 287.1h0M56.1 287.1h0M62.7 287.1h0M69.3 287.1h0M75.9 287.1h0M82.5 287.1h0M89.1 287.1h0M95.7 287.1h0M102.3 287.1h0M214.5 287.1h0M221.1 287.1h0M227.7 287.1h0M234.3 287.1h0M240.9 287.1h0M247.5 287.1h0M267.3 287.1h0M273.9 287.1h0M801.9 287.1h0M808.5 287.1h0M815.1 287.1h0M821.7 287.1h0M828.3 287.1h0M881.1 287.1h0M887.7 287.1h0M3.3 293.7h0M9.9 293.7h0M16.5 293.7h0M23.1 293.7h0M36.3 293.7h0M42.9 293.7h0M49.5 293.7h0M56.1 293.7h0M62.7 293.7h0M69.3 293.7h0M75.9 293.7h0M82.5 293.7h0M89.1 293.7h0M95.7 293.7h0M102.3 293.7h0M227.7 293.7h0M234.3 293.7h0M240.9 293.7h0M247.5 293.7h0M254.1 293.7h0M260.7 293.7h0M267.3 293.7h0M273.9 293.7h0M808.5 293.7h0M815.1 293.7h0M821.7 293.7h0M828.3 293.7h0M861.3 293.7h0M867.9 293.7h0M900.9 293.7h0M907.5 293.7h0M3.3 300.3h0M9.9 300.3h0M16.5 300.3h0M23.1 300.3h0M42.9 300.3h0M49.5 300.3h0M56.1 300.3h0M62.7 300.3h0M69.3 300.3h0M75.9 300.3h0M82.5 300.3h0M89.1 300.3h0M95.7 300.3h0M234.3 300.3h0M240.9 300.3h0M260.7 300.3h0M267.3 300.3h0M326.7 300.3h0M808.5 300.3h0M815.1 300.3h0M821.7 300.3h0M828.3 300.3h0M854.7 300.3h0M861.3 300.3h0M920.7 300.3h0M927.3 300.3h0M3.3 306.9h0M9.9 306.9h0M16.5 306.9h0M23.1 306.9h0M29.7 306.9h0M49.5 306.9h0M56.1 306.9h0M62.7 306.9h0M69.3 306.9h0M75.9 306.9h0M82.5 306.9h0M89.1 306.9h0M234.3 306.9h0M240.9 306.9h0M254.1 306.9h0M267.3 306.9h0M326.7 306.9h0M821.7 306.9h0M828.3 306.9h0M834.9 306.9h0M841.5 306.9h0M848.1 306.9h0M854.7 306.9h0M861.3 306.9h0M3.3 313.5h0M9.9 313.5h0M16.5 313.5h0M23.1 313.5h0M29.7 313.5h0M49.5 313.5h0M56.1 313.5h0M62.7 313.5h0M69.3 313.5h0M75.9 313.5h0M273.9 313.5h0M326.7 313.5h0M834.9 313.5h0M848.1 313.5h0M854.7 313.5h0M861.3 313.5h0M874.5 313.5h0M3.3 320.1h0M9.9 320.1h0M16.5 320.1h0M23.1 320.1h0M29.7 320.1h0M36.3 320.1h0M49.5 320.1h0M56.1 320.1h0M62.7 320.1h0M260.7 320.1h0M267.3 320.1h0M273.9 320.1h0M280.5 320.1h0M326.7 320.1h0M333.3 320.1h0M854.7 320.1h0M861.3 320.1h0M867.9 320.1h0M874.5 320.1h0M3.3 326.7h0M9.9 326.7h0M16.5 326.7h0M23.1 326.7h0M29.7 326.7h0M36.3 326.7h0M42.9 326.7h0M247.5 326.7h0M260.7 326.7h0M267.3 326.7h0M273.9 326.7h0M280.5 326.7h0M333.3 326.7h0M339.9 326.7h0M874.5 326.7h0M3.3 333.3h0M9.9 333.3h0M16.5 333.3h0M23.1 333.3h0M29.7 333.3h0M36.3 333.3h0M42.9 333.3h0M49.5 333.3h0M56.1 333.3h0M62.7 333.3h0M69.3 333.3h0M267.3 333.3h0M273.9 333.3h0M333.3 333.3h0M339.9 333.3h0M874.5 333.3h0M914.1 333.3h0M920.7 333.3h0M927.3 333.3h0M933.9 333.3h0M940.5 333.3h0M953.7 333.3h0M960.3 333.3h0M3.3 339.9h0M9.9 339.9h0M16.5 339.9h0M23.1 339.9h0M29.7 339.9h0M36.3 339.9h0M42.9 339.9h0M49.5 339.9h0M56.1 339.9h0M62.7 339.9h0M69.3 339.9h0M181.5 339.9h0M333.3 339.9h0M339.9 339.9h0M887.7 339.9h0M900.9 339.9h0M907.5 339.9h0M914.1 339.9h0M920.7 339.9h0M927.3 339.9h0M933.9 339.9h0M940.5 339.9h0M947.1 339.9h0M953.7 339.9h0M3.3 346.5h0M9.9 346.5h0M16.5 346.5h0M23.1 346.5h0M29.7 346.5h0M36.3 346.5h0M42.9 346.5h0M49.5 346.5h0M56.1 346.5h0M62.7 346.5h0M181.5 346.5h0M339.9 346.5h0M907.5 346.5h0M914.1 346.5h0M920.7 346.5h0M927.3 346.5h0M933.9 346.5h0M940.5 346.5h0M947.1 346.5h0M953.7 346.5h0M960.3 346.5h0M966.9 346.5h0M3.3 353.1h0M9.9 353.1h0M16.5 353.1h0M23.1 353.1h0M29.7 353.1h0M36.3 353.1h0M42.9 353.1h0M49.5 353.1h0M56.1 353.1h0M62.7 353.1h0M234.3 353.1h0M240.9 353.1h0M254.1 353.1h0M260.7 353.1h0M306.9 353.1h0M313.5 353.1h0M907.5 353.1h0M914.1 353.1h0M920.7 353.1h0M927.3 353.1h0M933.9 353.1h0M940.5 353.1h0M947.1 353.1h0M953.7 353.1h0M960.3 353.1h0M966.9 353.1h0M973.5 353.1h0M980.1 353.1h0M986.7 353.1h0M3.3 359.7h0M9.9 359.7h0M16.5 359.7h0M23.1 359.7h0M29.7 359.7h0M36.3 359.7h0M42.9 359.7h0M49.5 359.7h0M56.1 359.7h0M240.9 359.7h0M247.5 359.7h0M260.7 359.7h0M300.3 359.7h0M306.9 359.7h0M907.5 359.7h0M914.1 359.7h0M920.7 359.7h0M927.3 359.7h0M933.9 359.7h0M940.5 359.7h0M947.1 359.7h0M953.7 359.7h0M960.3 359.7h0M966.9 359.7h0M973.5 359.7h0M980.1 359.7h0M986.7 359.7h0M993.3 359.7h0M3.3 366.3h0M9.9 366.3h0M16.5 366.3h0M23.1 366.3h0M29.7 366.3h0M36.3 366.3h0M42.9 366.3h0M49.5 366.3h0M240.9 366.3h0M247.5 366.3h0M254.1 366.3h0M287.1 366.3h0M293.7 366.3h0M300.3 366.3h0M306.9 366.3h0M313.5 366.3h0M900.9 366.3h0M907.5 366.3h0M914.1 366.3h0M920.7 366.3h0M927.3 366.3h0M933.9 366.3h0M940.5 366.3h0M947.1 366.3h0M953.7 366.3h0M960.3 366.3h0M966.9 366.3h0M973.5 366.3h0M980.1 366.3h0M986.7 366.3h0M993.3 366.3h0M999.9 366.3h0M3.3 372.9h0M9.9 372.9h0M16.5 372.9h0M23.1 372.9h0M29.7 372.9h0M36.3 372.9h0M42.9 372.9h0M254.1 372.9h0M260.7 372.9h0M287.1 372.9h0M293.7 372.9h0M300.3 372.9h0M306.9 372.9h0M333.3 372.9h0M366.3 372.9h0M894.3 372.9h0M900.9 372.9h0M907.5 372.9h0M914.1 372.9h0M920.7 372.9h0M927.3 372.9h0M933.9 372.9h0M940.5 372.9h0M947.1 372.9h0M953.7 372.9h0M960.3 372.9h0M966.9 372.9h0M973.5 372.9h0M980.1 372.9h0M986.7 372.9h0M993.3 372.9h0M999.9 372.9h0M3.3 379.5h0M9.9 379.5h0M16.5 379.5h0M23.1 379.5h0M29.7 379.5h0M36.3 379.5h0M254.1 379.5h0M260.7 379.5h0M267.3 379.5h0M287.1 379.5h0M293.7 379.5h0M300.3 379.5h0M306.9 379.5h0M320.1 379.5h0M326.7 379.5h0M386.1 379.5h0M392.7 379.5h0M894.3 379.5h0M900.9 379.5h0M907.5 379.5h0M914.1 379.5h0M920.7 379.5h0M927.3 379.5h0M933.9 379.5h0M940.5 379.5h0M947.1 379.5h0M953.7 379.5h0M960.3 379.5h0M966.9 379.5h0M973.5 379.5h0M980.1 379.5h0M986.7 379.5h0M993.3 379.5h0M999.9 379.5h0M3.3 386.1h0M9.9 386.1h0M16.5 386.1h0M23.1 386.1h0M29.7 386.1h0M260.7 386.1h0M267.3 386.1h0M320.1 386.1h0M379.5 386.1h0M386.1 386.1h0M392.7 386.1h0M399.3 386.1h0M405.9 386.1h0M438.9 386.1h0M894.3 386.1h0M900.9 386.1h0M907.5 386.1h0M914.1 386.1h0M920.7 386.1h0M927.3 386.1h0M933.9 386.1h0M940.5 386.1h0M947.1 386.1h0M953.7 386.1h0M960.3 386.1h0M966.9 386.1h0M973.5 386.1h0M980.1 386.1h0M986.7 386.1h0M993.3 386.1h0M999.9 386.1h0M3.3 392.7h0M9.9 392.7h0M16.5 392.7h0M23.1 392.7h0M29.7 392.7h0M273.9 392.7h0M372.9 392.7h0M392.7 392.7h0M399.3 392.7h0M405.9 392.7h0M412.5 392.7h0M419.1 392.7h0M894.3 392.7h0M900.9 392.7h0M907.5 392.7h0M914.1 392.7h0M920.7 392.7h0M927.3 392.7h0M933.9 392.7h0M940.5 392.7h0M947.1 392.7h0M953.7 392.7h0M960.3 392.7h0M966.9 392.7h0M973.5 392.7h0M980.1 392.7h0M986.7 392.7h0M993.3 392.7h0M999.9 392.7h0M3.3 399.3h0M9.9 399.3h0M16.5 399.3h0M23.1 399.3h0M29.7 399.3h0M287.1 399.3h0M293.7 399.3h0M300.3 399.3h0M386.1 399.3h0M392.7 399.3h0M399.3 399.3h0M419.1 399.3h0M452.1 399.3h0M900.9 399.3h0M907.5 399.3h0M914.1 399.3h0M920.7 399.3h0M927.3 399.3h0M933.9 399.3h0M940.5 399.3h0M947.1 399.3h0M953.7 399.3h0M960.3 399.3h0M966.9 399.3h0M973.5 399.3h0M980.1 399.3h0M986.7 399.3h0M993.3 399.3h0M999.9 399.3h0M3.3 405.9h0M9.9 405.9h0M16.5 405.9h0M23.1 405.9h0M29.7 405.9h0M425.7 405.9h0M900.9 405.9h0M907.5 405.9h0M914.1 405.9h0M920.7 405.9h0M927.3 405.9h0M933.9 405.9h0M940.5 405.9h0M947.1 405.9h0M953.7 405.9h0M960.3 405.9h0M966.9 405.9h0M973.5 405.9h0M980.1 405.9h0M986.7 405.9h0M993.3 405.9h0M999.9 405.9h0M3.3 412.5h0M9.9 412.5h0M16.5 412.5h0M23.1 412.5h0M29.7 412.5h0M36.3 412.5h0M359.7 412.5h0M465.3 412.5h0M907.5 412.5h0M914.1 412.5h0M920.7 412.5h0M927.3 412.5h0M933.9 412.5h0M940.5 412.5h0M947.1 412.5h0M953.7 412.5h0M960.3 412.5h0M966.9 412.5h0M973.5 412.5h0M980.1 412.5h0M986.7 412.5h0M993.3 412.5h0M999.9 412.5h0M3.3 419.1h0M9.9 419.1h0M16.5 419.1h0M23.1 419.1h0M29.7 419.1h0M36.3 419.1h0M69.3 419.1h0M359.7 419.1h0M366.3 419.1h0M372.9 419.1h0M399.3 419.1h0M907.5 419.1h0M914.1 419.1h0M920.7 419.1h0M927.3 419.1h0M933.9 419.1h0M940.5 419.1h0M947.1 419.1h0M953.7 419.1h0M960.3 419.1h0M966.9 419.1h0M973.5 419.1h0M980.1 419.1h0M986.7 419.1h0M993.3 419.1h0M999.9 419.1h0M3.3 425.7h0M9.9 425.7h0M16.5 425.7h0M23.1 425.7h0M29.7 425.7h0M36.3 425.7h0M62.7 425.7h0M69.3 425.7h0M339.9 425.7h0M346.5 425.7h0M353.1 425.7h0M359.7 425.7h0M366.3 425.7h0M372.9 425.7h0M399.3 425.7h0M405.9 425.7h0M914.1 425.7h0M920.7 425.7h0M927.3 425.7h0M933.9 425.7h0M940.5 425.7h0M947.1 425.7h0M953.7 425.7h0M960.3 425.7h0M966.9 425.7h0M973.5 425.7h0M980.1 425.7h0M986.7 425.7h0M993.3 425.7h0M999.9 425.7h0M3.3 432.3h0M9.9 432.3h0M16.5 432.3h0M23.1 432.3h0M29.7 432.3h0M56.1 432.3h0M62.7 432.3h0M69.3 432.3h0M339.9 432.3h0M346.5 432.3h0M353.1 432.3h0M359.7 432.3h0M366.3 432.3h0M372.9 432.3h0M379.5 432.3h0M386.1 432.3h0M399.3 432.3h0M405.9 432.3h0M412.5 432.3h0M927.3 432.3h0M933.9 432.3h0M940.5 432.3h0M947.1 432.3h0M953.7 432.3h0M960.3 432.3h0M966.9 432.3h0M973.5 432.3h0M980.1 432.3h0M986.7 432.3h0M993.3 432.3h0M999.9 432.3h0M3.3 438.9h0M9.9 438.9h0M16.5 438.9h0M56.1 438.9h0M62.7 438.9h0M333.3 438.9h0M339.9 438.9h0M346.5 438.9h0M353.1 438.9h0M359.7 438.9h0M366.3 438.9h0M372.9 438.9h0M379.5 438.9h0M386.1 438.9h0M392.7 438.9h0M399.3 438.9h0M405.9 438.9h0M412.5 438.9h0M933.9 438.9h0M940.5 438.9h0M947.1 438.9h0M953.7 438.9h0M960.3 438.9h0M966.9 438.9h0M973.5 438.9h0M980.1 438.9h0M986.7 438.9h0M993.3 438.9h0M999.9 438.9h0M3.3 445.5h0M9.9 445.5h0M16.5 445.5h0M56.1 445.5h0M62.7 445.5h0M320.1 445.5h0M326.7 445.5h0M333.3 445.5h0M339.9 445.5h0M346.5 445.5h0M353.1 445.5h0M359.7 445.5h0M366.3 445.5h0M372.9 445.5h0M379.5 445.5h0M386.1 445.5h0M392.7 445.5h0M399.3 445.5h0M405.9 445.5h0M412.5 445.5h0M419.1 445.5h0M933.9 445.5h0M940.5 445.5h0M947.1 445.5h0M953.7 445.5h0M960.3 445.5h0M966.9 445.5h0M973.5 445.5h0M980.1 445.5h0M986.7 445.5h0M993.3 445.5h0M999.9 445.5h0M3.3 452.1h0M9.9 452.1h0M16.5 452.1h0M49.5 452.1h0M56.1 452.1h0M62.7 452.1h0M300.3 452.1h0M306.9 452.1h0M313.5 452.1h0M320.1 452.1h0M326.7 452.1h0M333.3 452.1h0M339.9 452.1h0M346.5 452.1h0M353.1 452.1h0M359.7 452.1h0M366.3 452.1h0M372.9 452.1h0M379.5 452.1h0M386.1 452.1h0M392.7 452.1h0M399.3 452.1h0M405.9 452.1h0M412.5 452.1h0M419.1 452.1h0M425.7 452.1h0M933.9 452.1h0M940.5 452.1h0M947.1 452.1h0M953.7 452.1h0M960.3 452.1h0M966.9 452.1h0M973.5 452.1h0M980.1 452.1h0M986.7 452.1h0M993.3 452.1h0M999.9 452.1h0M3.3 458.7h0M9.9 458.7h0M16.5 458.7h0M49.5 458.7h0M56.1 458.7h0M300.3 458.7h0M306.9 458.7h0M313.5 458.7h0M320.1 458.7h0M326.7 458.7h0M333.3 458.7h0M339.9 458.7h0M346.5 458.7h0M353.1 458.7h0M359.7 458.7h0M366.3 458.7h0M372.9 458.7h0M379.5 458.7h0M386.1 458.7h0M392.7 458.7h0M399.3 458.7h0M405.9 458.7h0M412.5 458.7h0M419.1 458.7h0M425.7 458.7h0M432.3 458.7h0M927.3 458.7h0M933.9 458.7h0M940.5 458.7h0M947.1 458.7h0M953.7 458.7h0M960.3 458.7h0M966.9 458.7h0M973.5 458.7h0M980.1 458.7h0M986.7 458.7h0M993.3 458.7h0M999.9 458.7h0M3.3 465.3h0M9.9 465.3h0M300.3 465.3h0M306.9 465.3h0M313.5 465.3h0M320.1 465.3h0M326.7 465.3h0M333.3 465.3h0M339.9 465.3h0M346.5 465.3h0M353.1 465.3h0M359.7 465.3h0M366.3 465.3h0M372.9 465.3h0M379.5 465.3h0M386.1 465.3h0M392.7 465.3h0M399.3 465.3h0M405.9 465.3h0M412.5 465.3h0M419.1 465.3h0M425.7 465.3h0M432.3 465.3h0M438.9 465.3h0M927.3 465.3h0M933.9 465.3h0M940.5 465.3h0M947.1 465.3h0M953.7 465.3h0M960.3 465.3h0M966.9 465.3h0M973.5 465.3h0M980.1 465.3h0M986.7 465.3h0M993.3 465.3h0M999.9 465.3h0M3.3 471.9h0M300.3 471.9h0M306.9 471.9h0M313.5 471.9h0M320.1 471.9h0M326.7 471.9h0M333.3 471.9h0M339.9 471.9h0M346.5 471.9h0M353.1 471.9h0M359.7 471.9h0M366.3 471.9h0M372.9 471.9h0M379.5 471.9h0M386.1 471.9h0M392.7 471.9h0M399.3 471.9h0M405.9 471.9h0M412.5 471.9h0M419.1 471.9h0M425.7 471.9h0M432.3 471.9h0M438.9 471.9h0M927.3 471.9h0M933.9 471.9h0M940.5 471.9h0M947.1 471.9h0M953.7 471.9h0M960.3 471.9h0M966.9 471.9h0M973.5 471.9h0M980.1 471.9h0M986.7 471.9h0M993.3 471.9h0M999.9 471.9h0M3.3 478.5h0M306.9 478.5h0M313.5 478.5h0M320.1 478.5h0M326.7 478.5h0M333.3 478.5h0M339.9 478.5h0M346.5 478.5h0M353.1 478.5h0M359.7 478.5h0M366.3 478.5h0M372.9 478.5h0M379.5 478.5h0M386.1 478.5h0M392.7 478.5h0M399.3 478.5h0M405.9 478.5h0M412.5 478.5h0M419.1 478.5h0M425.7 478.5h0M432.3 478.5h0M438.9 478.5h0M927.3 478.5h0M933.9 478.5h0M940.5 478.5h0M947.1 478.5h0M953.7 478.5h0M960.3 478.5h0M966.9 478.5h0M973.5 478.5h0M980.1 478.5h0M986.7 478.5h0M993.3 478.5h0M999.9 478.5h0M306.9 485.1h0M313.5 485.1h0M320.1 485.1h0M326.7 485.1h0M333.3 485.1h0M339.9 485.1h0M346.5 485.1h0M353.1 485.1h0M359.7 485.1h0M366.3 485.1h0M372.9 485.1h0M379.5 485.1h0M386.1 485.1h0M392.7 485.1h0M399.3 485.1h0M405.9 485.1h0M412.5 485.1h0M419.1 485.1h0M425.7 485.1h0M432.3 485.1h0M438.9 485.1h0M927.3 485.1h0M933.9 485.1h0M940.5 485.1h0M947.1 485.1h0M953.7 485.1h0M960.3 485.1h0M966.9 485.1h0M973.5 485.1h0M980.1 485.1h0M986.7 485.1h0M993.3 485.1h0M306.9 491.7h0M313.5 491.7h0M320.1 491.7h0M326.7 491.7h0M333.3 491.7h0M339.9 491.7h0M346.5 491.7h0M372.9 491.7h0M379.5 491.7h0M386.1 491.7h0M392.7 491.7h0M399.3 491.7h0M405.9 491.7h0M412.5 491.7h0M419.1 491.7h0M425.7 491.7h0M432.3 491.7h0M927.3 491.7h0M933.9 491.7h0M940.5 491.7h0M947.1 491.7h0M953.7 491.7h0M960.3 491.7h0M966.9 491.7h0M973.5 491.7h0M980.1 491.7h0M986.7 491.7h0M306.9 498.3h0M313.5 498.3h0M320.1 498.3h0M326.7 498.3h0M333.3 498.3h0M379.5 498.3h0M386.1 498.3h0M392.7 498.3h0M399.3 498.3h0M405.9 498.3h0M412.5 498.3h0M419.1 498.3h0M425.7 498.3h0M432.3 498.3h0M927.3 498.3h0M933.9 498.3h0M940.5 498.3h0M947.1 498.3h0M953.7 498.3h0M960.3 498.3h0M966.9 498.3h0M973.5 498.3h0M980.1 498.3h0M986.7 498.3h0M392.7 504.9h0M399.3 504.9h0M405.9 504.9h0M412.5 504.9h0M419.1 504.9h0M425.7 504.9h0M511.5 504.9h0M920.7 504.9h0M927.3 504.9h0M933.9 504.9h0M940.5 504.9h0M947.1 504.9h0M953.7 504.9h0M960.3 504.9h0M966.9 504.9h0M973.5 504.9h0M392.7 511.5h0M399.3 511.5h0M405.9 511.5h0M412.5 511.5h0M419.1 511.5h0M425.7 511.5h0M920.7 511.5h0M927.3 511.5h0M933.9 511.5h0M940.5 511.5h0M947.1 511.5h0M953.7 511.5h0M960.3 511.5h0M966.9 511.5h0M973.5 511.5h0M399.3 518.1h0M405.9 518.1h0M412.5 518.1h0M419.1 518.1h0M518.1 518.1h0M524.7 518.1h0M920.7 518.1h0M927.3 518.1h0M933.9 518.1h0M940.5 518.1h0M947.1 518.1h0M953.7 518.1h0M960.3 518.1h0M966.9 518.1h0M518.1 524.7h0M524.7 524.7h0M920.7 524.7h0M927.3 524.7h0M933.9 524.7h0M940.5 524.7h0M947.1 524.7h0M953.7 524.7h0M412.5 531.3h0M419.1 531.3h0M518.1 531.3h0M920.7 531.3h0M927.3 531.3h0M933.9 531.3h0M940.5 531.3h0M953.7 531.3h0M419.1 537.9h0M504.9 537.9h0M511.5 537.9h0M914.1 537.9h0M920.7 537.9h0M927.3 537.9h0M933.9 537.9h0M940.5 537.9h0M947.1 537.9h0M498.3 544.5h0M504.9 544.5h0M920.7 544.5h0M927.3 544.5h0M933.9 544.5h0M940.5 544.5h0M491.7 551.1h0M498.3 551.1h0M914.1 551.1h0M920.7 551.1h0M927.3 551.1h0M933.9 551.1h0M940.5 551.1h0M498.3 557.7h0M914.1 557.7h0M920.7 557.7h0M927.3 557.7h0M933.9 557.7h0" stroke="rgba(185,200,220,.30)" stroke-width="3.1" stroke-linecap="round" fill="none"/>
+          <path d="M610.5 9.9h0M617.1 9.9h0M623.7 9.9h0M630.3 9.9h0M603.9 16.5h0M610.5 16.5h0M617.1 16.5h0M623.7 16.5h0M630.3 16.5h0M636.9 16.5h0M643.5 16.5h0M650.1 16.5h0M656.7 16.5h0M663.3 16.5h0M669.9 16.5h0M597.3 23.1h0M603.9 23.1h0M610.5 23.1h0M617.1 23.1h0M623.7 23.1h0M630.3 23.1h0M636.9 23.1h0M643.5 23.1h0M650.1 23.1h0M656.7 23.1h0M663.3 23.1h0M669.9 23.1h0M590.7 29.7h0M597.3 29.7h0M603.9 29.7h0M610.5 29.7h0M617.1 29.7h0M623.7 29.7h0M630.3 29.7h0M636.9 29.7h0M643.5 29.7h0M650.1 29.7h0M656.7 29.7h0M663.3 29.7h0M669.9 29.7h0M590.7 36.3h0M597.3 36.3h0M603.9 36.3h0M610.5 36.3h0M617.1 36.3h0M623.7 36.3h0M630.3 36.3h0M636.9 36.3h0M643.5 36.3h0M650.1 36.3h0M656.7 36.3h0M663.3 36.3h0M669.9 36.3h0M597.3 42.9h0M603.9 42.9h0M610.5 42.9h0M617.1 42.9h0M623.7 42.9h0M630.3 42.9h0M636.9 42.9h0M643.5 42.9h0M650.1 42.9h0M656.7 42.9h0M663.3 42.9h0M669.9 42.9h0M590.7 49.5h0M610.5 49.5h0M617.1 49.5h0M623.7 49.5h0M630.3 49.5h0M636.9 49.5h0M643.5 49.5h0M650.1 49.5h0M656.7 49.5h0M663.3 49.5h0M669.9 49.5h0M584.1 56.1h0M590.7 56.1h0M597.3 56.1h0M603.9 56.1h0M610.5 56.1h0M617.1 56.1h0M623.7 56.1h0M630.3 56.1h0M636.9 56.1h0M643.5 56.1h0M650.1 56.1h0M656.7 56.1h0M663.3 56.1h0M669.9 56.1h0M584.1 62.7h0M590.7 62.7h0M597.3 62.7h0M603.9 62.7h0M610.5 62.7h0M617.1 62.7h0M623.7 62.7h0M630.3 62.7h0M636.9 62.7h0M643.5 62.7h0M650.1 62.7h0M656.7 62.7h0M663.3 62.7h0M669.9 62.7h0M603.9 69.3h0M610.5 69.3h0M617.1 69.3h0M623.7 69.3h0M630.3 69.3h0M636.9 69.3h0M643.5 69.3h0M650.1 69.3h0M656.7 69.3h0M663.3 69.3h0M669.9 69.3h0M570.9 75.9h0M603.9 75.9h0M610.5 75.9h0M617.1 75.9h0M623.7 75.9h0M630.3 75.9h0M636.9 75.9h0M643.5 75.9h0M650.1 75.9h0M656.7 75.9h0M663.3 75.9h0M669.9 75.9h0M590.7 82.5h0M597.3 82.5h0M603.9 82.5h0M610.5 82.5h0M617.1 82.5h0M623.7 82.5h0M630.3 82.5h0M636.9 82.5h0M643.5 82.5h0M650.1 82.5h0M656.7 82.5h0M663.3 82.5h0M669.9 82.5h0M590.7 89.1h0M597.3 89.1h0M603.9 89.1h0M610.5 89.1h0M617.1 89.1h0M623.7 89.1h0M630.3 89.1h0M636.9 89.1h0M643.5 89.1h0M650.1 89.1h0M656.7 89.1h0M663.3 89.1h0M669.9 89.1h0M590.7 95.7h0M597.3 95.7h0M603.9 95.7h0M610.5 95.7h0M617.1 95.7h0M623.7 95.7h0M630.3 95.7h0M643.5 95.7h0M656.7 95.7h0M663.3 95.7h0M669.9 95.7h0M603.9 102.3h0M610.5 102.3h0M617.1 102.3h0M623.7 102.3h0M630.3 102.3h0M636.9 102.3h0M643.5 102.3h0M676.5 102.3h0M683.1 102.3h0M603.9 108.9h0M610.5 108.9h0M617.1 108.9h0M623.7 108.9h0M630.3 108.9h0M696.3 108.9h0M617.1 115.5h0M623.7 115.5h0M696.3 115.5h0M702.9 115.5h0M617.1 122.1h0M696.3 122.1h0M702.9 122.1h0M702.9 128.7h0M709.5 128.7h0M326.7 148.5h0M333.3 148.5h0M339.9 148.5h0M326.7 155.1h0M333.3 155.1h0M339.9 155.1h0M320.1 161.7h0M326.7 161.7h0M333.3 161.7h0M339.9 161.7h0M346.5 161.7h0M313.5 168.3h0M320.1 168.3h0M326.7 168.3h0M333.3 168.3h0M339.9 168.3h0M346.5 168.3h0M353.1 168.3h0M201.3 174.9h0M207.9 174.9h0M306.9 174.9h0M320.1 174.9h0M326.7 174.9h0M333.3 174.9h0M339.9 174.9h0M346.5 174.9h0M353.1 174.9h0M359.7 174.9h0M372.9 174.9h0M735.9 174.9h0M742.5 174.9h0M749.1 174.9h0M755.7 174.9h0M762.3 174.9h0M768.9 174.9h0M775.5 174.9h0M782.1 174.9h0M788.7 174.9h0M795.3 174.9h0M801.9 174.9h0M808.5 174.9h0M815.1 174.9h0M821.7 174.9h0M828.3 174.9h0M834.9 174.9h0M841.5 174.9h0M848.1 174.9h0M854.7 174.9h0M861.3 174.9h0M194.7 181.5h0M201.3 181.5h0M207.9 181.5h0M214.5 181.5h0M326.7 181.5h0M333.3 181.5h0M339.9 181.5h0M346.5 181.5h0M353.1 181.5h0M359.7 181.5h0M366.3 181.5h0M742.5 181.5h0M749.1 181.5h0M755.7 181.5h0M762.3 181.5h0M768.9 181.5h0M775.5 181.5h0M782.1 181.5h0M788.7 181.5h0M795.3 181.5h0M801.9 181.5h0M808.5 181.5h0M815.1 181.5h0M821.7 181.5h0M828.3 181.5h0M834.9 181.5h0M841.5 181.5h0M848.1 181.5h0M854.7 181.5h0M861.3 181.5h0M867.9 181.5h0M874.5 181.5h0M933.9 181.5h0M188.1 188.1h0M194.7 188.1h0M201.3 188.1h0M207.9 188.1h0M214.5 188.1h0M306.9 188.1h0M313.5 188.1h0M320.1 188.1h0M326.7 188.1h0M333.3 188.1h0M339.9 188.1h0M346.5 188.1h0M353.1 188.1h0M359.7 188.1h0M366.3 188.1h0M399.3 188.1h0M735.9 188.1h0M742.5 188.1h0M749.1 188.1h0M755.7 188.1h0M762.3 188.1h0M768.9 188.1h0M775.5 188.1h0M782.1 188.1h0M788.7 188.1h0M795.3 188.1h0M801.9 188.1h0M808.5 188.1h0M815.1 188.1h0M821.7 188.1h0M828.3 188.1h0M834.9 188.1h0M841.5 188.1h0M848.1 188.1h0M854.7 188.1h0M861.3 188.1h0M867.9 188.1h0M874.5 188.1h0M881.1 188.1h0M927.3 188.1h0M933.9 188.1h0M181.5 194.7h0M188.1 194.7h0M194.7 194.7h0M201.3 194.7h0M207.9 194.7h0M214.5 194.7h0M221.1 194.7h0M227.7 194.7h0M293.7 194.7h0M300.3 194.7h0M306.9 194.7h0M313.5 194.7h0M320.1 194.7h0M326.7 194.7h0M333.3 194.7h0M339.9 194.7h0M346.5 194.7h0M353.1 194.7h0M359.7 194.7h0M399.3 194.7h0M405.9 194.7h0M735.9 194.7h0M742.5 194.7h0M749.1 194.7h0M755.7 194.7h0M762.3 194.7h0M768.9 194.7h0M775.5 194.7h0M782.1 194.7h0M788.7 194.7h0M795.3 194.7h0M801.9 194.7h0M808.5 194.7h0M815.1 194.7h0M821.7 194.7h0M828.3 194.7h0M834.9 194.7h0M841.5 194.7h0M848.1 194.7h0M854.7 194.7h0M861.3 194.7h0M867.9 194.7h0M874.5 194.7h0M881.1 194.7h0M907.5 194.7h0M914.1 194.7h0M920.7 194.7h0M927.3 194.7h0M181.5 201.3h0M188.1 201.3h0M194.7 201.3h0M201.3 201.3h0M207.9 201.3h0M214.5 201.3h0M221.1 201.3h0M227.7 201.3h0M234.3 201.3h0M287.1 201.3h0M293.7 201.3h0M300.3 201.3h0M306.9 201.3h0M313.5 201.3h0M320.1 201.3h0M326.7 201.3h0M333.3 201.3h0M339.9 201.3h0M346.5 201.3h0M353.1 201.3h0M399.3 201.3h0M405.9 201.3h0M735.9 201.3h0M742.5 201.3h0M749.1 201.3h0M755.7 201.3h0M762.3 201.3h0M768.9 201.3h0M775.5 201.3h0M782.1 201.3h0M788.7 201.3h0M795.3 201.3h0M801.9 201.3h0M808.5 201.3h0M815.1 201.3h0M821.7 201.3h0M828.3 201.3h0M834.9 201.3h0M841.5 201.3h0M848.1 201.3h0M854.7 201.3h0M861.3 201.3h0M867.9 201.3h0M874.5 201.3h0M881.1 201.3h0M900.9 201.3h0M907.5 201.3h0M914.1 201.3h0M920.7 201.3h0M174.9 207.9h0M181.5 207.9h0M188.1 207.9h0M194.7 207.9h0M201.3 207.9h0M207.9 207.9h0M214.5 207.9h0M221.1 207.9h0M227.7 207.9h0M234.3 207.9h0M240.9 207.9h0M247.5 207.9h0M254.1 207.9h0M260.7 207.9h0M267.3 207.9h0M273.9 207.9h0M280.5 207.9h0M287.1 207.9h0M293.7 207.9h0M300.3 207.9h0M306.9 207.9h0M313.5 207.9h0M320.1 207.9h0M326.7 207.9h0M333.3 207.9h0M339.9 207.9h0M735.9 207.9h0M742.5 207.9h0M749.1 207.9h0M755.7 207.9h0M762.3 207.9h0M768.9 207.9h0M775.5 207.9h0M782.1 207.9h0M788.7 207.9h0M795.3 207.9h0M801.9 207.9h0M808.5 207.9h0M815.1 207.9h0M821.7 207.9h0M828.3 207.9h0M834.9 207.9h0M841.5 207.9h0M848.1 207.9h0M854.7 207.9h0M861.3 207.9h0M867.9 207.9h0M874.5 207.9h0M881.1 207.9h0M887.7 207.9h0M894.3 207.9h0M900.9 207.9h0M907.5 207.9h0M914.1 207.9h0M920.7 207.9h0M161.7 214.5h0M168.3 214.5h0M174.9 214.5h0M181.5 214.5h0M188.1 214.5h0M194.7 214.5h0M201.3 214.5h0M207.9 214.5h0M214.5 214.5h0M221.1 214.5h0M227.7 214.5h0M234.3 214.5h0M240.9 214.5h0M247.5 214.5h0M254.1 214.5h0M260.7 214.5h0M267.3 214.5h0M273.9 214.5h0M280.5 214.5h0M287.1 214.5h0M293.7 214.5h0M300.3 214.5h0M306.9 214.5h0M313.5 214.5h0M320.1 214.5h0M333.3 214.5h0M392.7 214.5h0M399.3 214.5h0M735.9 214.5h0M742.5 214.5h0M749.1 214.5h0M755.7 214.5h0M762.3 214.5h0M768.9 214.5h0M775.5 214.5h0M782.1 214.5h0M788.7 214.5h0M795.3 214.5h0M801.9 214.5h0M808.5 214.5h0M815.1 214.5h0M821.7 214.5h0M828.3 214.5h0M834.9 214.5h0M841.5 214.5h0M848.1 214.5h0M854.7 214.5h0M861.3 214.5h0M867.9 214.5h0M874.5 214.5h0M881.1 214.5h0M887.7 214.5h0M894.3 214.5h0M900.9 214.5h0M907.5 214.5h0M914.1 214.5h0M161.7 221.1h0M168.3 221.1h0M174.9 221.1h0M181.5 221.1h0M188.1 221.1h0M194.7 221.1h0M201.3 221.1h0M207.9 221.1h0M214.5 221.1h0M221.1 221.1h0M227.7 221.1h0M234.3 221.1h0M240.9 221.1h0M247.5 221.1h0M254.1 221.1h0M260.7 221.1h0M267.3 221.1h0M273.9 221.1h0M280.5 221.1h0M287.1 221.1h0M293.7 221.1h0M300.3 221.1h0M306.9 221.1h0M392.7 221.1h0M742.5 221.1h0M749.1 221.1h0M755.7 221.1h0M762.3 221.1h0M768.9 221.1h0M775.5 221.1h0M782.1 221.1h0M788.7 221.1h0M795.3 221.1h0M801.9 221.1h0M808.5 221.1h0M815.1 221.1h0M821.7 221.1h0M828.3 221.1h0M834.9 221.1h0M841.5 221.1h0M848.1 221.1h0M854.7 221.1h0M861.3 221.1h0M867.9 221.1h0M874.5 221.1h0M881.1 221.1h0M887.7 221.1h0M894.3 221.1h0M900.9 221.1h0M907.5 221.1h0M161.7 227.7h0M168.3 227.7h0M174.9 227.7h0M181.5 227.7h0M188.1 227.7h0M194.7 227.7h0M201.3 227.7h0M207.9 227.7h0M214.5 227.7h0M221.1 227.7h0M227.7 227.7h0M234.3 227.7h0M240.9 227.7h0M247.5 227.7h0M254.1 227.7h0M260.7 227.7h0M267.3 227.7h0M273.9 227.7h0M280.5 227.7h0M287.1 227.7h0M293.7 227.7h0M300.3 227.7h0M306.9 227.7h0M313.5 227.7h0M320.1 227.7h0M326.7 227.7h0M386.1 227.7h0M392.7 227.7h0M742.5 227.7h0M749.1 227.7h0M755.7 227.7h0M762.3 227.7h0M768.9 227.7h0M775.5 227.7h0M782.1 227.7h0M788.7 227.7h0M795.3 227.7h0M801.9 227.7h0M808.5 227.7h0M815.1 227.7h0M821.7 227.7h0M828.3 227.7h0M834.9 227.7h0M841.5 227.7h0M848.1 227.7h0M854.7 227.7h0M861.3 227.7h0M867.9 227.7h0M874.5 227.7h0M881.1 227.7h0M887.7 227.7h0M894.3 227.7h0M900.9 227.7h0M168.3 234.3h0M174.9 234.3h0M181.5 234.3h0M188.1 234.3h0M194.7 234.3h0M201.3 234.3h0M207.9 234.3h0M214.5 234.3h0M221.1 234.3h0M227.7 234.3h0M234.3 234.3h0M240.9 234.3h0M247.5 234.3h0M254.1 234.3h0M260.7 234.3h0M267.3 234.3h0M273.9 234.3h0M280.5 234.3h0M287.1 234.3h0M293.7 234.3h0M300.3 234.3h0M306.9 234.3h0M313.5 234.3h0M320.1 234.3h0M379.5 234.3h0M386.1 234.3h0M749.1 234.3h0M755.7 234.3h0M762.3 234.3h0M768.9 234.3h0M775.5 234.3h0M782.1 234.3h0M788.7 234.3h0M795.3 234.3h0M801.9 234.3h0M808.5 234.3h0M815.1 234.3h0M821.7 234.3h0M828.3 234.3h0M834.9 234.3h0M841.5 234.3h0M848.1 234.3h0M854.7 234.3h0M861.3 234.3h0M867.9 234.3h0M874.5 234.3h0M881.1 234.3h0M887.7 234.3h0M894.3 234.3h0M900.9 234.3h0M907.5 234.3h0M161.7 240.9h0M168.3 240.9h0M174.9 240.9h0M181.5 240.9h0M188.1 240.9h0M194.7 240.9h0M201.3 240.9h0M207.9 240.9h0M214.5 240.9h0M221.1 240.9h0M227.7 240.9h0M234.3 240.9h0M240.9 240.9h0M247.5 240.9h0M254.1 240.9h0M260.7 240.9h0M267.3 240.9h0M273.9 240.9h0M280.5 240.9h0M287.1 240.9h0M293.7 240.9h0M300.3 240.9h0M306.9 240.9h0M313.5 240.9h0M320.1 240.9h0M366.3 240.9h0M372.9 240.9h0M379.5 240.9h0M755.7 240.9h0M762.3 240.9h0M768.9 240.9h0M775.5 240.9h0M782.1 240.9h0M788.7 240.9h0M795.3 240.9h0M801.9 240.9h0M808.5 240.9h0M815.1 240.9h0M821.7 240.9h0M828.3 240.9h0M834.9 240.9h0M841.5 240.9h0M848.1 240.9h0M854.7 240.9h0M861.3 240.9h0M867.9 240.9h0M874.5 240.9h0M881.1 240.9h0M887.7 240.9h0M894.3 240.9h0M161.7 247.5h0M168.3 247.5h0M174.9 247.5h0M181.5 247.5h0M188.1 247.5h0M194.7 247.5h0M201.3 247.5h0M207.9 247.5h0M214.5 247.5h0M221.1 247.5h0M227.7 247.5h0M234.3 247.5h0M240.9 247.5h0M247.5 247.5h0M254.1 247.5h0M260.7 247.5h0M267.3 247.5h0M273.9 247.5h0M280.5 247.5h0M287.1 247.5h0M293.7 247.5h0M300.3 247.5h0M306.9 247.5h0M313.5 247.5h0M320.1 247.5h0M359.7 247.5h0M768.9 247.5h0M775.5 247.5h0M782.1 247.5h0M788.7 247.5h0M795.3 247.5h0M801.9 247.5h0M808.5 247.5h0M815.1 247.5h0M821.7 247.5h0M828.3 247.5h0M834.9 247.5h0M841.5 247.5h0M848.1 247.5h0M854.7 247.5h0M861.3 247.5h0M867.9 247.5h0M874.5 247.5h0M881.1 247.5h0M887.7 247.5h0M161.7 254.1h0M168.3 254.1h0M174.9 254.1h0M181.5 254.1h0M188.1 254.1h0M194.7 254.1h0M201.3 254.1h0M207.9 254.1h0M214.5 254.1h0M221.1 254.1h0M227.7 254.1h0M234.3 254.1h0M240.9 254.1h0M247.5 254.1h0M254.1 254.1h0M260.7 254.1h0M267.3 254.1h0M273.9 254.1h0M280.5 254.1h0M287.1 254.1h0M293.7 254.1h0M300.3 254.1h0M306.9 254.1h0M313.5 254.1h0M320.1 254.1h0M326.7 254.1h0M801.9 254.1h0M808.5 254.1h0M815.1 254.1h0M821.7 254.1h0M828.3 254.1h0M834.9 254.1h0M841.5 254.1h0M848.1 254.1h0M854.7 254.1h0M861.3 254.1h0M867.9 254.1h0M874.5 254.1h0M881.1 254.1h0M155.1 260.7h0M161.7 260.7h0M168.3 260.7h0M174.9 260.7h0M194.7 260.7h0M201.3 260.7h0M207.9 260.7h0M214.5 260.7h0M221.1 260.7h0M227.7 260.7h0M234.3 260.7h0M240.9 260.7h0M247.5 260.7h0M254.1 260.7h0M260.7 260.7h0M267.3 260.7h0M273.9 260.7h0M280.5 260.7h0M287.1 260.7h0M293.7 260.7h0M300.3 260.7h0M306.9 260.7h0M313.5 260.7h0M320.1 260.7h0M326.7 260.7h0M808.5 260.7h0M821.7 260.7h0M828.3 260.7h0M834.9 260.7h0M854.7 260.7h0M887.7 260.7h0M148.5 267.3h0M155.1 267.3h0M161.7 267.3h0M168.3 267.3h0M174.9 267.3h0M181.5 267.3h0M207.9 267.3h0M221.1 267.3h0M227.7 267.3h0M234.3 267.3h0M247.5 267.3h0M254.1 267.3h0M260.7 267.3h0M267.3 267.3h0M273.9 267.3h0M280.5 267.3h0M287.1 267.3h0M293.7 267.3h0M300.3 267.3h0M306.9 267.3h0M313.5 267.3h0M320.1 267.3h0M828.3 267.3h0M887.7 267.3h0M148.5 273.9h0M155.1 273.9h0M161.7 273.9h0M168.3 273.9h0M174.9 273.9h0M181.5 273.9h0M188.1 273.9h0M194.7 273.9h0M201.3 273.9h0M214.5 273.9h0M221.1 273.9h0M227.7 273.9h0M247.5 273.9h0M254.1 273.9h0M260.7 273.9h0M267.3 273.9h0M273.9 273.9h0M280.5 273.9h0M287.1 273.9h0M293.7 273.9h0M300.3 273.9h0M306.9 273.9h0M313.5 273.9h0M828.3 273.9h0M887.7 273.9h0M148.5 280.5h0M155.1 280.5h0M161.7 280.5h0M168.3 280.5h0M174.9 280.5h0M181.5 280.5h0M188.1 280.5h0M194.7 280.5h0M201.3 280.5h0M207.9 280.5h0M227.7 280.5h0M247.5 280.5h0M254.1 280.5h0M260.7 280.5h0M267.3 280.5h0M273.9 280.5h0M280.5 280.5h0M287.1 280.5h0M293.7 280.5h0M300.3 280.5h0M306.9 280.5h0M313.5 280.5h0M148.5 287.1h0M155.1 287.1h0M161.7 287.1h0M168.3 287.1h0M174.9 287.1h0M181.5 287.1h0M188.1 287.1h0M194.7 287.1h0M201.3 287.1h0M207.9 287.1h0M254.1 287.1h0M260.7 287.1h0M280.5 287.1h0M287.1 287.1h0M293.7 287.1h0M300.3 287.1h0M148.5 293.7h0M155.1 293.7h0M161.7 293.7h0M168.3 293.7h0M174.9 293.7h0M181.5 293.7h0M188.1 293.7h0M194.7 293.7h0M201.3 293.7h0M287.1 293.7h0M155.1 300.3h0M161.7 300.3h0M168.3 300.3h0M174.9 300.3h0M181.5 300.3h0M188.1 300.3h0M194.7 300.3h0M247.5 300.3h0M254.1 300.3h0M287.1 300.3h0M623.7 300.3h0M155.1 306.9h0M161.7 306.9h0M168.3 306.9h0M174.9 306.9h0M181.5 306.9h0M188.1 306.9h0M247.5 306.9h0M260.7 306.9h0M161.7 313.5h0M168.3 313.5h0M174.9 313.5h0M247.5 313.5h0M254.1 313.5h0M260.7 313.5h0M267.3 313.5h0M161.7 320.1h0M168.3 320.1h0M174.9 320.1h0M247.5 320.1h0M254.1 320.1h0M161.7 326.7h0M168.3 326.7h0M174.9 326.7h0M168.3 333.3h0M174.9 333.3h0M168.3 339.9h0M247.5 339.9h0M254.1 346.5h0" stroke="rgba(233,192,124,.78)" stroke-width="3.3" stroke-linecap="round" fill="none"/>
+          <g stroke="url(#garc)" fill="none" stroke-width="1.8" opacity=".9"><path class="g-arc" d="M391.7 234 Q350.1 194.6 308.6 214.9"/><path class="g-arc" d="M391.7 234 Q321.8 228.1 251.8 321"/><path class="g-arc" d="M391.7 234 Q280.1 185.9 168.6 263.9"/><path class="g-arc" d="M391.7 234 Q609.2 129.6 826.8 216.8"/></g>
+          <g><circle class="gp-pulse" cx="391.7" cy="234" r="7.5" fill="rgba(233,192,124,.55)"/><circle cx="391.7" cy="234" r="7.5" fill="#e9c07c" stroke="#0d2140" stroke-width="2.5"/><circle class="gp-pulse" cx="308.6" cy="214.9" r="5.5" fill="rgba(255,255,255,.4)"/><circle cx="308.6" cy="214.9" r="5.5" fill="#fff" stroke="#0d2140" stroke-width="2.5"/><circle class="gp-pulse" cx="251.8" cy="321" r="5.5" fill="rgba(255,255,255,.4)"/><circle cx="251.8" cy="321" r="5.5" fill="#fff" stroke="#0d2140" stroke-width="2.5"/><circle class="gp-pulse" cx="168.6" cy="263.9" r="5.5" fill="rgba(255,255,255,.4)"/><circle cx="168.6" cy="263.9" r="5.5" fill="#fff" stroke="#0d2140" stroke-width="2.5"/><circle class="gp-pulse" cx="826.8" cy="216.8" r="5.5" fill="rgba(255,255,255,.4)"/><circle cx="826.8" cy="216.8" r="5.5" fill="#fff" stroke="#0d2140" stroke-width="2.5"/></g>
+        </svg>
+        <div class="g-label hq right" style="left:39.2%;top:41.8%"><b><span data-ja>日本</span><span data-en>Japan</span></b><small>JAPAN</small></div>
+        <div class="g-label " style="left:30.9%;top:38.4%"><b><span data-ja>中国</span><span data-en>China</span></b><small>CHINA</small></div>
+        <div class="g-label below" style="left:25.2%;top:57.3%"><b><span data-ja>タイ</span><span data-en>Thailand</span></b><small>THAILAND</small></div>
+        <div class="g-label " style="left:16.9%;top:47.1%"><b><span data-ja>インド</span><span data-en>India</span></b><small>INDIA</small></div>
+        <div class="g-label " style="left:82.7%;top:38.7%"><b><span data-ja>アメリカ</span><span data-en>USA</span></b><small>USA</small></div>
+      </div>
+      <p class="g-note"><span data-ja>海外の仕入先探索・見積取得のご相談にも対応しています。</span><span data-en>We also support overseas supplier discovery and quoting.</span></p>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" class="alt">
+  <div class="wrap">
+    <div class="sec-h reveal">
+      <span class="sec-tag"><span data-ja>料金</span><span data-en>Pricing</span></span>
+      <h2><span data-ja>月額 6万円から。<br>まずは無料で。</span><span data-en>From ¥60,000/mo. Start free.</span></h2>
+    </div>
+    <div class="qt-wrap reveal" style="max-width:640px;margin:0 auto">
+      <div class="qt-card" style="padding:34px 34px;text-align:center">
+        <div style="font-family:'Outfit',sans-serif;font-weight:800;font-size:44px;color:var(--navy);letter-spacing:-.02em">¥60,000<span style="font-size:16px;color:var(--mute)"><span data-ja> /月〜</span><span data-en> /mo+</span></span></div>
+        <p style="font-size:13.5px;color:var(--mute);margin:6px 0 20px"><span data-ja>企業単位のご契約。ご利用件数に応じて変動します。</span><span data-en>Per company, varies by case volume.</span></p>
+        <ul class="check" style="text-align:left;max-width:380px;margin:0 auto 24px;list-style:none">
+          <li style="list-style:none;padding-left:26px;position:relative;margin-bottom:9px;font-size:14.5px"><span style="position:absolute;left:0;color:var(--ok);font-weight:800">✓</span><span data-ja>利用人数は無制限</span><span data-en>Unlimited users</span></li>
+          <li style="list-style:none;padding-left:26px;position:relative;margin-bottom:9px;font-size:14.5px"><span style="position:absolute;left:0;color:var(--ok);font-weight:800">✓</span><span data-ja>初期設定は伴走サポート付き</span><span data-en>Guided onboarding</span></li>
+          <li style="list-style:none;padding-left:26px;position:relative;font-size:14.5px"><span style="position:absolute;left:0;color:var(--ok);font-weight:800">✓</span><span data-ja><b>お試し期間は無料</b>（実案件で効果を確認してから）</span><span data-en><b>Free trial</b> on your real cases</span></li>
+        </ul>
+        <a href="#booking" class="btn-p" style="display:inline-block"><span data-ja>無料で試してみる</span><span data-en>Start free</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="poc-cta" style="padding:0 0 96px">
+  <div class="wrap">
+    <div class="status reveal" style="border-color:rgba(184,134,47,.5);background:var(--brass-bg)">
+      <span class="dot" aria-hidden="true" style="background:var(--brass);box-shadow:0 0 0 5px rgba(184,134,47,.18)"></span>
+      <div style="flex:1">
+        <h3><span data-ja>無料お試し、受付中です</span><span data-en>Free trial — now open</span></h3>
+        <p><span data-ja>御社の実案件で「何時間減るか」を無料で一緒に測ります。<b>効果測定レポート付き・伴走サポートあり</b>。効果に納得してから、有料プランをご検討ください。</span><span data-en>We measure real time savings on your own cases — results report and hands-on support included.</span></p>
+        <p style="margin-top:14px"><a href="#booking" class="btn-p" style="display:inline-block;font-size:14px;padding:12px 24px"><span data-ja>15分だけ話を聞く →</span><span data-en>Hear more in 15 min →</span></a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BOOKING ===== -->
+<section class="booking" id="booking">
+  <div class="wrap">
+    <div class="sec-h reveal">
+      <span class="sec-tag"><span data-ja>お問い合わせ</span><span data-en>Contact</span></span>
+      <h2><span data-ja>まずは15分、話しませんか。</span><span data-en>Let's talk — 15 minutes.</span></h2>
+      <p><span data-ja>フォームで送るだけ。折り返し、日程をご提案します。</span><span data-en>Just send the form — we reply with proposed times.</span></p>
+    </div>
+    <div class="founder-line reveal">
+      <span><span data-ja><a href="company.html" style="color:inherit;text-decoration:underline">代表・橋本</a>が直接ご対応します</span><span data-en>You talk to <a href="company.html" style="color:inherit;text-decoration:underline">the founder</a></span></span>
+      <span><span data-ja>売り込みはしません</span><span data-en>No hard sell</span></span>
+      <span><span data-ja>情報収集だけでも歓迎</span><span data-en>Just exploring? Welcome</span></span>
+    </div>
+    <div class="book-grid" style="grid-template-columns:1fr;max-width:560px;margin:0 auto">
+      <div class="book-card reveal">
+        <h3>✉️ <span data-ja>無料相談のお申し込み</span><span data-en>Request a free consult</span></h3>
+        <p class="sub"><span data-ja>代表・橋本が、日程のご提案をメールで返信します。</span><span data-en>Masaru will reply with proposed times.</span></p>
+        <div class="form-field"><label for="f-name"><span data-ja>お名前</span><span data-en>Name</span></label><input type="text" id="f-name" name="name" autocomplete="name" placeholder="山田 太郎 / Taro Yamada"></div>
+        <div class="form-field"><label for="f-co"><span data-ja>会社名</span><span data-en>Company</span></label><input type="text" id="f-co" name="company" autocomplete="organization" placeholder="株式会社○○ / Company Inc."></div>
+        <div class="form-field"><label for="f-email"><span data-ja>メールアドレス</span><span data-en>Email</span></label><input type="email" id="f-email" name="email" autocomplete="email" placeholder="you@example.com"></div>
+        <div class="form-field"><label for="f-when"><span data-ja>ご希望の日時（任意）</span><span data-en>Preferred times (optional)</span></label><input type="text" id="f-when" name="when" placeholder="例：来週火曜 15時以降 / 平日夕方"></div>
+        <div class="form-field"><label for="f-msg"><span data-ja>ご相談内容</span><span data-en>Message</span></label><textarea id="f-msg" name="message" rows="4"></textarea></div>
+        <button class="send-btn" onclick="submitForm()"><span data-ja>送信する</span><span data-en>Send</span></button>
+        <p class="form-note"><span data-ja>※「送信する」を押すとメールソフトが起動します。<a href="privacy.html" style="color:#d9a85e">プライバシーポリシー</a></span><span data-en>Pressing "Send" opens your mail client. <a href="privacy.html" style="color:#d9a85e">Privacy Policy</a></span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <a href="index.html" class="foot-logo"><svg><use href="#compass-icon"/></svg>COMPASS</a>
+      <nav class="foot-nav">
+        <a href="index.html"><span data-ja>ホーム</span><span data-en>Home</span></a>
+        <a href="company.html"><span data-ja>会社情報</span><span data-en>Company</span></a>
+        <a href="privacy.html"><span data-ja>プライバシーポリシー</span><span data-en>Privacy</span></a>
+      </nav>
+    </div>
+    <div class="foot-bottom">
+      <div class="en-num">© 2026 COMPASS, LLC. All rights reserved.</div>
+    </div>
+    <div class="foot-disclaimer"><span data-ja>Anthropic・Claude は Anthropic, PBC、Google・Gemini は Google LLC の商標です。本サービスはこれらの技術を活用しています。</span><span data-en>Anthropic and Claude are trademarks of Anthropic, PBC; Google and Gemini are trademarks of Google LLC.</span></div>
+  </div>
+</footer>
+
+<div id="sticky-cta">
+  <div class="txt"><b><span data-ja>まずは15分、無料相談</span><span data-en>Free 15-min consult</span></b><span data-ja>メールで日程調整・しつこい営業なし</span><span data-en>Schedule by email, no pushy sales</span></div>
+  <a href="#booking"><span data-ja>相談を予約</span><span data-en>Book now</span></a>
+</div>
+
+<script>
+function setLang(lang){
+  document.body.classList.toggle('lang-en', lang==='en');
+  document.documentElement.lang = lang;
+  document.getElementById('btn-ja').classList.toggle('active', lang==='ja');
+  document.getElementById('btn-en').classList.toggle('active', lang==='en');
+}
+function submitForm(){
+  var en = document.body.classList.contains('lang-en');
+  var CONTACT_EMAIL = "masaru.hashimoto@compass-scm.com"; // ← 設置時に変更
+  var name=(document.getElementById('f-name')||{}).value||"";
+  var co=(document.getElementById('f-co')||{}).value||"";
+  var email=(document.getElementById('f-email')||{}).value||"";
+  var msg=(document.getElementById('f-msg')||{}).value||"";
+  var when=(document.getElementById('f-when')||{}).value||"";
+  if(!name.trim()||!email.trim()||!msg.trim()){alert(en?"Please fill in your name, email and message.":"お名前・メールアドレス・ご相談内容をご入力ください。");return;}
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){alert(en?"Please enter a valid email address.":"メールアドレスの形式をご確認ください。");return;}
+  var subject=encodeURIComponent("[COMPASS] お問い合わせ / Inquiry");
+  var body=encodeURIComponent("お名前 / Name: "+name+"\n会社名 / Company: "+co+"\nメール / Email: "+email+"\n希望日時 / Preferred: "+when+"\n\nご相談内容 / Message:\n"+msg);
+  window.location.href="mailto:"+CONTACT_EMAIL+"?subject="+subject+"&body="+body;
+}
+document.querySelectorAll('.nav-menu a').forEach(function(a){a.addEventListener('click',function(){document.body.classList.remove('menu-open')})});
+// sticky cta
+addEventListener('scroll',function(){
+  var bar=document.getElementById('sticky-cta'); if(!bar) return;
+  var show=scrollY>600;
+  var booking=document.getElementById('booking');
+  if(booking){var r=booking.getBoundingClientRect(); if(r.top<innerHeight) show=false;}
+  bar.classList.toggle('show',show);
+},{passive:true});
+
+// reveal
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+</script>
+</body>
+</html>
